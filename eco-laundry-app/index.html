@@ -388,7 +388,13 @@ footer em{color:var(--gold);font-style:normal;}
       <div class="svc-card" data-svc="curtains"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-cur"><i class="ti ti-layout-columns svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Curtains" data-ar="ستائر">Curtains</div><div class="svc-price" data-en="from AED 75 / pair" data-ar="من 75 درهم / زوج">from AED 75 / pair</div></div></div>
     </div>
 
-    <div class="qty-cat-label"><i class="ti ti-shirt"></i><span data-en="Clothing" data-ar="الملابس">Clothing</span></div>
+    <div class="qty-cat-label acc-hd" onclick="toggleAcc('clothing')" id="clothing-hd">
+      <i class="ti ti-shirt" style="font-size:16px;color:var(--gold);"></i>
+      <span class="acc-hd-text" data-en="Clothing" data-ar="الملابس">Clothing</span>
+      <span class="acc-badge" id="clothing-badge" data-en="19 items" data-ar="١٩ قطعة">19 items</span>
+      <i class="ti ti-chevron-down acc-chevron" id="clothing-chev"></i>
+    </div>
+    <div class="acc-body" id="clothing-body">
     <div class="qty-card">
       <div class="qty-row"><div><div class="qty-nm" data-en="Shirt" data-ar="قميص">Shirt</div><div class="qty-sb" data-en="Steam Press AED 3 · Wash & Iron AED 6" data-ar="كي بالبخار 3 درهم · غسيل وكي 6 درهم">Steam Press AED 3 · Wash & Iron AED 6</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('shirt',-1)">−</button><span class="qval" id="q-shirt">0</span><button class="qbtn p" onclick="chg('shirt',1)">+</button></div></div>
       <div class="qty-row"><div><div class="qty-nm" data-en="Trouser" data-ar="بنطلون">Trouser</div><div class="qty-sb" data-en="Steam Press AED 3 · Wash & Iron AED 6" data-ar="كي بالبخار 3 درهم · غسيل وكي 6 درهم">Steam Press AED 3 · Wash & Iron AED 6</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('trouser',-1)">−</button><span class="qval" id="q-trouser">0</span><button class="qbtn p" onclick="chg('trouser',1)">+</button></div></div>
@@ -410,8 +416,9 @@ footer em{color:var(--gold);font-style:normal;}
       <div class="qty-row"><div><div class="qty-nm" data-en="Socks" data-ar="جوارب">Socks</div><div class="qty-sb" data-en="Wash & Iron AED 3" data-ar="غسيل وكي 3 درهم">Wash & Iron AED 3</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('socks',-1)">−</button><span class="qval" id="q-socks">0</span><button class="qbtn p" onclick="chg('socks',1)">+</button></div></div>
       <div class="qty-row"><div><div class="qty-nm" data-en="Underwear" data-ar="ملابس داخلية">Underwear</div><div class="qty-sb" data-en="Wash & Iron AED 3" data-ar="غسيل وكي 3 درهم">Wash & Iron AED 3</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('underwear',-1)">−</button><span class="qval" id="q-underwear">0</span><button class="qbtn p" onclick="chg('underwear',1)">+</button></div></div>
     </div>
+    </div>
 
-    <div class="qty-cat-label acc-hd" onclick="toggleLinenAcc()" id="linen-hd">
+    <div class="qty-cat-label acc-hd" onclick="toggleAcc('linen')" id="linen-hd">
       <i class="ti ti-home" style="font-size:16px;color:var(--gold);"></i>
       <span class="acc-hd-text" data-en="Home & Linen" data-ar="المنزل والأقمشة">Home & Linen</span>
       <span class="acc-badge" id="linen-badge" data-en="7 items" data-ar="٧ قطع">7 items</span>
@@ -699,17 +706,22 @@ function placeOrder(){
 }
 function resetApp(){document.getElementById('main-form').style.display='block';document.getElementById('succ').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
 
-// ── HOME & LINEN ACCORDION ────────────────────────────────────────────
-let linenOpen=false;
-function toggleLinenAcc(){
-  linenOpen=!linenOpen;
-  document.getElementById('linen-body').classList.toggle('open',linenOpen);
-  document.getElementById('linen-chev').classList.toggle('open',linenOpen);
-  const linenQty=['pillow','pillow_cover','quilt','towel_bath','comforter_cover','bed_sheet','comforter'];
-  const active=linenQty.reduce((s,k)=>s+qty[k],0);
-  const badge=document.getElementById('linen-badge');
+// ── COLLAPSIBLE ITEM ACCORDIONS ─────────────────────────────────────────
+const ACC_SECTIONS={
+  clothing:{keys:['shirt','trouser','tshirt','suit2pcs','skirt','kandoora','ghatra','abaya','shiela','blouse','dress_normal','dress_special','jacket_coat','pullover','tie','shalwar_kamiz','vest','socks','underwear'],defaultLabel:'19 items'},
+  linen:{keys:['pillow','pillow_cover','quilt','towel_bath','comforter_cover','bed_sheet','comforter'],defaultLabel:'7 items'}
+};
+const accOpen={clothing:false,linen:false};
+function toggleAcc(section){
+  accOpen[section]=!accOpen[section];
+  const open=accOpen[section];
+  document.getElementById(section+'-body').classList.toggle('open',open);
+  document.getElementById(section+'-chev').classList.toggle('open',open);
+  const cfg=ACC_SECTIONS[section];
+  const active=cfg.keys.reduce((s,k)=>s+qty[k],0);
+  const badge=document.getElementById(section+'-badge');
   if(active>0){badge.textContent=active+' selected';badge.classList.add('active');}
-  else{badge.textContent='7 items';badge.classList.remove('active');}
+  else{badge.textContent=cfg.defaultLabel;badge.classList.remove('active');}
 }
 
 // ── HOTEL QUOTE FORM ──────────────────────────────────────────────────
