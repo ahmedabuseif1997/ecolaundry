@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Eco-Laundry</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gd:#1a3a2a;--gr:#2d5a3d;--gm:#3d7a52;--gl:#5a9e6f;
+  --cream:#f5f0e8;--cdark:#ede6d6;--cwarm:#f9f5ee;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --td:#1a2e22;--tm:#3a5245;--tmut:#6b8275;
+  --rad:12px;--rads:8px;
+  --sidebar:240px;
+}
+html,body{height:100%;font-family:sans-serif;background:#f0f2f0;color:var(--td);}
+
+/* LAYOUT */
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--gd);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:1.5rem 1.25rem 1rem;}
+.sb-logo-icon{width:34px;height:34px;border-radius:9px;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;}
+.sb-logo-icon i{font-size:17px;color:var(--gold);}
+.sb-brand{color:#fff;font-size:16px;font-family:'Georgia',serif;}
+.sb-brand em{color:var(--gold);font-style:italic;}
+.sb-badge{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.5px;text-transform:uppercase;padding:0 1.25rem;margin-bottom:.75rem;}
+.sb-nav{flex:1;padding:0 .75rem;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rads);color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;text-decoration:none;margin-bottom:2px;}
+.sb-link i{font-size:17px;}
+.sb-link:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
+.sb-link.active{background:rgba(201,168,76,.18);color:var(--goldl);}
+.sb-link.active i{color:var(--gold);}
+.sb-divider{height:1px;background:rgba(255,255,255,.08);margin:.75rem 0;}
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);}
+.sb-user{display:flex;align-items:center;gap:10px;}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);}
+.sb-uname{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;}
+.sb-urole{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px;}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+
+/* TOPBAR */
+.topbar{background:#fff;border-bottom:1px solid var(--cdark);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;}
+.topbar-title{font-size:16px;font-weight:700;color:var(--td);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-date{font-size:12px;color:var(--tmut);}
+.notif-btn{width:34px;height:34px;border-radius:var(--rads);border:1px solid var(--cdark);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;}
+.notif-btn i{font-size:17px;color:var(--tmut);}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#e74c3c;border:1.5px solid #fff;}
+
+/* CONTENT */
+.content{padding:1.75rem 2rem;flex:1;}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:1.75rem;}
+.stat-card{background:#fff;border-radius:var(--rad);padding:1.25rem;border:1px solid var(--cdark);}
+.stat-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.stat-icon i{font-size:20px;}
+.si-green{background:#e8f5ee;} .si-green i{color:var(--gm);}
+.si-gold{background:#fef3d8;} .si-gold i{color:#c9a84c;}
+.si-blue{background:#e8f0fe;} .si-blue i{color:#3a7bd5;}
+.si-red{background:#fde8e8;} .si-red i{color:#e74c3c;}
+.stat-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.badge-up{background:#e8f5ee;color:var(--gm);}
+.badge-dn{background:#fde8e8;color:#e74c3c;}
+.stat-val{font-size:26px;font-weight:700;color:var(--td);letter-spacing:-.5px;}
+.stat-label{font-size:12px;color:var(--tmut);margin-top:3px;}
+
+/* PANELS */
+.panels{display:grid;grid-template-columns:1fr 320px;gap:14px;margin-bottom:1.75rem;}
+
+/* ORDERS TABLE */
+.panel{background:#fff;border-radius:var(--rad);border:1px solid var(--cdark);overflow:hidden;}
+.panel-head{padding:1rem 1.25rem;border-bottom:1px solid var(--cdark);display:flex;align-items:center;justify-content:space-between;}
+.panel-title{font-size:14px;font-weight:700;color:var(--td);}
+.panel-sub{font-size:11px;color:var(--tmut);margin-top:2px;}
+.filter-tabs{display:flex;gap:4px;}
+.ftab{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--cdark);background:#fff;color:var(--tmut);transition:all .12s;}
+.ftab.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+.search-bar{display:flex;align-items:center;gap:8px;padding:.75rem 1.25rem;border-bottom:1px solid var(--cdark);background:var(--cwarm);}
+.search-bar i{font-size:16px;color:var(--tmut);}
+.search-bar input{border:none;background:transparent;font-size:13px;color:var(--td);outline:none;flex:1;font-family:sans-serif;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--cwarm);}
+th{padding:10px 14px;font-size:11px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid var(--cdark);}
+td{padding:12px 14px;font-size:13px;color:var(--td);border-bottom:1px solid var(--cdark);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafdf9;}
+.order-id{font-weight:700;color:var(--gm);font-size:12px;}
+.cust-name{font-weight:600;}
+.cust-phone{font-size:11px;color:var(--tmut);margin-top:2px;}
+.svc-tag{display:inline-block;background:var(--cwarm);border:1px solid var(--cdark);border-radius:100px;padding:2px 8px;font-size:10px;color:var(--tm);font-weight:600;margin:1px;}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600;}
+.st-pending{background:#fff8e6;color:#c9a84c;border:1px solid #f0d080;}
+.st-pickup{background:#e8f0fe;color:#3a7bd5;border:1px solid #b0c8f0;}
+.st-washing{background:#e8f5ee;color:var(--gm);border:1px solid #a0d8b0;}
+.st-ready{background:#e8f5fe;color:#0088cc;border:1px solid #80c8f0;}
+.st-delivered{background:#f0faf0;color:#2a7a3a;border:1px solid #90d090;}
+.st-cancelled{background:#fde8e8;color:#e74c3c;border:1px solid #f0a0a0;}
+.action-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--cdark);background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;margin-right:4px;}
+.action-btn:hover{background:var(--cwarm);}
+.action-btn i{font-size:14px;color:var(--tmut);}
+.action-btn.green:hover{background:#e8f5ee;border-color:var(--gm);}
+.action-btn.green:hover i{color:var(--gm);}
+.action-btn.red:hover{background:#fde8e8;border-color:#e74c3c;}
+.action-btn.red:hover i{color:#e74c3c;}
+
+/* SIDE PANELS */
+.side-panels{display:flex;flex-direction:column;gap:14px;}
+.mini-stat{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--cdark);}
+.mini-stat:last-child{border-bottom:none;padding-bottom:0;}
+.mini-left{display:flex;align-items:center;gap:8px;}
+.mini-dot{width:8px;height:8px;border-radius:50%;}
+.mini-label{font-size:12px;color:var(--tm);font-weight:500;}
+.mini-val{font-size:13px;font-weight:700;color:var(--td);}
+.progress-wrap{margin-top:10px;}
+.prog-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.prog-label{font-size:11px;color:var(--tmut);min-width:70px;}
+.prog-bar-bg{flex:1;height:6px;border-radius:3px;background:var(--cdark);overflow:hidden;}
+.prog-bar-fill{height:100%;border-radius:3px;transition:width .4s;}
+.prog-val{font-size:11px;color:var(--tmut);min-width:28px;text-align:right;}
+
+/* ACTIVITY */
+.activity-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--cdark);}
+.activity-item:last-child{border-bottom:none;padding-bottom:0;}
+.act-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.act-dot i{font-size:14px;}
+.ad-green{background:#e8f5ee;} .ad-green i{color:var(--gm);}
+.ad-gold{background:#fef3d8;} .ad-gold i{color:var(--gold);}
+.ad-blue{background:#e8f0fe;} .ad-blue i{color:#3a7bd5;}
+.ad-red{background:#fde8e8;} .ad-red i{color:#e74c3c;}
+.act-text{font-size:12px;color:var(--td);line-height:1.5;}
+.act-time{font-size:10px;color:var(--tmut);margin-top:2px;}
+
+/* REVENUE CHART (CSS bars) */
+.chart-wrap{padding:1rem 1.25rem;}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin-bottom:6px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bar{width:100%;border-radius:4px 4px 0 0;background:var(--gm);transition:height .4s;min-height:4px;}
+.bar.today{background:var(--gold);}
+.bar-label{font-size:9px;color:var(--tmut);text-align:center;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:var(--rad);padding:1.5rem;width:480px;max-width:95vw;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.modal-title{font-size:16px;font-weight:700;color:var(--td);}
+.modal-close{width:30px;height:30px;border-radius:6px;border:1px solid var(--cdark);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close i{font-size:16px;color:var(--tmut);}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.modal-fg{display:flex;flex-direction:column;gap:4px;}
+.modal-label{font-size:11px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.3px;}
+.modal-val{font-size:13px;color:var(--td);font-weight:500;}
+.modal-divider{height:1px;background:var(--cdark);margin:1rem 0;}
+.status-select{width:100%;padding:8px 12px;border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;}
+.status-select:focus{border-color:var(--gm);}
+.modal-actions{display:flex;gap:8px;margin-top:1.25rem;}
+.btn-primary{flex:1;padding:10px;background:var(--gd);color:#fff;border:none;border-radius:var(--rads);font-size:13px;font-weight:700;cursor:pointer;font-family:sans-serif;}
+.btn-primary:hover{background:var(--gr);}
+.btn-ghost{flex:1;padding:10px;background:#fff;color:var(--td);border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;font-family:sans-serif;}
+.btn-ghost:hover{background:var(--cwarm);}
+
+/* EMPTY */
+.empty{text-align:center;padding:3rem;color:var(--tmut);}
+.empty i{font-size:36px;display:block;margin-bottom:.75rem;opacity:.4;}
+.empty p{font-size:13px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gd);color:#fff;padding:12px 18px;border-radius:var(--rad);font-size:13px;font-family:sans-serif;display:flex;align-items:center;gap:8px;z-index:200;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{font-size:16px;color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="ti ti-wind"></i></div>
+    <div class="sb-brand">Eco-<em>Laundry</em></div>
+  </div>
+  <div class="sb-badge">Admin Panel</div>
+  <nav class="sb-nav">
+    <a class="sb-link active" href="admin.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="sb-link" href="orders.html"><i class="ti ti-shopping-bag"></i> Orders</a>
+    <a class="sb-link" href="team.html"><i class="ti ti-users"></i> Team</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="index.html" target="_blank"><i class="ti ti-external-link"></i> Customer App</a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">A</div>
+      <div><div class="sb-uname">Admin</div><div class="sb-urole">Super Admin</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-right">
+      <span class="topbar-date" id="today-date"></span>
+      <div class="notif-btn"><i class="ti ti-bell"></i><div class="notif-dot"></div></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-green"><i class="ti ti-shopping-bag"></i></div>
+          <span class="stat-badge badge-up">+12%</span>
+        </div>
+        <div class="stat-val" id="stat-total">24</div>
+        <div class="stat-label">Total orders today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-gold"><i class="ti ti-coin"></i></div>
+          <span class="stat-badge badge-up">+8%</span>
+        </div>
+        <div class="stat-val" id="stat-revenue">AED 4,280</div>
+        <div class="stat-label">Revenue today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-blue"><i class="ti ti-clock"></i></div>
+          <span class="stat-badge badge-dn">-2</span>
+        </div>
+        <div class="stat-val" id="stat-pending">7</div>
+        <div class="stat-label">Pending pickups</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon si-red"><i class="ti ti-truck-delivery"></i></div>
+          <span class="stat-badge badge-up">+5</span>
+        </div>
+        <div class="stat-val" id="stat-delivered">14</div>
+        <div class="stat-label">Delivered today</div>
+      </div>
+    </div>
+
+    <!-- PANELS -->
+    <div class="panels">
+
+      <!-- ORDERS TABLE -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Orders</div>
+            <div class="panel-sub">All orders — click a row to manage</div>
+          </div>
+          <div class="filter-tabs">
+            <div class="ftab on" onclick="filterOrders('all',this)">All</div>
+            <div class="ftab" onclick="filterOrders('pending',this)">Pending</div>
+            <div class="ftab" onclick="filterOrders('washing',this)">Active</div>
+            <div class="ftab" onclick="filterOrders('delivered',this)">Done</div>
+          </div>
+        </div>
+        <div class="search-bar">
+          <i class="ti ti-search"></i>
+          <input type="text" id="search-input" placeholder="Search by name, order ID or phone…" oninput="renderOrders()">
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Services</th>
+                <th>Pickup</th>
+                <th>Delivery</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+          <div class="empty" id="empty-msg" style="display:none;"><i class="ti ti-inbox"></i><p>No orders match your filter.</p></div>
+        </div>
+      </div>
+
+      <!-- SIDE PANELS -->
+      <div class="side-panels">
+
+        <!-- STATUS BREAKDOWN -->
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Status breakdown</div></div>
+          <div style="padding:.75rem 1.25rem 1rem;">
+            <div class="mini-stat"><div class="mini-left"><div class="mini-dot" style="background:#c9a84c;"></div><div class="mini-label">Pending</div></div><div class="mini-val">7</div></div>
+            <div class="mini-stat"><div class="mini-left"><div class="mini-dot" style="background:#3a7bd5;"></div><div class="mini-label">In pickup</div></div><div class="mini-val">3</div></div>
+            <div class="mini-stat"><div class="mini-left"><div class="mini-dot" style="background:var(--gm);"></div><div class="mini-label">Washing</div></div><div class="mini-val">5</div></div>
+            <div class="mini-stat"><div class="mini-left"><div class="mini-dot" style="background:#0088cc;"></div><div class="mini-label">Ready</div></div><div class="mini-val">2</div></div>
+            <div class="mini-stat"><div class="mini-left"><div class="mini-dot" style="background:#2a7a3a;"></div><div class="mini-label">Delivered</div></div><div class="mini-val">14</div></div>
+            <div class="mini-stat"><div class="mini-left"><div class="mini-dot" style="background:#e74c3c;"></div><div class="mini-label">Cancelled</div></div><div class="mini-val">1</div></div>
+            <div class="progress-wrap">
+              <div class="prog-row"><span class="prog-label">Completion</span><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:58%;background:var(--gm);"></div></div><span class="prog-val">58%</span></div>
+              <div class="prog-row"><span class="prog-label">On-time</span><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:92%;background:var(--gold);"></div></div><span class="prog-val">92%</span></div>
+              <div class="prog-row"><span class="prog-label">Satisfaction</span><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:96%;background:#3a7bd5;"></div></div><span class="prog-val">96%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WEEKLY REVENUE -->
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Weekly revenue</div></div>
+          <div class="chart-wrap">
+            <div class="chart-bars" id="chart-bars"></div>
+            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--tmut);">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY -->
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Recent activity</div></div>
+          <div style="padding:.75rem 1.25rem 1rem;">
+            <div class="activity-item"><div class="act-dot ad-green"><i class="ti ti-check"></i></div><div><div class="act-text">Order #ECO-2041 delivered to Fatima Al Zaabi</div><div class="act-time">2 min ago</div></div></div>
+            <div class="activity-item"><div class="act-dot ad-blue"><i class="ti ti-map-pin"></i></div><div><div class="act-text">Driver Omar picked up #ECO-2040 from Al Barsha</div><div class="act-time">18 min ago</div></div></div>
+            <div class="activity-item"><div class="act-dot ad-gold"><i class="ti ti-shopping-bag"></i></div><div><div class="act-text">New order #ECO-2043 — Ahmed Al Mansouri</div><div class="act-time">34 min ago</div></div></div>
+            <div class="activity-item"><div class="act-dot ad-green"><i class="ti ti-sparkles"></i></div><div><div class="act-text">#ECO-2038 ready for delivery — 5 items washed & pressed</div><div class="act-time">1 hr ago</div></div></div>
+            <div class="activity-item"><div class="act-dot ad-red"><i class="ti ti-x"></i></div><div><div class="act-text">Order #ECO-2035 cancelled by customer</div><div class="act-time">2 hr ago</div></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">Order Details</div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg">Done!</span></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const SERVICES_MAP={wash:'Wash & Fold',iron:'Iron & Press',dry:'Dry Cleaning',sheets:'Sheets & Linen',delicate:'Delicates',curtains:'Curtains'};
+const STATUSES=['pending','pickup','washing','ready','delivered','cancelled'];
+const STATUS_LABELS={pending:'Pending',pickup:'In Pickup',washing:'Washing',ready:'Ready',delivered:'Delivered',cancelled:'Cancelled'};
+const STATUS_CSS={pending:'st-pending',pickup:'st-pickup',washing:'st-washing',ready:'st-ready',delivered:'st-delivered',cancelled:'st-cancelled'};
+
+let orders=[
+  {id:'ECO-2043',name:'Ahmed Al Mansouri',phone:'+971 50 123 4567',services:['wash','iron'],items:8,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:'Today',address:'Al Barsha, Villa 12',total:320,status:'pending'},
+  {id:'ECO-2042',name:'Fatima Al Zaabi',phone:'+971 55 234 5678',services:['dry','sheets'],items:5,pickup:'9–11 AM',delivery:'2–4 PM',date:'Today',address:'Jumeirah, Apt 3B',total:480,status:'washing'},
+  {id:'ECO-2041',name:'Mohammed Al Rashid',phone:'+971 52 345 6789',services:['wash'],items:12,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:'Today',address:'Marina Walk, Tower 2',total:240,status:'delivered'},
+  {id:'ECO-2040',name:'Sara Al Hamdan',phone:'+971 56 456 7890',services:['iron','delicate'],items:4,pickup:'11 AM–1 PM',delivery:'4–6 PM',date:'Today',address:'Downtown Dubai, Burj Views',total:380,status:'pickup'},
+  {id:'ECO-2039',name:'Khalid Al Nuaimi',phone:'+971 54 567 8901',services:['wash','dry','curtains'],items:10,pickup:'2–4 PM',delivery:'6–8 PM',date:'Today',address:'Mirdif, Villa 7',total:620,status:'pending'},
+  {id:'ECO-2038',name:'Aisha Al Blooshi',phone:'+971 50 678 9012',services:['sheets','wash'],items:6,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:'Today',address:'Yas Island, Apt 201',total:390,status:'ready'},
+  {id:'ECO-2037',name:'Omar Al Marzouqi',phone:'+971 55 789 0123',services:['wash','iron'],items:15,pickup:'9–11 AM',delivery:'2–4 PM',date:'Today',address:'Deira, Gold Souq St',total:450,status:'delivered'},
+  {id:'ECO-2036',name:'Layla Al Suwaidi',phone:'+971 52 890 1234',services:['delicate'],items:3,pickup:'4–6 PM',delivery:'7–9 AM',date:'Tomorrow',address:'Karama, Block 3',total:195,status:'pending'},
+  {id:'ECO-2035',name:'Tariq Al Falasi',phone:'+971 56 901 2345',services:['wash'],items:7,pickup:'11 AM–1 PM',delivery:'2–4 PM',date:'Today',address:'Sharjah, Al Nahda',total:140,status:'cancelled'},
+  {id:'ECO-2034',name:'Nour Al Mazrouei',phone:'+971 54 012 3456',services:['sheets','curtains'],items:4,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:'Today',address:'Abu Dhabi, Corniche',total:550,status:'delivered'},
+];
+
+let currentFilter='all';
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function renderOrders(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  let filtered=orders.filter(o=>{
+    const matchFilter=currentFilter==='all'||o.status===currentFilter||(currentFilter==='washing'&&['pickup','washing','ready'].includes(o.status));
+    const matchSearch=!q||o.id.toLowerCase().includes(q)||o.name.toLowerCase().includes(q)||o.phone.includes(q);
+    return matchFilter&&matchSearch;
+  });
+  const tbody=document.getElementById('orders-tbody');
+  const empty=document.getElementById('empty-msg');
+  if(filtered.length===0){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=filtered.map(o=>`
+    <tr style="cursor:pointer;" onclick="openModal('${o.id}')">
+      <td><div class="order-id">${o.id}</div><div style="font-size:10px;color:var(--tmut);margin-top:2px;">${o.date}</div></td>
+      <td><div class="cust-name">${o.name}</div><div class="cust-phone">${o.phone}</div></td>
+      <td>${o.services.map(s=>`<span class="svc-tag">${SERVICES_MAP[s]}</span>`).join('')}</td>
+      <td style="font-size:12px;">${o.pickup}</td>
+      <td style="font-size:12px;">${o.delivery}</td>
+      <td style="font-weight:700;color:var(--gm);">AED ${o.total}</td>
+      <td><span class="status-badge ${STATUS_CSS[o.status]}">${STATUS_LABELS[o.status]}</span></td>
+      <td onclick="event.stopPropagation()">
+        <button class="action-btn green" title="Update status" onclick="openModal('${o.id}')"><i class="ti ti-edit"></i></button>
+        <button class="action-btn" title="Call customer" onclick="showToast('Calling ${o.name}…')"><i class="ti ti-phone"></i></button>
+        <button class="action-btn red" title="Cancel order" onclick="cancelOrder('${o.id}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterOrders(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  renderOrders();
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────
+function openModal(id){
+  const o=orders.find(x=>x.id===id);
+  if(!o)return;
+  document.getElementById('modal-title').textContent='Order '+o.id;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="modal-row">
+      <div class="modal-fg"><div class="modal-label">Customer</div><div class="modal-val">${o.name}</div></div>
+      <div class="modal-fg"><div class="modal-label">Phone</div><div class="modal-val">${o.phone}</div></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-fg"><div class="modal-label">Address</div><div class="modal-val">${o.address}</div></div>
+      <div class="modal-fg"><div class="modal-label">Total</div><div class="modal-val" style="color:var(--gm);font-weight:700;">AED ${o.total}</div></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-fg"><div class="modal-label">Pickup</div><div class="modal-val">${o.pickup}</div></div>
+      <div class="modal-fg"><div class="modal-label">Delivery</div><div class="modal-val">${o.delivery}</div></div>
+    </div>
+    <div class="modal-fg" style="margin-bottom:10px;">
+      <div class="modal-label">Services</div>
+      <div class="modal-val">${o.services.map(s=>`<span class="svc-tag">${SERVICES_MAP[s]}</span>`).join('')}</div>
+    </div>
+    <div class="modal-fg" style="margin-bottom:10px;">
+      <div class="modal-label">Items</div>
+      <div class="modal-val">${o.items} items</div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-fg" style="margin-bottom:0;">
+      <div class="modal-label">Update status</div>
+      <select class="status-select" id="status-select" onchange="updateStatus('${o.id}',this.value)">
+        ${STATUSES.map(s=>`<option value="${s}" ${s===o.status?'selected':''}>${STATUS_LABELS[s]}</option>`).join('')}
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveStatus('${o.id}')">Save changes</button>
+      <button class="btn-ghost" onclick="closeModal()">Close</button>
+    </div>
+  `;
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+let pendingStatus=null;
+function updateStatus(id,val){pendingStatus={id,val};}
+function saveStatus(id){
+  if(pendingStatus&&pendingStatus.id===id){
+    const o=orders.find(x=>x.id===id);
+    if(o){o.status=pendingStatus.val;renderOrders();showToast('Status updated to '+STATUS_LABELS[pendingStatus.val]);}
+    pendingStatus=null;
+  }
+  closeModal();
+}
+function closeModal(e){if(!e||e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').classList.remove('open');}
+
+function cancelOrder(id){
+  const o=orders.find(x=>x.id===id);
+  if(o&&o.status!=='cancelled'){o.status='cancelled';renderOrders();showToast('Order '+id+' cancelled');}
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── CHART ─────────────────────────────────────────────────────────────
+function renderChart(){
+  const data=[2800,3400,2900,3800,4100,4700,4280];
+  const max=Math.max(...data);
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const wrap=document.getElementById('chart-bars');
+  wrap.innerHTML=data.map((v,i)=>`
+    <div class="bar-col">
+      <div class="bar ${i===6?'today':''}" style="height:${Math.round(v/max*90)}px;" title="AED ${v.toLocaleString()}"></div>
+    </div>
+  `).join('');
+}
+
+// ── DATE ──────────────────────────────────────────────────────────────
+document.getElementById('today-date').textContent=new Date().toLocaleDateString('en-AE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+renderOrders();
+renderChart();
+</script>
+</body>
+</html>

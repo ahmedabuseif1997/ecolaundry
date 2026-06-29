@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco-Laundry — Premium Laundry Service</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gd:#1a3a2a;
+  --gr:#2d5a3d;
+  --gm:#3d7a52;
+  --gl:#5a9e6f;
+  --cream:#f5f0e8;
+  --cdark:#ede6d6;
+  --cwarm:#f9f5ee;
+  --gold:#c9a84c;
+  --goldl:#e8c97a;
+  --td:#1a2e22;
+  --tm:#3a5245;
+  --tmut:#6b8275;
+  --rad:14px;
+  --rads:8px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Georgia',serif;background:var(--cwarm);color:var(--td);min-height:100vh;}
+html[lang="ar"] body{font-family:'Noto Serif Arabic','Georgia',serif;}
+
+.lang-btn{display:flex;align-items:center;gap:4px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.28);border-radius:100px;padding:5px 12px;font-size:12px;color:var(--goldl);font-family:sans-serif;letter-spacing:.5px;cursor:pointer;transition:background .15s;}
+.lang-btn:hover{background:rgba(201,168,76,.22);}
+.lang-btn i{font-size:14px;}
+
+/* NAV */
+.nav{background:var(--gd);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-icon{width:36px;height:36px;border-radius:10px;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.35);display:flex;align-items:center;justify-content:center;}
+.nav-icon i{font-size:18px;color:var(--gold);}
+.nav-brand{color:#fff;font-size:19px;letter-spacing:.3px;}
+.nav-brand em{color:var(--gold);font-style:italic;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-pill{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.28);border-radius:100px;padding:6px 14px;font-size:12px;color:var(--goldl);font-family:sans-serif;letter-spacing:.5px;}
+
+/* HERO */
+.hero{position:relative;height:480px;overflow:hidden;background:var(--gd);}
+.hero-art{position:absolute;inset:0;overflow:hidden;}
+.hero-art::before{content:'';position:absolute;top:-80px;right:-80px;width:360px;height:360px;border-radius:50%;background:rgba(93,202,165,.07);border:1px solid rgba(93,202,165,.1);}
+.hero-art::after{content:'';position:absolute;bottom:-120px;left:5%;width:500px;height:500px;border-radius:50%;background:rgba(201,168,76,.05);}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:2.5rem 2.5rem;background:linear-gradient(to top,rgba(26,58,42,.98) 0%,rgba(26,58,42,.7) 60%,transparent 100%);}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.4);border-radius:100px;padding:6px 14px;font-size:11px;color:var(--goldl);font-family:sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;}
+.hero-tag i{font-size:12px;}
+.hero-h1{font-size:42px;color:#fff;line-height:1.15;letter-spacing:-.5px;margin-bottom:.75rem;}
+html[lang="ar"] .hero-h1{font-size:36px;letter-spacing:0;}
+.hero-h1 em{color:var(--goldl);}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.72);font-family:sans-serif;line-height:1.65;max-width:500px;margin-bottom:1.5rem;}
+.hero-stats{display:flex;gap:2.5rem;}
+.hero-stat .n{font-size:22px;color:var(--goldl);font-weight:700;font-family:sans-serif;}
+.hero-stat .l{font-size:10px;color:rgba(255,255,255,.55);font-family:sans-serif;text-transform:uppercase;letter-spacing:.8px;margin-top:3px;}
+
+.container{max-width:900px;margin:0 auto;padding:0 2rem;}
+.process-section{padding:2.5rem 0 1.5rem;}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.28);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--gold);font-family:sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem;}
+.sec-title{font-size:28px;color:var(--gd);margin-bottom:.4rem;}
+.sec-sub{font-size:14px;color:var(--tmut);font-family:sans-serif;line-height:1.65;margin-bottom:1.5rem;}
+
+.strip{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;height:240px;margin-bottom:2rem;}
+.strip-panel{border-radius:var(--rad);overflow:hidden;position:relative;display:flex;align-items:flex-end;}
+.strip-label{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(to top,rgba(26,58,42,.88),transparent);color:#fff;font-size:12px;font-family:sans-serif;letter-spacing:.5px;font-weight:600;}
+.sp1{background:linear-gradient(135deg,#1a3a2a 0%,#2d5a3d 40%,#3d7a52 70%,#5a9e6f 100%);}
+.sp2{background:linear-gradient(160deg,#2a3a1a 0%,#3d5a2d 50%,#6e8a52 100%);}
+.sp3{background:linear-gradient(135deg,#1a2a3a 0%,#2d4a5a 50%,#4a7a8a 100%);}
+.sp4{background:linear-gradient(135deg,#3a2a1a 0%,#5a4a2d 60%,#8a7a52 100%);}
+.sp5{background:linear-gradient(160deg,#2a1a3a 0%,#4a2d5a 55%,#7a5a8a 100%);}
+.sp-col{display:grid;grid-template-rows:1fr 1fr;gap:12px;}
+
+.trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:2.5rem;}
+.trust-item{background:#fff;border-radius:var(--rad);padding:16px 12px;text-align:center;border:1px solid var(--cdark);transition:box-shadow .2s;}
+.trust-item:hover{box-shadow:0 4px 16px rgba(26,58,42,.1);}
+.trust-item i{font-size:22px;color:var(--gr);display:block;margin-bottom:7px;}
+.trust-name{font-size:12px;font-family:sans-serif;font-weight:700;color:var(--td);}
+.trust-desc{font-size:11px;color:var(--tmut);font-family:sans-serif;margin-top:3px;}
+
+.booking-section{padding:0 0 3rem;}
+.row-label{font-size:11px;font-family:sans-serif;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:.9rem;}
+.prog{display:flex;gap:8px;margin-bottom:2rem;}
+.seg{height:4px;flex:1;border-radius:2px;background:var(--cdark);transition:background .3s;}
+.seg.on{background:var(--gold);}
+
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;}
+.svc-card{background:#fff;border-radius:var(--rad);overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .18s,transform .15s,box-shadow .15s;position:relative;}
+.svc-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(26,58,42,.12);}
+.svc-card.sel{border-color:var(--gold);box-shadow:0 4px 16px rgba(201,168,76,.2);}
+.svc-thumb{height:120px;position:relative;display:flex;align-items:center;justify-content:center;}
+.t-wash{background:linear-gradient(135deg,#1a3a2a,#3d7a52);}
+.t-iron{background:linear-gradient(135deg,#2a3a1a,#5a7a3d);}
+.t-dry{background:linear-gradient(135deg,#1a2a3a,#3d5a7a);}
+.t-sheets{background:linear-gradient(135deg,#3a2a1a,#7a5a3d);}
+.t-del{background:linear-gradient(135deg,#2a1a3a,#5a3d7a);}
+.t-cur{background:linear-gradient(135deg,#1a3a3a,#3d7a7a);}
+.svc-thumb-icon{font-size:42px;color:rgba(255,255,255,.22);}
+.svc-thumb-fade{position:absolute;bottom:0;left:0;right:0;height:50px;background:linear-gradient(to top,rgba(0,0,0,.4),transparent);}
+.svc-check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--gold);display:none;align-items:center;justify-content:center;}
+html[dir="rtl"] .svc-check{right:auto;left:10px;}
+.svc-card.sel .svc-check{display:flex;}
+.svc-check i{font-size:12px;color:var(--gd);}
+.svc-body{padding:10px 13px 13px;}
+.svc-name{font-size:14px;font-weight:700;color:var(--gd);font-family:sans-serif;margin-bottom:3px;}
+.svc-price{font-size:11px;color:var(--tmut);font-family:sans-serif;}
+
+.qty-cat-label{display:flex;align-items:center;gap:8px;font-family:sans-serif;font-size:12px;font-weight:700;color:var(--gd);text-transform:uppercase;letter-spacing:.8px;margin:1.25rem 0 .5rem;padding:0 2px;}
+.qty-cat-label i{font-size:16px;color:var(--gold);}
+.qty-card{background:#fff;border-radius:var(--rad);overflow:hidden;margin-bottom:.5rem;}
+.qty-head{background:var(--gd);padding:14px 18px;display:flex;align-items:center;gap:10px;}
+.qty-head i{font-size:18px;color:var(--gold);}
+.qty-head span{color:#fff;font-size:14px;font-family:sans-serif;font-weight:500;}
+.qty-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--cdark);}
+.qty-row:last-child{border-bottom:none;}
+.qty-nm{font-size:14px;font-family:sans-serif;font-weight:600;color:var(--td);}
+.qty-sb{font-size:11px;color:var(--tmut);font-family:sans-serif;margin-top:2px;}
+.qty-ctrl{display:flex;align-items:center;gap:14px;}
+.qbtn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gm);background:transparent;color:var(--gr);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:sans-serif;transition:background .1s;}
+.qbtn:hover{background:var(--cdark);}
+.qbtn.p{background:var(--gd);border-color:var(--gd);color:#fff;}
+.qbtn.p:hover{background:var(--gr);}
+.qval{font-size:16px;font-weight:700;color:var(--gd);font-family:sans-serif;min-width:22px;text-align:center;}
+
+/* COMPACT LINEN ROWS */
+.qty-card-sm .qty-row{padding:9px 14px;}
+.qty-card-sm .qty-nm{font-size:13px;}
+.qty-card-sm .qty-sb{font-size:10px;margin-top:1px;}
+.qty-card-sm .qbtn{width:26px;height:26px;font-size:15px;}
+.qty-card-sm .qval{font-size:14px;min-width:18px;}
+.qty-card-sm .qty-ctrl{gap:10px;}
+
+/* ACCORDION */
+.acc-hd{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;padding:4px 2px;}
+.acc-hd:hover .acc-hd-text{color:var(--gold);}
+.acc-hd-text{font-family:sans-serif;font-size:12px;font-weight:700;color:var(--gd);text-transform:uppercase;letter-spacing:.8px;transition:color .15s;}
+.acc-badge{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:100px;padding:2px 9px;font-size:10px;font-weight:700;font-family:sans-serif;color:var(--gold);}
+.acc-badge.active{background:var(--gold);color:var(--gd);}
+.acc-chevron{margin-left:auto;font-size:16px;color:var(--tmut);transition:transform .25s;}
+.acc-chevron.open{transform:rotate(180deg);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1);}
+.acc-body.open{max-height:3000px;}
+
+/* HOTELS */
+.hotel-section{padding:2.5rem 0 3.5rem;}
+.hotel-banner{background:var(--gd);border-radius:var(--rad);padding:2rem 2.25rem;margin-bottom:1.75rem;position:relative;overflow:hidden;}
+.hotel-banner::before{content:'';position:absolute;top:-50px;right:-50px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.06);}
+.hotel-banner::after{content:'';position:absolute;bottom:-70px;left:8%;width:320px;height:320px;border-radius:50%;background:rgba(201,168,76,.04);}
+.hotel-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.38);border-radius:100px;padding:5px 13px;font-size:11px;color:var(--goldl);font-family:sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;}
+.hotel-tag i{font-size:12px;}
+.hotel-h{font-size:26px;color:#fff;margin-bottom:.5rem;line-height:1.2;}
+.hotel-h em{color:var(--goldl);}
+.hotel-p{font-size:13px;color:rgba(255,255,255,.65);font-family:sans-serif;line-height:1.7;max-width:540px;margin-bottom:1.5rem;}
+.hotel-feats{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.hotel-feat{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.55);font-family:sans-serif;}
+.hotel-feat i{font-size:15px;color:var(--gold);}
+.hotel-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.75rem;}
+.hotel-card{background:#fff;border-radius:var(--rad);padding:1.25rem;border:1px solid var(--cdark);text-align:center;}
+.hotel-card-icon{width:44px;height:44px;border-radius:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;}
+.hotel-card-icon i{font-size:22px;color:var(--gold);}
+.hotel-card-title{font-size:13px;font-weight:700;color:var(--gd);font-family:sans-serif;margin-bottom:4px;}
+.hotel-card-desc{font-size:11px;color:var(--tmut);font-family:sans-serif;line-height:1.55;}
+.hotel-form-wrap{background:#fff;border-radius:var(--rad);border:1px solid var(--cdark);overflow:hidden;}
+.hotel-form-head{background:var(--gd);padding:1.125rem 1.5rem;display:flex;align-items:center;gap:10px;}
+.hotel-form-head i{font-size:19px;color:var(--gold);}
+.hotel-form-ht{color:#fff;font-size:14px;font-family:sans-serif;font-weight:600;}
+.hotel-form-hs{font-size:11px;color:rgba(255,255,255,.5);font-family:sans-serif;margin-top:2px;}
+.hotel-form-body{padding:1.5rem;}
+.hfr2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.hfg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.hfg:last-child{margin-bottom:0;}
+.hfl{font-size:11px;font-family:sans-serif;font-weight:700;color:var(--tm);letter-spacing:.3px;text-transform:uppercase;}
+.hotel-cta{width:100%;padding:14px;background:var(--gold);color:var(--gd);border:none;border-radius:var(--rad);font-size:15px;font-weight:700;font-family:sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;}
+.hotel-cta:hover{background:var(--goldl);}
+.hotel-cta i{font-size:17px;}
+.hotel-success{display:none;text-align:center;padding:2.5rem 1.5rem;}
+.hotel-success i{font-size:44px;color:var(--gold);display:block;margin-bottom:1rem;}
+.hotel-success h3{font-size:20px;color:var(--gd);margin-bottom:.5rem;}
+.hotel-success p{font-size:13px;color:var(--tmut);font-family:sans-serif;line-height:1.65;}
+
+.fb{background:#fff;border-radius:var(--rad);overflow:hidden;margin-bottom:1.25rem;}
+.fb-head{padding:14px 18px;background:var(--gd);display:flex;align-items:center;gap:10px;}
+.fb-head i{font-size:18px;color:var(--gold);}
+.fb-head-t{color:#fff;font-size:14px;font-family:sans-serif;font-weight:500;}
+.fb-head-s{font-size:11px;color:rgba(255,255,255,.55);font-family:sans-serif;margin-top:2px;}
+.fb-body{padding:18px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.fg:last-child{margin-bottom:0;}
+.fl{font-size:11px;font-family:sans-serif;font-weight:700;color:var(--tm);letter-spacing:.3px;text-transform:uppercase;}
+input[type=text],input[type=date],select,textarea{width:100%;padding:10px 14px;border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:14px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;transition:border-color .15s;}
+input:focus,select:focus,textarea:focus{border-color:var(--gm);background:#fff;}
+textarea{resize:vertical;min-height:72px;}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+.slots{display:flex;flex-wrap:wrap;gap:8px;}
+.slot{padding:8px 14px;border:1.5px solid var(--cdark);border-radius:100px;font-size:12px;font-family:sans-serif;color:var(--tmut);cursor:pointer;background:var(--cwarm);transition:all .12s;display:flex;align-items:center;gap:5px;}
+.slot:hover{border-color:var(--gl);color:var(--td);}
+.slot.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+.slot i{font-size:12px;}
+
+.same-chk{display:flex;align-items:center;gap:8px;font-size:13px;font-family:sans-serif;color:var(--tm);margin-bottom:12px;cursor:pointer;}
+.same-chk input{width:16px;height:16px;accent-color:var(--gr);}
+
+.sum-box{background:var(--gd);border-radius:var(--rad);padding:1.5rem;margin-bottom:1.25rem;}
+.sum-row{display:flex;justify-content:space-between;font-family:sans-serif;font-size:13px;color:rgba(255,255,255,.6);padding:6px 0;}
+.sum-val{color:rgba(255,255,255,.9);}
+.sum-div{height:1px;background:rgba(255,255,255,.1);margin:10px 0;}
+.sum-total{display:flex;justify-content:space-between;align-items:center;}
+.sum-tl{color:rgba(255,255,255,.65);font-size:13px;font-family:sans-serif;}
+.sum-tv{font-size:26px;color:var(--goldl);font-weight:700;font-family:sans-serif;letter-spacing:-.5px;}
+
+.cta{width:100%;padding:16px;background:var(--gold);color:var(--gd);border:none;border-radius:var(--rad);font-size:16px;font-weight:700;font-family:sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s,transform .1s;letter-spacing:.3px;}
+.cta:hover{background:var(--goldl);transform:translateY(-1px);}
+.cta i{font-size:18px;}
+.cta-note{text-align:center;font-size:12px;color:var(--tmut);font-family:sans-serif;margin-top:10px;}
+
+.succ{display:none;padding:3rem 0;}
+.succ-hero{background:var(--gd);border-radius:var(--rad);padding:2.5rem 2rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.succ-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,.07);}
+.succ-circ{width:72px;height:72px;border-radius:50%;background:rgba(201,168,76,.18);border:2px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;}
+.succ-circ i{font-size:32px;color:var(--goldl);}
+.succ-h{font-size:28px;color:#fff;margin-bottom:.5rem;}
+.succ-p{font-size:14px;color:rgba(255,255,255,.62);font-family:sans-serif;line-height:1.65;}
+.ord-badge{display:inline-block;margin-top:1rem;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.35);border-radius:100px;padding:6px 18px;font-size:13px;color:var(--goldl);font-family:sans-serif;letter-spacing:.5px;}
+.tl-wrap{background:#fff;border-radius:var(--rad);overflow:hidden;margin-bottom:1.5rem;}
+.tl-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid var(--cdark);}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot{width:38px;height:38px;border-radius:50%;background:var(--gd);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tl-dot i{font-size:17px;color:var(--gold);}
+.tl-m{font-size:14px;font-family:sans-serif;font-weight:600;color:var(--td);}
+.tl-s{font-size:12px;color:var(--tmut);font-family:sans-serif;margin-top:2px;}
+
+footer{background:var(--gd);padding:2rem;text-align:center;}
+footer p{color:rgba(255,255,255,.4);font-size:12px;font-family:sans-serif;}
+footer em{color:var(--gold);font-style:normal;}
+.footer-contact{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:1rem;flex-wrap:wrap;}
+.footer-link{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.65);font-size:13px;font-family:sans-serif;text-decoration:none;transition:color .15s;}
+.footer-link:hover{color:var(--goldl);}
+.footer-link i{font-size:16px;}
+.footer-link.wa{color:#4fce5d;}
+.footer-link.wa:hover{color:#7de887;}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:1.75rem;right:1.75rem;z-index:300;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.wa-btn{width:52px;height:52px;border-radius:50%;background:#25d366;box-shadow:0 4px 16px rgba(37,211,102,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,box-shadow .15s;text-decoration:none;}
+.wa-btn:hover{transform:scale(1.08);box-shadow:0 6px 22px rgba(37,211,102,.55);}
+.wa-btn svg{width:28px;height:28px;fill:#fff;}
+.wa-tooltip{background:var(--gd);color:#fff;font-size:12px;font-family:sans-serif;padding:6px 12px;border-radius:100px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .2s;pointer-events:none;border:1px solid rgba(201,168,76,.3);}
+.wa-float:hover .wa-tooltip{opacity:1;transform:translateX(0);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-icon"><i class="ti ti-wind"></i></div>
+    <div class="nav-brand">Eco-<em>Laundry</em></div>
+  </div>
+  <div class="nav-right">
+    <a href="tel:+97158285976" class="nav-pill" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--goldl);font-family:sans-serif;">
+      <i class="ti ti-phone" style="font-size:13px;"></i>
+      <span>+971 58 285 9762</span>
+    </a>
+    <a href="https://wa.me/97158285976" target="_blank" class="nav-pill" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#4fce5d;background:rgba(79,206,93,.1);border-color:rgba(79,206,93,.3);font-family:sans-serif;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+    <button class="lang-btn" onclick="toggleLang()" aria-label="Switch language">
+      <i class="ti ti-language"></i>
+      <span id="lang-label">العربية</span>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-art">
+    <svg style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:.1;" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+      <path d="M120 60 Q145 35 170 60 L220 130 L70 130 Z" fill="none" stroke="#c9a84c" stroke-width="2.5"/>
+      <line x1="145" y1="35" x2="145" y2="60" stroke="#c9a84c" stroke-width="2.5"/>
+      <rect x="70" y="130" width="150" height="200" rx="5" fill="none" stroke="#e8c97a" stroke-width="2"/>
+      <path d="M380 45 Q405 20 430 45 L480 115 L330 115 Z" fill="none" stroke="#c9a84c" stroke-width="2.5"/>
+      <line x1="405" y1="20" x2="405" y2="45" stroke="#c9a84c" stroke-width="2.5"/>
+      <rect x="330" y="115" width="150" height="220" rx="5" fill="none" stroke="#e8c97a" stroke-width="2"/>
+      <path d="M650 55 Q672 32 694 55 L735 120 L609 120 Z" fill="none" stroke="#c9a84c" stroke-width="2"/>
+      <line x1="672" y1="32" x2="672" y2="55" stroke="#c9a84c" stroke-width="2"/>
+      <rect x="609" y="120" width="126" height="190" rx="5" fill="none" stroke="#e8c97a" stroke-width="1.5"/>
+      <circle cx="50" cy="300" r="80" fill="none" stroke="rgba(93,202,165,.3)" stroke-width="1"/>
+      <circle cx="850" cy="350" r="100" fill="none" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag"><i class="ti ti-leaf"></i> <span data-en="Premium · Eco-friendly" data-ar="فاخر · صديق للبيئة">Premium · Eco-friendly</span></div>
+    <h1 class="hero-h1"><span data-en="Luxury care for<br>your <em>finest clothes</em>" data-ar="رعاية فاخرة<br>لأجمل <em>ملابسك</em>">Luxury care for<br>your <em>finest clothes</em></span></h1>
+    <p class="hero-sub" data-en="We pick up from your door, clean with eco-certified products, and deliver back perfectly pressed — next day." data-ar="نستلم من باب منزلك، نغسل بمنتجات معتمدة صديقة للبيئة، ونعيد تسليمك ملابس مكوية بشكل مثالي — في اليوم التالي.">We pick up from your door, clean with eco-certified products, and deliver back perfectly pressed — next day.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="n">4.9★</div><div class="l" data-en="Avg rating" data-ar="متوسط التقييم">Avg rating</div></div>
+      <div class="hero-stat"><div class="n">12K+</div><div class="l" data-en="Orders done" data-ar="طلب مكتمل">Orders done</div></div>
+      <div class="hero-stat"><div class="n">24h</div><div class="l" data-en="Turnaround" data-ar="وقت التسليم">Turnaround</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="process-section">
+    <div class="sec-tag"><i class="ti ti-sparkles"></i> <span data-en="Our process" data-ar="طريقة عملنا">Our process</span></div>
+    <div class="sec-title" data-en="Premium from start to finish" data-ar="جودة فاخرة من البداية إلى النهاية">Premium from start to finish</div>
+    <p class="sec-sub" data-en="Every garment handled with care — from silk blouses to bed linens." data-ar="كل قطعة تُعامَل بعناية فائقة — من الملابس الحريرية إلى مفارش السرير.">Every garment handled with care — from silk blouses to bed linens.</p>
+
+    <div class="strip">
+      <div class="strip-panel sp1">
+        <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.15;" viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+          <path d="M80 70 Q105 45 130 70 L175 140 L35 140 Z" fill="none" stroke="#e8c97a" stroke-width="3"/>
+          <line x1="105" y1="45" x2="105" y2="70" stroke="#e8c97a" stroke-width="3"/>
+          <rect x="35" y="140" width="140" height="90" rx="5" fill="none" stroke="#e8c97a" stroke-width="2"/>
+          <path d="M210 60 Q228 42 246 60 L272 105 L184 105 Z" fill="none" stroke="#c9a84c" stroke-width="2"/>
+          <line x1="228" y1="42" x2="228" y2="60" stroke="#c9a84c" stroke-width="2"/>
+          <rect x="184" y="105" width="88" height="115" rx="4" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+        </svg>
+        <div class="strip-label" data-en="Wash & fold" data-ar="غسيل وطي">Wash & fold</div>
+      </div>
+      <div class="sp-col">
+        <div class="strip-panel sp2">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="55" width="160" height="14" rx="3" fill="#e8c97a"/>
+            <rect x="35" y="69" width="8" height="35" rx="2" fill="#c9a84c"/>
+            <ellipse cx="130" cy="62" rx="42" ry="10" fill="none" stroke="#e8c97a" stroke-width="2"/>
+          </svg>
+          <div class="strip-label" data-en="Iron & press" data-ar="كي وضغط">Iron & press</div>
+        </div>
+        <div class="strip-panel sp3">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.18;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="55" r="40" fill="none" stroke="#e8c97a" stroke-width="2"/>
+            <circle cx="100" cy="55" r="24" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+            <path d="M82 40 Q100 28 118 40 Q118 70 100 82 Q82 70 82 40Z" fill="rgba(232,201,122,.15)"/>
+          </svg>
+          <div class="strip-label" data-en="Dry cleaning" data-ar="تنظيف جاف">Dry cleaning</div>
+        </div>
+      </div>
+      <div class="sp-col">
+        <div class="strip-panel sp4">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.18;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="25" width="160" height="16" rx="4" fill="#e8c97a"/>
+            <rect x="20" y="48" width="160" height="16" rx="4" fill="rgba(232,201,122,.6)"/>
+            <rect x="20" y="71" width="160" height="16" rx="4" fill="rgba(232,201,122,.35)"/>
+          </svg>
+          <div class="strip-label" data-en="Sheets & linen" data-ar="مفارش وأقمشة">Sheets & linen</div>
+        </div>
+        <div class="strip-panel sp5">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.18;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 20 Q100 5 140 20 L150 100 L50 100 Z" fill="none" stroke="#e8c97a" stroke-width="2"/>
+            <line x1="72" y1="38" x2="128" y2="38" stroke="rgba(232,201,122,.5)" stroke-width="1.5"/>
+            <line x1="68" y1="54" x2="132" y2="54" stroke="rgba(232,201,122,.4)" stroke-width="1.5"/>
+            <line x1="65" y1="70" x2="135" y2="70" stroke="rgba(232,201,122,.3)" stroke-width="1.5"/>
+          </svg>
+          <div class="strip-label" data-en="Delicates" data-ar="الملابس الرقيقة">Delicates</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-item"><i class="ti ti-shield-check"></i><div class="trust-name" data-en="Insured" data-ar="مؤمَّن">Insured</div><div class="trust-desc" data-en="All items covered" data-ar="جميع القطع مشمولة">All items covered</div></div>
+      <div class="trust-item"><i class="ti ti-leaf"></i><div class="trust-name" data-en="Eco-certified" data-ar="معتمد بيئياً">Eco-certified</div><div class="trust-desc" data-en="Green products only" data-ar="منتجات خضراء فقط">Green products only</div></div>
+      <div class="trust-item"><i class="ti ti-clock"></i><div class="trust-name" data-en="On-time" data-ar="في الموعد">On-time</div><div class="trust-desc" data-en="Guaranteed delivery" data-ar="توصيل مضمون">Guaranteed delivery</div></div>
+      <div class="trust-item"><i class="ti ti-star"></i><div class="trust-name">4.9 / 5</div><div class="trust-desc" data-en="12,000+ reviews" data-ar="+12,000 تقييم">12,000+ reviews</div></div>
+    </div>
+  </div>
+
+  <div class="booking-section" id="main-form">
+    <div class="sec-tag"><i class="ti ti-calendar"></i> <span data-en="Book now" data-ar="احجز الآن">Book now</span></div>
+    <div class="sec-title" data-en="Schedule your pickup" data-ar="حدد موعد الاستلام">Schedule your pickup</div>
+    <p class="sec-sub" data-en="Choose services, add items, pick your times." data-ar="اختر الخدمات، أضف القطع، وحدد المواعيد.">Choose services, add items, pick your times.</p>
+
+    <div class="prog">
+      <div class="seg on" id="seg1"></div>
+      <div class="seg" id="seg2"></div>
+      <div class="seg" id="seg3"></div>
+    </div>
+
+    <div class="row-label" data-en="Select services" data-ar="اختر الخدمات">Select services</div>
+    <div class="svc-grid">
+      <div class="svc-card sel" data-svc="wash"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-wash"><i class="ti ti-droplet svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Wash & Fold" data-ar="غسيل وطي">Wash & Fold</div><div class="svc-price" data-en="from AED 30 / kg" data-ar="من 30 درهم / كجم">from AED 30 / kg</div></div></div>
+      <div class="svc-card" data-svc="iron"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-iron"><i class="ti ti-sun svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Iron & Press" data-ar="كي وضغط">Iron & Press</div><div class="svc-price" data-en="from AED 10 / piece" data-ar="من 10 درهم / قطعة">from AED 10 / piece</div></div></div>
+      <div class="svc-card" data-svc="dry"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-dry"><i class="ti ti-wind svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Dry Cleaning" data-ar="تنظيف جاف">Dry Cleaning</div><div class="svc-price" data-en="from AED 45 / item" data-ar="من 45 درهم / قطعة">from AED 45 / item</div></div></div>
+      <div class="svc-card" data-svc="sheets"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-sheets"><i class="ti ti-bed svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Sheets & Linen" data-ar="مفارش وأقمشة">Sheets & Linen</div><div class="svc-price" data-en="from AED 55 / set" data-ar="من 55 درهم / طقم">from AED 55 / set</div></div></div>
+      <div class="svc-card" data-svc="delicate"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-del"><i class="ti ti-sparkles svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Delicates" data-ar="ملابس رقيقة">Delicates</div><div class="svc-price" data-en="from AED 65 / item" data-ar="من 65 درهم / قطعة">from AED 65 / item</div></div></div>
+      <div class="svc-card" data-svc="curtains"><div class="svc-check"><i class="ti ti-check"></i></div><div class="svc-thumb t-cur"><i class="ti ti-layout-columns svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div><div class="svc-body"><div class="svc-name" data-en="Curtains" data-ar="ستائر">Curtains</div><div class="svc-price" data-en="from AED 75 / pair" data-ar="من 75 درهم / زوج">from AED 75 / pair</div></div></div>
+    </div>
+
+    <div class="qty-cat-label"><i class="ti ti-shirt"></i><span data-en="Clothing" data-ar="الملابس">Clothing</span></div>
+    <div class="qty-card">
+      <div class="qty-row"><div><div class="qty-nm" data-en="Shirts / T-Shirts" data-ar="قمصان / تيشيرتات">Shirts / T-Shirts</div><div class="qty-sb" data-en="Per piece · AED 20" data-ar="للقطعة · 20 درهم">Per piece · AED 20</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('shirts',-1)">−</button><span class="qval" id="q-shirts">0</span><button class="qbtn p" onclick="chg('shirts',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Trousers / Jeans" data-ar="بناطيل / جينز">Trousers / Jeans</div><div class="qty-sb" data-en="Per piece · AED 22" data-ar="للقطعة · 22 درهم">Per piece · AED 22</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('trousers',-1)">−</button><span class="qval" id="q-trousers">0</span><button class="qbtn p" onclick="chg('trousers',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Suits / Blazers" data-ar="بدل / جاكيتات">Suits / Blazers</div><div class="qty-sb" data-en="Per piece · AED 65" data-ar="للقطعة · 65 درهم">Per piece · AED 65</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('suits',-1)">−</button><span class="qval" id="q-suits">0</span><button class="qbtn p" onclick="chg('suits',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Dresses / Skirts" data-ar="فساتين / تنانير">Dresses / Skirts</div><div class="qty-sb" data-en="Per piece · AED 35" data-ar="للقطعة · 35 درهم">Per piece · AED 35</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('dresses',-1)">−</button><span class="qval" id="q-dresses">0</span><button class="qbtn p" onclick="chg('dresses',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Abayas / Thobes" data-ar="عبايات / أثواب">Abayas / Thobes</div><div class="qty-sb" data-en="Per piece · AED 45" data-ar="للقطعة · 45 درهم">Per piece · AED 45</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('abayas',-1)">−</button><span class="qval" id="q-abayas">0</span><button class="qbtn p" onclick="chg('abayas',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Jackets / Coats" data-ar="جاكيتات / معاطف">Jackets / Coats</div><div class="qty-sb" data-en="Per piece · AED 55" data-ar="للقطعة · 55 درهم">Per piece · AED 55</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('jackets',-1)">−</button><span class="qval" id="q-jackets">0</span><button class="qbtn p" onclick="chg('jackets',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Sportswear" data-ar="ملابس رياضية">Sportswear</div><div class="qty-sb" data-en="Per piece · AED 18" data-ar="للقطعة · 18 درهم">Per piece · AED 18</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('sports',-1)">−</button><span class="qval" id="q-sports">0</span><button class="qbtn p" onclick="chg('sports',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Underwear / Socks" data-ar="ملابس داخلية / جوارب">Underwear / Socks</div><div class="qty-sb" data-en="Per bag (up to 10 pcs) · AED 25" data-ar="للكيس (حتى 10 قطع) · 25 درهم">Per bag (up to 10 pcs) · AED 25</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('underwear',-1)">−</button><span class="qval" id="q-underwear">0</span><button class="qbtn p" onclick="chg('underwear',1)">+</button></div></div>
+    </div>
+
+    <div class="qty-cat-label acc-hd" onclick="toggleLinenAcc()" id="linen-hd">
+      <i class="ti ti-home" style="font-size:16px;color:var(--gold);"></i>
+      <span class="acc-hd-text" data-en="Home & Linen" data-ar="المنزل والأقمشة">Home & Linen</span>
+      <span class="acc-badge" id="linen-badge" data-en="11 items" data-ar="١١ قطعة">11 items</span>
+      <i class="ti ti-chevron-down acc-chevron" id="linen-chev"></i>
+    </div>
+    <div class="acc-body" id="linen-body">
+      <div class="qty-card qty-card-sm">
+        <div class="qty-row"><div><div class="qty-nm" data-en="Bed Sheets (Single)" data-ar="مفارش سرير (فردي)">Bed Sheets (Single)</div><div class="qty-sb" data-en="Per set · AED 45" data-ar="للطقم · 45 درهم">Per set · AED 45</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('sheets_s',-1)">−</button><span class="qval" id="q-sheets_s">0</span><button class="qbtn p" onclick="chg('sheets_s',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Bed Sheets (Double/King)" data-ar="مفارش سرير (مزدوج/كينج)">Bed Sheets (Double/King)</div><div class="qty-sb" data-en="Per set · AED 65" data-ar="للطقم · 65 درهم">Per set · AED 65</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('sheets_d',-1)">−</button><span class="qval" id="q-sheets_d">0</span><button class="qbtn p" onclick="chg('sheets_d',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Duvet / Comforter" data-ar="لحاف / دوفيه">Duvet / Comforter</div><div class="qty-sb" data-en="Per piece · AED 85" data-ar="للقطعة · 85 درهم">Per piece · AED 85</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('duvet',-1)">−</button><span class="qval" id="q-duvet">0</span><button class="qbtn p" onclick="chg('duvet',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Blanket / Throw" data-ar="بطانية / غطاء">Blanket / Throw</div><div class="qty-sb" data-en="Per piece · AED 55" data-ar="للقطعة · 55 درهم">Per piece · AED 55</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('blanket',-1)">−</button><span class="qval" id="q-blanket">0</span><button class="qbtn p" onclick="chg('blanket',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Pillowcases" data-ar="أغطية وسائد">Pillowcases</div><div class="qty-sb" data-en="Per piece · AED 15" data-ar="للقطعة · 15 درهم">Per piece · AED 15</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('pillow',-1)">−</button><span class="qval" id="q-pillow">0</span><button class="qbtn p" onclick="chg('pillow',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Bath Towels" data-ar="مناشف حمام">Bath Towels</div><div class="qty-sb" data-en="Per piece · AED 18" data-ar="للقطعة · 18 درهم">Per piece · AED 18</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('towels',-1)">−</button><span class="qval" id="q-towels">0</span><button class="qbtn p" onclick="chg('towels',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Hand Towels" data-ar="مناشف يد">Hand Towels</div><div class="qty-sb" data-en="Per piece · AED 10" data-ar="للقطعة · 10 درهم">Per piece · AED 10</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('handtowels',-1)">−</button><span class="qval" id="q-handtowels">0</span><button class="qbtn p" onclick="chg('handtowels',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Curtains" data-ar="ستائر">Curtains</div><div class="qty-sb" data-en="Per pair · AED 75" data-ar="للزوج · 75 درهم">Per pair · AED 75</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('curtains',-1)">−</button><span class="qval" id="q-curtains">0</span><button class="qbtn p" onclick="chg('curtains',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Sofa / Chair Covers" data-ar="أغطية كنب / كراسي">Sofa / Chair Covers</div><div class="qty-sb" data-en="Per piece · AED 90" data-ar="للقطعة · 90 درهم">Per piece · AED 90</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('sofa',-1)">−</button><span class="qval" id="q-sofa">0</span><button class="qbtn p" onclick="chg('sofa',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Tablecloths" data-ar="أغطية طاولة">Tablecloths</div><div class="qty-sb" data-en="Per piece · AED 35" data-ar="للقطعة · 35 درهم">Per piece · AED 35</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('tablecloth',-1)">−</button><span class="qval" id="q-tablecloth">0</span><button class="qbtn p" onclick="chg('tablecloth',1)">+</button></div></div>
+        <div class="qty-row"><div><div class="qty-nm" data-en="Prayer Rugs / Mats" data-ar="سجادات صلاة">Prayer Rugs / Mats</div><div class="qty-sb" data-en="Per piece · AED 30" data-ar="للقطعة · 30 درهم">Per piece · AED 30</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('rugs',-1)">−</button><span class="qval" id="q-rugs">0</span><button class="qbtn p" onclick="chg('rugs',1)">+</button></div></div>
+      </div>
+    </div>
+
+    <div class="row-label" style="margin-top:2rem;" data-en="Pickup details" data-ar="تفاصيل الاستلام">Pickup details</div>
+    <div class="fb">
+      <div class="fb-head"><i class="ti ti-map-pin"></i><div><div class="fb-head-t" data-en="Where & when to pick up" data-ar="مكان ووقت الاستلام">Where & when to pick up</div><div class="fb-head-s" data-en="Our driver comes to your door" data-ar="يأتي السائق إلى بابك">Our driver comes to your door</div></div></div>
+      <div class="fb-body">
+        <div class="fg"><label class="fl" data-en="Full address" data-ar="العنوان الكامل">Full address</label><input type="text" id="pu-addr" data-en-placeholder="123 Main St, Apartment 4B" data-ar-placeholder="شارع الرئيسي 123، شقة 4B" placeholder="123 Main St, Apartment 4B"/></div>
+        <div class="fr2">
+          <div class="fg"><label class="fl" data-en="Pickup date" data-ar="تاريخ الاستلام">Pickup date</label><input type="date" id="pu-date"/></div>
+          <div class="fg"><label class="fl" data-en="City / Area" data-ar="المدينة / المنطقة">City / Area</label><input type="text" id="pu-city" data-en-placeholder="Dubai Marina" data-ar-placeholder="مرسى دبي" placeholder="Dubai Marina"/></div>
+        </div>
+        <div class="fg">
+          <label class="fl" data-en="Pickup time window" data-ar="نافذة وقت الاستلام">Pickup time window</label>
+          <div class="slots">
+            <div class="slot on" data-g="pu" data-v="7–9 AM"><i class="ti ti-sun"></i><span data-en="7–9 AM" data-ar="7–9 ص">7–9 AM</span></div>
+            <div class="slot" data-g="pu" data-v="9–11 AM"><i class="ti ti-sun"></i><span data-en="9–11 AM" data-ar="9–11 ص">9–11 AM</span></div>
+            <div class="slot" data-g="pu" data-v="11 AM–1 PM"><i class="ti ti-sun-high"></i><span data-en="11 AM–1 PM" data-ar="11 ص–1 م">11 AM–1 PM</span></div>
+            <div class="slot" data-g="pu" data-v="2–4 PM"><i class="ti ti-sun-low"></i><span data-en="2–4 PM" data-ar="2–4 م">2–4 PM</span></div>
+            <div class="slot" data-g="pu" data-v="4–6 PM"><i class="ti ti-moon"></i><span data-en="4–6 PM" data-ar="4–6 م">4–6 PM</span></div>
+            <div class="slot" data-g="pu" data-v="6–8 PM"><i class="ti ti-moon"></i><span data-en="6–8 PM" data-ar="6–8 م">6–8 PM</span></div>
+          </div>
+        </div>
+        <div class="fg" style="margin-top:6px;margin-bottom:0;"><label class="fl" data-en="Special instructions" data-ar="تعليمات خاصة">Special instructions</label><textarea id="pu-notes" data-en-placeholder="Ring twice, leave with doorman, gate code…" data-ar-placeholder="اقرع مرتين، اترك مع البواب، رمز البوابة…" placeholder="Ring twice, leave with doorman, gate code…"></textarea></div>
+      </div>
+    </div>
+
+    <div class="row-label" data-en="Delivery details" data-ar="تفاصيل التوصيل">Delivery details</div>
+    <div class="fb">
+      <div class="fb-head"><i class="ti ti-truck-delivery"></i><div><div class="fb-head-t" data-en="Where & when to deliver" data-ar="مكان ووقت التوصيل">Where & when to deliver</div><div class="fb-head-s" data-en="Fresh & pressed — next day" data-ar="نظيفة ومكوية — في اليوم التالي">Fresh & pressed — next day</div></div></div>
+      <div class="fb-body">
+        <label class="same-chk"><input type="checkbox" id="same-addr" checked onchange="toggleSame()"/> <span data-en="Deliver to same address as pickup" data-ar="التوصيل إلى نفس عنوان الاستلام">Deliver to same address as pickup</span></label>
+        <div id="del-extra" style="display:none;">
+          <div class="fg"><label class="fl" data-en="Delivery address" data-ar="عنوان التوصيل">Delivery address</label><input type="text" id="del-addr" data-en-placeholder="456 Park Ave, Suite 12" data-ar-placeholder="شارع بارك 456، جناح 12" placeholder="456 Park Ave, Suite 12"/></div>
+          <div class="fg"><label class="fl" data-en="City / Area" data-ar="المدينة / المنطقة">City / Area</label><input type="text" id="del-city" data-en-placeholder="Downtown Dubai" data-ar-placeholder="وسط مدينة دبي" placeholder="Downtown Dubai"/></div>
+        </div>
+        <div class="fr2"><div class="fg"><label class="fl" data-en="Delivery date" data-ar="تاريخ التوصيل">Delivery date</label><input type="date" id="del-date"/></div></div>
+        <div class="fg">
+          <label class="fl" data-en="Delivery time window" data-ar="نافذة وقت التوصيل">Delivery time window</label>
+          <div class="slots">
+            <div class="slot" data-g="del" data-v="7–9 AM"><i class="ti ti-sun"></i><span data-en="7–9 AM" data-ar="7–9 ص">7–9 AM</span></div>
+            <div class="slot" data-g="del" data-v="9–11 AM"><i class="ti ti-sun"></i><span data-en="9–11 AM" data-ar="9–11 ص">9–11 AM</span></div>
+            <div class="slot on" data-g="del" data-v="11 AM–1 PM"><i class="ti ti-sun-high"></i><span data-en="11 AM–1 PM" data-ar="11 ص–1 م">11 AM–1 PM</span></div>
+            <div class="slot" data-g="del" data-v="2–4 PM"><i class="ti ti-sun-low"></i><span data-en="2–4 PM" data-ar="2–4 م">2–4 PM</span></div>
+            <div class="slot" data-g="del" data-v="4–6 PM"><i class="ti ti-moon"></i><span data-en="4–6 PM" data-ar="4–6 م">4–6 PM</span></div>
+            <div class="slot" data-g="del" data-v="6–8 PM"><i class="ti ti-moon"></i><span data-en="6–8 PM" data-ar="6–8 م">6–8 PM</span></div>
+          </div>
+        </div>
+        <div class="fg" style="margin-top:6px;margin-bottom:0;"><label class="fl" data-en="Delivery instructions" data-ar="تعليمات التوصيل">Delivery instructions</label><textarea id="del-notes" data-en-placeholder="Leave at door, call on arrival…" data-ar-placeholder="اترك عند الباب، اتصل عند الوصول…" placeholder="Leave at door, call on arrival…"></textarea></div>
+      </div>
+    </div>
+
+    <div class="row-label" data-en="Your details" data-ar="بياناتك">Your details</div>
+    <div class="fb">
+      <div class="fb-head"><i class="ti ti-user"></i><div><div class="fb-head-t" data-en="Contact information" data-ar="معلومات التواصل">Contact information</div><div class="fb-head-s" data-en="For order updates & driver contact" data-ar="لتحديثات الطلب والتواصل مع السائق">For order updates & driver contact</div></div></div>
+      <div class="fb-body">
+        <div class="fr2">
+          <div class="fg"><label class="fl" data-en="Full name" data-ar="الاسم الكامل">Full name</label><input type="text" id="c-name" data-en-placeholder="Ahmed Al Mansouri" data-ar-placeholder="أحمد المنصوري" placeholder="Ahmed Al Mansouri"/></div>
+          <div class="fg"><label class="fl" data-en="Phone" data-ar="رقم الهاتف">Phone</label><input type="text" id="c-phone" placeholder="+971 50 000 0000"/></div>
+        </div>
+        <div class="fg" style="margin-bottom:0;"><label class="fl" data-en="Email" data-ar="البريد الإلكتروني">Email</label><input type="text" id="c-email" placeholder="ahmed@email.com"/></div>
+      </div>
+    </div>
+
+    <div class="row-label" data-en="Order summary" data-ar="ملخص الطلب">Order summary</div>
+    <div class="sum-box">
+      <div class="sum-row"><span data-en="Services" data-ar="الخدمات">Services</span><span class="sum-val" id="s-svcs">Wash & Fold</span></div>
+      <div class="sum-row"><span data-en="Items" data-ar="القطع">Items</span><span class="sum-val" id="s-items">0 items</span></div>
+      <div class="sum-row"><span data-en="Pickup window" data-ar="نافذة الاستلام">Pickup window</span><span class="sum-val" id="s-pu">7–9 AM</span></div>
+      <div class="sum-row"><span data-en="Delivery window" data-ar="نافذة التوصيل">Delivery window</span><span class="sum-val" id="s-del">11 AM–1 PM</span></div>
+      <div class="sum-row"><span data-en="Eco processing" data-ar="المعالجة البيئية">Eco processing</span><span class="sum-val" data-en="Included" data-ar="مشمول">Included</span></div>
+      <div class="sum-div"></div>
+      <div class="sum-total"><span class="sum-tl" data-en="Estimated total" data-ar="الإجمالي التقديري">Estimated total</span><span class="sum-tv" id="s-total">AED 0</span></div>
+    </div>
+    <button class="cta" onclick="placeOrder()"><i class="ti ti-sparkles"></i> <span data-en="Confirm my booking" data-ar="تأكيد الحجز">Confirm my booking</span></button>
+    <p class="cta-note" data-en="Secure · Free cancellation up to 2h before pickup · Eco-certified" data-ar="آمن · إلغاء مجاني حتى ساعتين قبل الاستلام · معتمد بيئياً">Secure · Free cancellation up to 2h before pickup · Eco-certified</p>
+  </div>
+
+  <!-- HOTELS SECTION -->
+  <div class="hotel-section" id="hotels">
+    <div class="sec-tag"><i class="ti ti-building"></i> <span data-en="For Hotels & Hospitality" data-ar="للفنادق والضيافة">For Hotels & Hospitality</span></div>
+    <div class="sec-title" data-en="Hotel & hospitality partners" data-ar="شركاء الفنادق والضيافة">Hotel & hospitality partners</div>
+    <p class="sec-sub" data-en="Special contract rates for hotels, resorts and serviced apartments. Request a custom quote tailored to your property's volume." data-ar="أسعار عقدية خاصة للفنادق والمنتجعات والشقق المخدومة. اطلب عرض سعر مخصص يناسب حجم منشأتك.">Special contract rates for hotels, resorts and serviced apartments. Request a custom quote tailored to your property's volume.</p>
+
+    <div class="hotel-banner">
+      <div class="hotel-tag"><i class="ti ti-star"></i> <span data-en="Hospitality Programme" data-ar="برنامج الضيافة">Hospitality Programme</span></div>
+      <h2 class="hotel-h" data-en="Premium laundry at <em>contract rates</em>" data-ar="غسيل فاخر بـ<em>أسعار عقدية</em>">Premium laundry at <em>contract rates</em></h2>
+      <p class="hotel-p" data-en="We handle everything from bedding and towels to staff uniforms — collected daily and returned fresh within 24 hours. Volume pricing, dedicated account manager, and SLA guarantee." data-ar="نتولى كل شيء من مفارش السرير والمناشف إلى ملابس الموظفين — تُجمع يومياً وتُعاد طازجة خلال 24 ساعة. أسعار الحجم، ومدير حساب مخصص، وضمان اتفاقية مستوى الخدمة.">We handle everything from bedding and towels to staff uniforms — collected daily and returned fresh within 24 hours. Volume pricing, dedicated account manager, and SLA guarantee.</p>
+      <div class="hotel-feats">
+        <div class="hotel-feat"><i class="ti ti-clock-24"></i><span data-en="24h turnaround" data-ar="دوران 24 ساعة">24h turnaround</span></div>
+        <div class="hotel-feat"><i class="ti ti-users"></i><span data-en="Dedicated account manager" data-ar="مدير حساب مخصص">Dedicated account manager</span></div>
+        <div class="hotel-feat"><i class="ti ti-shield-check"></i><span data-en="SLA guarantee" data-ar="ضمان اتفاقية الخدمة">SLA guarantee</span></div>
+        <div class="hotel-feat"><i class="ti ti-coin"></i><span data-en="Volume pricing" data-ar="أسعار الحجم">Volume pricing</span></div>
+      </div>
+    </div>
+
+    <div class="hotel-cards">
+      <div class="hotel-card">
+        <div class="hotel-card-icon"><i class="ti ti-bed"></i></div>
+        <div class="hotel-card-title" data-en="Bedding & Linen" data-ar="الفراش والمفارش">Bedding & Linen</div>
+        <div class="hotel-card-desc" data-en="Sheets, duvet covers, pillowcases — cleaned to hospitality standard, pressed and folded to spec." data-ar="مفارش، أغطية لحاف، أغطية وسائد — منظفة وفق معايير الضيافة، مكوية ومطوية بدقة.">Sheets, duvet covers, pillowcases — cleaned to hospitality standard, pressed and folded to spec.</div>
+      </div>
+      <div class="hotel-card">
+        <div class="hotel-card-icon"><i class="ti ti-droplet"></i></div>
+        <div class="hotel-card-title" data-en="Towels & Robes" data-ar="المناشف والأروب">Towels & Robes</div>
+        <div class="hotel-card-desc" data-en="Bath, hand and pool towels plus guest robes — soft finish guaranteed with eco-certified products." data-ar="مناشف الحمام، اليد والمسبح بالإضافة إلى أروب الضيوف — لمسة نهائية ناعمة مضمونة بمنتجات معتمدة بيئياً.">Bath, hand and pool towels plus guest robes — soft finish guaranteed with eco-certified products.</div>
+      </div>
+      <div class="hotel-card">
+        <div class="hotel-card-icon"><i class="ti ti-shirt"></i></div>
+        <div class="hotel-card-title" data-en="Staff Uniforms" data-ar="يونيفورم الموظفين">Staff Uniforms</div>
+        <div class="hotel-card-desc" data-en="Front-of-house to back-of-house — washed, pressed and returned on hanger, on schedule." data-ar="من الواجهة إلى المطبخ — مغسولة، مكوية وعائدة على الشماعة في الموعد.">Front-of-house to back-of-house — washed, pressed and returned on hanger, on schedule.</div>
+      </div>
+    </div>
+
+    <div class="hotel-form-wrap">
+      <div class="hotel-form-head">
+        <i class="ti ti-file-text"></i>
+        <div>
+          <div class="hotel-form-ht" data-en="Request a custom quote" data-ar="اطلب عرض سعر مخصص">Request a custom quote</div>
+          <div class="hotel-form-hs" data-en="We'll respond within 4 business hours" data-ar="سنرد خلال 4 ساعات عمل">We'll respond within 4 business hours</div>
+        </div>
+      </div>
+      <div class="hotel-form-body" id="hotel-form-body">
+        <div class="hfr2">
+          <div class="hfg"><label class="hfl" data-en="Property name" data-ar="اسم المنشأة">Property name</label><input type="text" id="h-name" data-en-placeholder="Grand Hyatt Dubai" data-ar-placeholder="جراند حياة دبي" placeholder="Grand Hyatt Dubai"></div>
+          <div class="hfg">
+            <label class="hfl" data-en="Property type" data-ar="نوع المنشأة">Property type</label>
+            <select id="h-type">
+              <option value="" data-en="Select type…" data-ar="اختر النوع…">Select type…</option>
+              <option data-en="5-Star Hotel" data-ar="فندق 5 نجوم">5-Star Hotel</option>
+              <option data-en="4-Star Hotel" data-ar="فندق 4 نجوم">4-Star Hotel</option>
+              <option data-en="Boutique Hotel" data-ar="فندق بوتيك">Boutique Hotel</option>
+              <option data-en="Resort" data-ar="منتجع">Resort</option>
+              <option data-en="Serviced Apartments" data-ar="شقق مخدومة">Serviced Apartments</option>
+              <option data-en="Hospital / Clinic" data-ar="مستشفى / عيادة">Hospital / Clinic</option>
+              <option data-en="Other" data-ar="أخرى">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="hfr2">
+          <div class="hfg"><label class="hfl" data-en="Number of rooms / units" data-ar="عدد الغرف / الوحدات">Number of rooms / units</label><input type="text" id="h-rooms" data-en-placeholder="e.g. 120 rooms" data-ar-placeholder="مثال: 120 غرفة" placeholder="e.g. 120 rooms"></div>
+          <div class="hfg">
+            <label class="hfl" data-en="Estimated weekly volume" data-ar="الحجم الأسبوعي التقديري">Estimated weekly volume</label>
+            <select id="h-volume">
+              <option value="">Select volume…</option>
+              <option>Under 200 kg/week</option>
+              <option>200 – 500 kg/week</option>
+              <option>500 – 1,000 kg/week</option>
+              <option>1,000 – 3,000 kg/week</option>
+              <option>3,000+ kg/week</option>
+            </select>
+          </div>
+        </div>
+        <div class="hfr2">
+          <div class="hfg"><label class="hfl" data-en="Contact name" data-ar="اسم جهة الاتصال">Contact name</label><input type="text" id="h-contact" data-en-placeholder="Operations Manager" data-ar-placeholder="مدير العمليات" placeholder="Operations Manager"></div>
+          <div class="hfg"><label class="hfl" data-en="Phone" data-ar="الهاتف">Phone</label><input type="text" id="h-phone" placeholder="+971 4 000 0000"></div>
+        </div>
+        <div class="hfg"><label class="hfl" data-en="Email" data-ar="البريد الإلكتروني">Email</label><input type="text" id="h-email" placeholder="ops@yourhotel.ae"></div>
+        <div class="hfg"><label class="hfl" data-en="Special requirements" data-ar="متطلبات خاصة">Special requirements</label><textarea id="h-notes" data-en-placeholder="Uniforms, specific turnaround times, allergen-free products, daily pickup schedule…" data-ar-placeholder="يونيفورم، أوقات تسليم محددة، منتجات خالية من مسببات الحساسية، جدول استلام يومي…" placeholder="Uniforms, specific turnaround times, allergen-free products, daily pickup schedule…"></textarea></div>
+        <div style="margin-top:1rem;">
+          <button class="hotel-cta" onclick="submitHotelQuote()"><i class="ti ti-send"></i> <span data-en="Send quote request" data-ar="إرسال طلب العرض">Send quote request</span></button>
+          <p style="text-align:center;font-size:11px;color:var(--tmut);font-family:sans-serif;margin-top:8px;" data-en="No commitment · Our team will contact you with a tailored proposal" data-ar="بدون التزام · سيتواصل معك فريقنا بعرض مخصص">No commitment · Our team will contact you with a tailored proposal</p>
+        </div>
+      </div>
+      <div class="hotel-success" id="hotel-success">
+        <i class="ti ti-circle-check"></i>
+        <h3 data-en="Quote request sent!" data-ar="تم إرسال طلب العرض!">Quote request sent!</h3>
+        <p data-en="Thank you. Our hospitality team will review your requirements and reach out within 4 business hours with a custom proposal." data-ar="شكراً لك. سيراجع فريق الضيافة لدينا متطلباتك ويتواصل معك خلال 4 ساعات عمل بعرض مخصص.">Thank you. Our hospitality team will review your requirements and reach out within 4 business hours with a custom proposal.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="succ" id="succ">
+    <div class="succ-hero">
+      <div class="succ-circ"><i class="ti ti-check"></i></div>
+      <h2 class="succ-h" data-en="Booking confirmed!" data-ar="تم تأكيد الحجز!">Booking confirmed!</h2>
+      <p class="succ-p" data-en="Your garments are in expert hands. A confirmation has been sent to your phone and email." data-ar="ملابسك في أيدٍ أمينة. تم إرسال تأكيد إلى هاتفك وبريدك الإلكتروني.">Your garments are in expert hands. A confirmation has been sent to your phone and email.</p>
+      <div class="ord-badge" id="ord-badge">Order #ECO-0000</div>
+    </div>
+    <div class="row-label" data-en="Your order timeline" data-ar="مراحل طلبك">Your order timeline</div>
+    <div class="tl-wrap">
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-map-pin"></i></div><div><div class="tl-m" data-en="Pickup scheduled" data-ar="تم جدولة الاستلام">Pickup scheduled</div><div class="tl-s" id="tl-pu">Today · 7–9 AM</div></div></div>
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-droplet"></i></div><div><div class="tl-m" data-en="Expert cleaning" data-ar="تنظيف احترافي">Expert cleaning</div><div class="tl-s" data-en="Eco-certified products · Careful handling" data-ar="منتجات معتمدة بيئياً · معالجة بعناية">Eco-certified products · Careful handling</div></div></div>
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-sun"></i></div><div><div class="tl-m" data-en="Pressing & packaging" data-ar="كي وتغليف">Pressing & packaging</div><div class="tl-s" data-en="Beautifully folded & wrapped" data-ar="مطوية ومغلفة بشكل أنيق">Beautifully folded & wrapped</div></div></div>
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-truck-delivery"></i></div><div><div class="tl-m" data-en="Delivery scheduled" data-ar="تم جدولة التوصيل">Delivery scheduled</div><div class="tl-s" id="tl-del">Tomorrow · 11 AM–1 PM</div></div></div>
+    </div>
+    <button class="cta" onclick="resetApp()" style="margin-top:1.5rem;"><i class="ti ti-plus"></i> <span data-en="Book another order" data-ar="حجز طلب آخر">Book another order</span></button>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<div class="wa-float">
+  <div class="wa-tooltip" data-en="Chat on WhatsApp" data-ar="تواصل عبر واتساب">Chat on WhatsApp</div>
+  <a class="wa-btn" href="https://wa.me/97158285976" target="_blank" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
+<footer>
+  <div class="footer-contact">
+    <a href="tel:+97158285976" class="footer-link"><i class="ti ti-phone"></i> +971 58 285 9762</a>
+    <a href="https://wa.me/97158285976" target="_blank" class="footer-link wa">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+  <p><em>Eco-Laundry</em> &nbsp;·&nbsp; <span data-en="Premium Care Service" data-ar="خدمة عناية فاخرة">Premium Care Service</span> &nbsp;·&nbsp; © 2026</p>
+</footer>
+
+<script>
+const qty={shirts:0,trousers:0,suits:0,dresses:0,abayas:0,jackets:0,sports:0,underwear:0,sheets_s:0,sheets_d:0,duvet:0,blanket:0,pillow:0,towels:0,handtowels:0,curtains:0,sofa:0,tablecloth:0,rugs:0};
+const uP={shirts:20,trousers:22,suits:65,dresses:35,abayas:45,jackets:55,sports:18,underwear:25,sheets_s:45,sheets_d:65,duvet:85,blanket:55,pillow:15,towels:18,handtowels:10,curtains:75,sofa:90,tablecloth:35,rugs:30};
+const selSvcs=new Set(['wash']);
+let puSlot='7–9 AM',delSlot='11 AM–1 PM',currentLang='en';
+const now=new Date(),tom=new Date(now);
+tom.setDate(now.getDate()+1);
+const fmt=d=>d.toISOString().split('T')[0];
+document.getElementById('pu-date').value=fmt(now);
+document.getElementById('pu-date').min=fmt(now);
+document.getElementById('del-date').value=fmt(tom);
+document.getElementById('del-date').min=fmt(tom);
+
+function toggleLang(){
+  currentLang=currentLang==='en'?'ar':'en';
+  const html=document.documentElement;
+  html.lang=currentLang; html.dir=currentLang==='ar'?'rtl':'ltr';
+  document.getElementById('lang-label').textContent=currentLang==='en'?'العربية':'English';
+  document.getElementById('nav-pill-text').textContent=currentLang==='en'?'✦ Next-day delivery':'✦ توصيل في اليوم التالي';
+  document.querySelectorAll('[data-en]').forEach(el=>{const v=el.getAttribute('data-'+currentLang);if(v)el.innerHTML=v;});
+  document.querySelectorAll('[data-en-placeholder]').forEach(el=>{el.placeholder=el.getAttribute('data-'+currentLang+'-placeholder')||el.getAttribute('data-en-placeholder');});
+  upd();
+}
+document.querySelectorAll('.svc-card').forEach(c=>{
+  c.addEventListener('click',()=>{const s=c.dataset.svc;if(selSvcs.has(s)){if(selSvcs.size>1){selSvcs.delete(s);c.classList.remove('sel');}}else{selSvcs.add(s);c.classList.add('sel');}upd();});
+});
+document.querySelectorAll('.slot').forEach(s=>{
+  s.addEventListener('click',()=>{const g=s.dataset.g;document.querySelectorAll(`.slot[data-g="${g}"]`).forEach(x=>x.classList.remove('on'));s.classList.add('on');if(g==='pu')puSlot=s.dataset.v;else delSlot=s.dataset.v;upd();});
+});
+function chg(item,d){qty[item]=Math.max(0,qty[item]+d);document.getElementById('q-'+item).textContent=qty[item];document.getElementById('seg2').classList.toggle('on',Object.values(qty).reduce((a,b)=>a+b,0)>0);upd();}
+function toggleSame(){document.getElementById('del-extra').style.display=document.getElementById('same-addr').checked?'none':'block';}
+function upd(){
+  const mpEn={wash:'Wash & Fold',iron:'Iron & Press',dry:'Dry Cleaning',sheets:'Sheets & Linen',delicate:'Delicates',curtains:'Curtains'};
+  const mpAr={wash:'غسيل وطي',iron:'كي وضغط',dry:'تنظيف جاف',sheets:'مفارش وأقمشة',delicate:'ملابس رقيقة',curtains:'ستائر'};
+  const mp=currentLang==='ar'?mpAr:mpEn;
+  const ti=Object.values(qty).reduce((a,b)=>a+b,0);
+  let total=0;Object.entries(qty).forEach(([k,v])=>{total+=v*uP[k];});
+  if(selSvcs.has('iron'))total+=ti*10;if(selSvcs.has('dry'))total+=ti*30;
+  document.getElementById('s-svcs').textContent=[...selSvcs].map(s=>mp[s]).join(', ');
+  document.getElementById('s-items').textContent=currentLang==='ar'?ti+' قطعة':ti+' item'+(ti!==1?'s':'');
+  document.getElementById('s-pu').textContent=puSlot;document.getElementById('s-del').textContent=delSlot;
+  document.getElementById('s-total').textContent='AED '+total.toLocaleString();
+  document.getElementById('seg3').classList.toggle('on',!!document.getElementById('pu-addr').value.trim());
+}
+document.getElementById('pu-addr').addEventListener('input',upd);
+function placeOrder(){
+  const name=document.getElementById('c-name').value.trim(),addr=document.getElementById('pu-addr').value.trim(),ti=Object.values(qty).reduce((a,b)=>a+b,0);
+  const msg=currentLang==='ar'?'يرجى إدخال اسمك وعنوان الاستلام وإضافة قطعة واحدة على الأقل.':'Please fill in your name, pickup address, and add at least one item.';
+  if(!name||!addr||ti===0){alert(msg);return;}
+  const id='ECO-'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('ord-badge').textContent=(currentLang==='ar'?'طلب رقم #':'Order #')+id;
+  const pd=document.getElementById('pu-date').value,dd=document.getElementById('del-date').value;
+  const todayL=currentLang==='ar'?'اليوم':'Today',tomL=currentLang==='ar'?'غداً':'Tomorrow';
+  document.getElementById('tl-pu').textContent=(pd===fmt(now)?todayL:pd)+' · '+puSlot;
+  document.getElementById('tl-del').textContent=(dd===fmt(tom)?tomL:dd)+' · '+delSlot;
+  document.getElementById('main-form').style.display='none';document.getElementById('succ').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resetApp(){document.getElementById('main-form').style.display='block';document.getElementById('succ').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
+
+// ── HOME & LINEN ACCORDION ────────────────────────────────────────────
+let linenOpen=false;
+function toggleLinenAcc(){
+  linenOpen=!linenOpen;
+  document.getElementById('linen-body').classList.toggle('open',linenOpen);
+  document.getElementById('linen-chev').classList.toggle('open',linenOpen);
+  const linenQty=['sheets_s','sheets_d','duvet','blanket','pillow','towels','handtowels','curtains','sofa','tablecloth','rugs'];
+  const active=linenQty.reduce((s,k)=>s+qty[k],0);
+  const badge=document.getElementById('linen-badge');
+  if(active>0){badge.textContent=active+' selected';badge.classList.add('active');}
+  else{badge.textContent='11 items';badge.classList.remove('active');}
+}
+
+// ── HOTEL QUOTE FORM ──────────────────────────────────────────────────
+function submitHotelQuote(){
+  const name=document.getElementById('h-name').value.trim();
+  const contact=document.getElementById('h-contact').value.trim();
+  const phone=document.getElementById('h-phone').value.trim();
+  if(!name||!contact||!phone){alert('Please fill in property name, contact name and phone.');return;}
+  document.getElementById('hotel-form-body').style.display='none';
+  document.getElementById('hotel-success').style.display='block';
+}
+
+upd();
+</script>
+</body>
+</html>

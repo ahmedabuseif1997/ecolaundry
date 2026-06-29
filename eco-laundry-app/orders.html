@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders — Eco-Laundry Admin</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gd:#1a3a2a;--gr:#2d5a3d;--gm:#3d7a52;--gl:#5a9e6f;
+  --cream:#f5f0e8;--cdark:#ede6d6;--cwarm:#f9f5ee;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --td:#1a2e22;--tm:#3a5245;--tmut:#6b8275;
+  --rad:12px;--rads:8px;
+  --sidebar:240px;
+}
+html,body{height:100%;font-family:sans-serif;background:#f0f2f0;color:var(--td);}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--gd);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:1.5rem 1.25rem 1rem;}
+.sb-logo-icon{width:34px;height:34px;border-radius:9px;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;}
+.sb-logo-icon i{font-size:17px;color:var(--gold);}
+.sb-brand{color:#fff;font-size:16px;font-family:'Georgia',serif;}
+.sb-brand em{color:var(--gold);font-style:italic;}
+.sb-badge{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.5px;text-transform:uppercase;padding:0 1.25rem;margin-bottom:.75rem;}
+.sb-nav{flex:1;padding:0 .75rem;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rads);color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;text-decoration:none;margin-bottom:2px;}
+.sb-link i{font-size:17px;}
+.sb-link:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
+.sb-link.active{background:rgba(201,168,76,.18);color:var(--goldl);}
+.sb-link.active i{color:var(--gold);}
+.sb-divider{height:1px;background:rgba(255,255,255,.08);margin:.75rem 0;}
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);}
+.sb-user{display:flex;align-items:center;gap:10px;}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);}
+.sb-uname{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;}
+.sb-urole{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px;}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+.topbar{background:#fff;border-bottom:1px solid var(--cdark);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.topbar-title{font-size:16px;font-weight:700;color:var(--td);}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.content{padding:1.75rem 2rem;flex:1;}
+
+/* DATE FILTER BAR */
+.filter-bar{background:#fff;border:1px solid var(--cdark);border-radius:var(--rad);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.filter-bar-label{font-size:12px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.4px;margin-right:4px;}
+.day-tab{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--cdark);background:#fff;color:var(--tmut);transition:all .12s;white-space:nowrap;}
+.day-tab.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+.day-tab:hover:not(.on){background:var(--cwarm);color:var(--td);}
+.filter-sep{width:1px;height:24px;background:var(--cdark);margin:0 4px;}
+.date-input{padding:7px 12px;border:1.5px solid var(--cdark);border-radius:100px;font-size:12px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;cursor:pointer;}
+.date-input:focus{border-color:var(--gm);}
+.filter-count{margin-left:auto;font-size:12px;color:var(--tmut);font-weight:600;}
+.filter-count strong{color:var(--gm);}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:1.5rem;}
+.stat-card{background:#fff;border-radius:var(--rad);padding:1rem 1.125rem;border:1px solid var(--cdark);}
+.stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.stat-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.stat-icon i{font-size:17px;}
+.si-green{background:#e8f5ee;} .si-green i{color:var(--gm);}
+.si-gold{background:#fef3d8;} .si-gold i{color:#c9a84c;}
+.si-blue{background:#e8f0fe;} .si-blue i{color:#3a7bd5;}
+.si-teal{background:#e0f7fa;} .si-teal i{color:#00838f;}
+.si-red{background:#fde8e8;} .si-red i{color:#e74c3c;}
+.stat-val{font-size:22px;font-weight:700;color:var(--td);letter-spacing:-.5px;}
+.stat-label{font-size:11px;color:var(--tmut);}
+
+/* TIMELINE */
+.timeline-panel{background:#fff;border:1px solid var(--cdark);border-radius:var(--rad);overflow:hidden;margin-bottom:1.5rem;}
+.tp-head{padding:1rem 1.25rem;border-bottom:1px solid var(--cdark);display:flex;align-items:center;justify-content:space-between;}
+.tp-title{font-size:14px;font-weight:700;color:var(--td);}
+.tp-sub{font-size:11px;color:var(--tmut);margin-top:2px;}
+.tp-legend{display:flex;align-items:center;gap:14px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tmut);}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+
+/* TIMELINE GRID */
+.timeline-grid{display:grid;grid-template-columns:90px 1fr;overflow-x:auto;}
+.tl-labels{display:flex;flex-direction:column;border-right:1px solid var(--cdark);}
+.tl-label-cell{height:56px;display:flex;align-items:center;padding:0 .875rem;border-bottom:1px solid var(--cdark);font-size:11px;font-weight:700;color:var(--tmut);white-space:nowrap;}
+.tl-label-cell:last-child{border-bottom:none;}
+.tl-rows{display:flex;flex-direction:column;}
+.tl-row{height:56px;border-bottom:1px solid var(--cdark);display:flex;align-items:center;gap:6px;padding:0 .875rem;overflow-x:auto;}
+.tl-row:last-child{border-bottom:none;}
+.tl-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid transparent;transition:all .12s;}
+.tl-pill:hover{filter:brightness(.95);}
+.tp-pending{background:#fff8e6;color:#c9a84c;border-color:#f0d080;}
+.tp-pickup{background:#e8f0fe;color:#3a7bd5;border-color:#b0c8f0;}
+.tp-washing{background:#e8f5ee;color:var(--gm);border-color:#a0d8b0;}
+.tp-ready{background:#e0f7fa;color:#00838f;border-color:#80d8e8;}
+.tp-delivered{background:#f0faf0;color:#2a7a3a;border-color:#90d090;}
+.tp-cancelled{background:#fde8e8;color:#e74c3c;border-color:#f0a0a0;}
+.tl-empty{font-size:11px;color:#ccc;font-style:italic;}
+.tl-bar-wrap{display:flex;align-items:center;gap:6px;width:100%;overflow-x:auto;}
+
+/* BAR CHART BY TIME */
+.bar-chart-section{background:#fff;border:1px solid var(--cdark);border-radius:var(--rad);padding:1.25rem;margin-bottom:1.5rem;}
+.bc-title{font-size:14px;font-weight:700;color:var(--td);margin-bottom:1rem;}
+.bc-grid{display:flex;align-items:flex-end;gap:10px;height:80px;}
+.bc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bc-bar{width:100%;border-radius:5px 5px 0 0;background:var(--gm);min-height:3px;transition:height .4s;}
+.bc-count{font-size:10px;font-weight:700;color:var(--td);}
+.bc-label{font-size:9px;color:var(--tmut);text-align:center;line-height:1.3;}
+.bc-bars-wrap{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;height:100px;align-items:flex-end;}
+
+/* ORDERS TABLE */
+.orders-panel{background:#fff;border:1px solid var(--cdark);border-radius:var(--rad);overflow:hidden;}
+.ops-head{padding:1rem 1.25rem;border-bottom:1px solid var(--cdark);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ops-title{font-size:14px;font-weight:700;color:var(--td);}
+.ops-filters{display:flex;align-items:center;gap:8px;}
+.search-wrap{display:flex;align-items:center;gap:6px;background:var(--cwarm);border:1px solid var(--cdark);border-radius:100px;padding:6px 12px;}
+.search-wrap i{font-size:14px;color:var(--tmut);}
+.search-wrap input{border:none;background:transparent;font-size:12px;color:var(--td);outline:none;width:160px;font-family:sans-serif;}
+.st-filter{padding:6px 12px;border-radius:100px;font-size:11px;font-weight:600;border:1px solid var(--cdark);background:#fff;color:var(--tmut);cursor:pointer;font-family:sans-serif;}
+.st-filter:focus{outline:none;border-color:var(--gm);}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--cwarm);}
+th{padding:10px 14px;font-size:11px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.4px;text-align:left;border-bottom:1px solid var(--cdark);}
+td{padding:11px 14px;font-size:13px;color:var(--td);border-bottom:1px solid var(--cdark);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafdf9;}
+.order-id{font-weight:700;color:var(--gm);font-size:12px;}
+.cust-name{font-weight:600;}
+.cust-phone{font-size:11px;color:var(--tmut);margin-top:2px;}
+.svc-tag{display:inline-block;background:var(--cwarm);border:1px solid var(--cdark);border-radius:100px;padding:2px 7px;font-size:10px;color:var(--tm);font-weight:600;margin:1px;}
+.time-cell{font-size:12px;color:var(--td);}
+.time-slot-badge{display:inline-block;background:var(--cwarm);border:1px solid var(--cdark);padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;color:var(--tm);margin-bottom:2px;}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600;}
+.st-pending{background:#fff8e6;color:#c9a84c;border:1px solid #f0d080;}
+.st-pickup{background:#e8f0fe;color:#3a7bd5;border:1px solid #b0c8f0;}
+.st-washing{background:#e8f5ee;color:var(--gm);border:1px solid #a0d8b0;}
+.st-ready{background:#e0f7fa;color:#00838f;border:1px solid #80d8e8;}
+.st-delivered{background:#f0faf0;color:#2a7a3a;border:1px solid #90d090;}
+.st-cancelled{background:#fde8e8;color:#e74c3c;border:1px solid #f0a0a0;}
+.action-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--cdark);background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;margin-right:3px;}
+.action-btn:hover{background:var(--cwarm);}
+.action-btn i{font-size:14px;color:var(--tmut);}
+.action-btn.green:hover{background:#e8f5ee;border-color:var(--gm);}
+.action-btn.green:hover i{color:var(--gm);}
+.action-btn.red:hover{background:#fde8e8;border-color:#e74c3c;}
+.action-btn.red:hover i{color:#e74c3c;}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:3.5rem 1rem;color:var(--tmut);}
+.empty-state i{font-size:42px;display:block;margin-bottom:1rem;opacity:.3;}
+.empty-state p{font-size:13px;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:var(--rad);padding:1.5rem;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.modal-title{font-size:16px;font-weight:700;color:var(--td);}
+.modal-close{width:30px;height:30px;border-radius:6px;border:1px solid var(--cdark);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close i{font-size:16px;color:var(--tmut);}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.modal-fg{display:flex;flex-direction:column;gap:4px;}
+.modal-label{font-size:11px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.3px;}
+.modal-val{font-size:13px;color:var(--td);font-weight:500;}
+.modal-divider{height:1px;background:var(--cdark);margin:1rem 0;}
+.status-select{width:100%;padding:8px 12px;border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;}
+.status-select:focus{border-color:var(--gm);}
+.modal-actions{display:flex;gap:8px;margin-top:1.25rem;}
+.btn-primary{flex:1;padding:10px;background:var(--gd);color:#fff;border:none;border-radius:var(--rads);font-size:13px;font-weight:700;cursor:pointer;font-family:sans-serif;}
+.btn-primary:hover{background:var(--gr);}
+.btn-ghost{flex:1;padding:10px;background:#fff;color:var(--td);border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;font-family:sans-serif;}
+.btn-ghost:hover{background:var(--cwarm);}
+
+/* NOTIFICATION BELL */
+.notif-wrap{position:relative;}
+.notif-btn{width:36px;height:36px;border-radius:var(--rads);border:1.5px solid var(--cdark);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.notif-btn:hover{background:var(--cwarm);}
+.notif-btn i{font-size:18px;color:var(--tmut);}
+.notif-badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 4px;border-radius:100px;background:#e74c3c;color:#fff;font-size:10px;font-weight:700;font-family:sans-serif;display:flex;align-items:center;justify-content:center;border:2px solid #fff;display:none;}
+.notif-badge.show{display:flex;}
+.notif-panel{position:absolute;top:calc(100% + 10px);right:0;width:340px;background:#fff;border:1px solid var(--cdark);border-radius:var(--rad);box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:200;display:none;overflow:hidden;}
+.notif-panel.open{display:block;}
+.notif-head{background:var(--gd);padding:.875rem 1rem;display:flex;align-items:center;justify-content:space-between;}
+.notif-head-title{color:#fff;font-size:13px;font-weight:700;font-family:sans-serif;display:flex;align-items:center;gap:7px;}
+.notif-head-title i{font-size:15px;color:var(--gold);}
+.notif-head-sub{font-size:10px;color:rgba(255,255,255,.5);font-family:sans-serif;margin-top:2px;}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:.875rem 1rem;border-bottom:1px solid var(--cdark);cursor:pointer;transition:background .1s;}
+.notif-item:last-child{border-bottom:none;}
+.notif-item:hover{background:var(--cwarm);}
+.notif-dot{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.nd-red{background:#fde8e8;} .nd-red i{font-size:15px;color:#e74c3c;}
+.nd-gold{background:#fef3d8;} .nd-gold i{font-size:15px;color:#c9a84c;}
+.nd-blue{background:#e8f0fe;} .nd-blue i{font-size:15px;color:#3a7bd5;}
+.notif-text{flex:1;min-width:0;}
+.notif-msg{font-size:12px;font-weight:600;color:var(--td);line-height:1.4;}
+.notif-sub{font-size:11px;color:var(--tmut);margin-top:2px;}
+.notif-time-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;margin-top:4px;display:inline-block;}
+.ntt-urgent{background:#fde8e8;color:#e74c3c;}
+.ntt-soon{background:#fef3d8;color:#c9a84c;}
+.notif-empty{padding:2rem 1rem;text-align:center;color:var(--tmut);}
+.notif-empty i{font-size:28px;display:block;margin-bottom:.5rem;opacity:.35;}
+.notif-empty p{font-size:12px;}
+.notif-footer{padding:.625rem 1rem;background:var(--cwarm);text-align:center;font-size:11px;color:var(--tmut);font-family:sans-serif;border-top:1px solid var(--cdark);}
+
+/* AREA CHIPS */
+.area-chips{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:.75rem 1.25rem;border-bottom:1px solid var(--cdark);background:var(--cwarm);}
+.area-chip{padding:4px 11px;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--cdark);background:#fff;color:var(--tmut);transition:all .12s;display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.area-chip:hover{border-color:var(--gm);color:var(--td);}
+.area-chip.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+.area-chip .chip-count{background:rgba(255,255,255,.2);border-radius:100px;padding:0 5px;font-size:9px;}
+.area-chip:not(.on) .chip-count{background:var(--cdark);color:var(--tmut);}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gd);color:#fff;padding:12px 18px;border-radius:var(--rad);font-size:13px;font-family:sans-serif;display:flex;align-items:center;gap:8px;z-index:200;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{font-size:16px;color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="ti ti-wind"></i></div>
+    <div class="sb-brand">Eco-<em>Laundry</em></div>
+  </div>
+  <div class="sb-badge">Admin Panel</div>
+  <nav class="sb-nav">
+    <a class="sb-link" href="admin.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="sb-link active" href="orders.html"><i class="ti ti-shopping-bag"></i> Orders</a>
+    <a class="sb-link" href="team.html"><i class="ti ti-users"></i> Team</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="index.html" target="_blank"><i class="ti ti-external-link"></i> Customer App</a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">A</div>
+      <div><div class="sb-uname">Admin</div><div class="sb-urole">Super Admin</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title">Orders</div>
+    </div>
+    <div class="topbar-right">
+      <span id="display-date" style="font-size:12px;color:var(--tmut);font-weight:600;"></span>
+      <div class="notif-wrap" id="notif-wrap">
+        <div class="notif-btn" onclick="toggleNotifPanel()" title="Delivery alerts">
+          <i class="ti ti-bell"></i>
+        </div>
+        <div class="notif-badge" id="notif-badge">0</div>
+        <div class="notif-panel" id="notif-panel">
+          <div class="notif-head">
+            <div>
+              <div class="notif-head-title"><i class="ti ti-bell-ringing"></i> Delivery alerts</div>
+              <div class="notif-head-sub">Orders due for delivery within 2 hours</div>
+            </div>
+          </div>
+          <div id="notif-list"></div>
+          <div class="notif-footer">Checked live · refreshes every 60 s</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- DATE FILTER BAR -->
+    <div class="filter-bar">
+      <span class="filter-bar-label">View:</span>
+      <div class="day-tab on" onclick="setRange('today',this)">Today</div>
+      <div class="day-tab" onclick="setRange('yesterday',this)">Yesterday</div>
+      <div class="day-tab" onclick="setRange('week',this)">This week</div>
+      <div class="day-tab" onclick="setRange('month',this)">This month</div>
+      <div class="filter-sep"></div>
+      <span class="filter-bar-label">Date:</span>
+      <input type="date" class="date-input" id="date-picker" onchange="setCustomDate(this.value)">
+      <span class="filter-count" id="filter-count"></span>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon si-green"><i class="ti ti-shopping-bag"></i></div></div>
+        <div class="stat-val" id="sc-total">—</div><div class="stat-label">Total orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon si-gold"><i class="ti ti-coin"></i></div></div>
+        <div class="stat-val" id="sc-revenue">—</div><div class="stat-label">Revenue (AED)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon si-blue"><i class="ti ti-clock"></i></div></div>
+        <div class="stat-val" id="sc-pending">—</div><div class="stat-label">Pending / Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon si-teal"><i class="ti ti-truck-delivery"></i></div></div>
+        <div class="stat-val" id="sc-delivered">—</div><div class="stat-label">Delivered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon si-red"><i class="ti ti-x"></i></div></div>
+        <div class="stat-val" id="sc-cancelled">—</div><div class="stat-label">Cancelled</div>
+      </div>
+    </div>
+
+    <!-- ORDER COUNT BY TIME CHART -->
+    <div class="bar-chart-section">
+      <div class="bc-title">Orders by time slot</div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px;align-items:flex-end;height:90px;" id="time-bars"></div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:6px;" id="time-bar-labels"></div>
+    </div>
+
+    <!-- TIMELINE VIEW -->
+    <div class="timeline-panel" id="timeline-panel">
+      <div class="tp-head">
+        <div>
+          <div class="tp-title">Timeline — orders by pickup slot</div>
+          <div class="tp-sub">Each pill is one order. Click to manage.</div>
+        </div>
+        <div class="tp-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#c9a84c;"></div> Pending</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3a7bd5;"></div> Pickup</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gm);"></div> Washing</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#00838f;"></div> Ready</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2a7a3a;"></div> Delivered</div>
+        </div>
+      </div>
+      <div class="timeline-grid">
+        <div class="tl-labels" id="tl-labels"></div>
+        <div class="tl-rows" id="tl-rows"></div>
+      </div>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div class="orders-panel">
+      <div class="ops-head">
+        <div class="ops-title">All orders</div>
+        <div class="ops-filters">
+          <div class="search-wrap">
+            <i class="ti ti-search"></i>
+            <input type="text" id="search-input" placeholder="Search name, ID, phone…" oninput="renderTable()">
+          </div>
+          <select class="st-filter" id="status-filter" onchange="renderTable()">
+            <option value="">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="pickup">In Pickup</option>
+            <option value="washing">Washing</option>
+            <option value="ready">Ready</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <select class="st-filter" id="slot-filter" onchange="renderTable()">
+            <option value="">All time slots</option>
+            <option>7–9 AM</option>
+            <option>9–11 AM</option>
+            <option>11 AM–1 PM</option>
+            <option>2–4 PM</option>
+            <option>4–6 PM</option>
+            <option>6–8 PM</option>
+          </select>
+          <select class="st-filter" id="area-filter" onchange="renderTable()">
+            <option value="">All areas</option>
+          </select>
+        </div>
+      </div>
+      <div class="area-chips" id="area-chips"></div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Services</th>
+              <th>Pickup slot</th>
+              <th>Delivery slot</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody"></tbody>
+        </table>
+        <div class="empty-state" id="empty-msg" style="display:none;">
+          <i class="ti ti-inbox"></i>
+          <p>No orders match your filter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">Order Details</div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg">Done!</span></div>
+
+<script>
+const SERVICES_MAP={wash:'Wash & Fold',iron:'Iron & Press',dry:'Dry Cleaning',sheets:'Sheets & Linen',delicate:'Delicates',curtains:'Curtains'};
+const STATUSES=['pending','pickup','washing','ready','delivered','cancelled'];
+const STATUS_LABELS={pending:'Pending',pickup:'In Pickup',washing:'Washing',ready:'Ready',delivered:'Delivered',cancelled:'Cancelled'};
+const STATUS_CSS={pending:'st-pending',pickup:'st-pickup',washing:'st-washing',ready:'st-ready',delivered:'st-delivered',cancelled:'st-cancelled'};
+const TIMESLOTS=['7–9 AM','9–11 AM','11 AM–1 PM','2–4 PM','4–6 PM','6–8 PM'];
+
+// ── ORDER DATABASE ────────────────────────────────────────────────────
+// dateOffset: 0=today, -1=yesterday, 1=tomorrow. Only orders for the selected date range show.
+const ALL_ORDERS=[
+  // Today
+  {id:'ECO-2043',name:'Ahmed Al Mansouri',phone:'+971 50 123 4567',services:['wash','iron'],items:8,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:0,address:'Al Barsha, Villa 12',total:320,status:'pending'},
+  {id:'ECO-2042',name:'Fatima Al Zaabi',phone:'+971 55 234 5678',services:['dry','sheets'],items:5,pickup:'9–11 AM',delivery:'2–4 PM',date:0,address:'Jumeirah, Apt 3B',total:480,status:'washing'},
+  {id:'ECO-2041',name:'Mohammed Al Rashid',phone:'+971 52 345 6789',services:['wash'],items:12,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:0,address:'Marina Walk, Tower 2',total:240,status:'delivered'},
+  {id:'ECO-2040',name:'Sara Al Hamdan',phone:'+971 56 456 7890',services:['iron','delicate'],items:4,pickup:'11 AM–1 PM',delivery:'4–6 PM',date:0,address:'Downtown Dubai, Burj Views',total:380,status:'pickup'},
+  {id:'ECO-2039',name:'Khalid Al Nuaimi',phone:'+971 54 567 8901',services:['wash','dry','curtains'],items:10,pickup:'2–4 PM',delivery:'6–8 PM',date:0,address:'Mirdif, Villa 7',total:620,status:'pending'},
+  {id:'ECO-2038',name:'Aisha Al Blooshi',phone:'+971 50 678 9012',services:['sheets','wash'],items:6,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:0,address:'Yas Island, Apt 201',total:390,status:'ready'},
+  {id:'ECO-2037',name:'Omar Al Marzouqi',phone:'+971 55 789 0123',services:['wash','iron'],items:15,pickup:'9–11 AM',delivery:'2–4 PM',date:0,address:'Deira, Gold Souq St',total:450,status:'delivered'},
+  {id:'ECO-2036',name:'Layla Al Suwaidi',phone:'+971 52 890 1234',services:['delicate'],items:3,pickup:'4–6 PM',delivery:'7–9 AM',date:1,address:'Karama, Block 3',total:195,status:'pending'},
+  {id:'ECO-2035',name:'Tariq Al Falasi',phone:'+971 56 901 2345',services:['wash'],items:7,pickup:'11 AM–1 PM',delivery:'2–4 PM',date:0,address:'Sharjah, Al Nahda',total:140,status:'cancelled'},
+  {id:'ECO-2034',name:'Nour Al Mazrouei',phone:'+971 54 012 3456',services:['sheets','curtains'],items:4,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:0,address:'Abu Dhabi, Corniche',total:550,status:'delivered'},
+  // Yesterday
+  {id:'ECO-2033',name:'Hassan Al Khatri',phone:'+971 50 111 2200',services:['wash','iron'],items:9,pickup:'9–11 AM',delivery:'2–4 PM',date:-1,address:'Bur Dubai, Khalid Bin Walid',total:280,status:'delivered'},
+  {id:'ECO-2032',name:'Mariam Al Shehhi',phone:'+971 55 222 3300',services:['dry'],items:3,pickup:'2–4 PM',delivery:'6–8 PM',date:-1,address:'Al Karama, Block 2',total:195,status:'delivered'},
+  {id:'ECO-2031',name:'Yusuf Al Dhaheri',phone:'+971 52 333 4400',services:['sheets','wash'],items:8,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-1,address:'Al Qusais, Villa 5',total:430,status:'delivered'},
+  {id:'ECO-2030',name:'Reem Al Ghafli',phone:'+971 56 444 5500',services:['iron'],items:6,pickup:'11 AM–1 PM',delivery:'4–6 PM',date:-1,address:'Jumeirah Lakes Towers',total:132,status:'delivered'},
+  {id:'ECO-2029',name:'Salim Al Naqbi',phone:'+971 54 555 6600',services:['curtains','wash'],items:5,pickup:'4–6 PM',delivery:'7–9 AM',date:0,address:'Sharjah, Al Taawun',total:370,status:'cancelled'},
+  // 2 days ago (this week)
+  {id:'ECO-2028',name:'Hamda Al Mansoori',phone:'+971 50 666 7700',services:['wash','dry'],items:11,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-2,address:'Al Nahda, Dubai',total:460,status:'delivered'},
+  {id:'ECO-2027',name:'Jassim Al Khoori',phone:'+971 55 777 8800',services:['sheets'],items:4,pickup:'2–4 PM',delivery:'6–8 PM',date:-2,address:'Deira, Al Rigga',total:260,status:'delivered'},
+  {id:'ECO-2026',name:'Shaikha Al Marri',phone:'+971 52 888 9900',services:['iron','delicate'],items:7,pickup:'9–11 AM',delivery:'2–4 PM',date:-2,address:'Al Safa, Apt 8',total:315,status:'delivered'},
+  // 3 days ago
+  {id:'ECO-2025',name:'Khalifa Al Ketbi',phone:'+971 56 999 0011',services:['wash'],items:14,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-3,address:'Oud Metha, Villa 9',total:280,status:'delivered'},
+  {id:'ECO-2024',name:'Mouza Al Shamsi',phone:'+971 54 000 1122',services:['dry','sheets'],items:6,pickup:'11 AM–1 PM',delivery:'4–6 PM',date:-3,address:'Al Wasl, Apt 3',total:415,status:'delivered'},
+  {id:'ECO-2023',name:'Obaid Al Qubaisi',phone:'+971 50 111 2233',services:['curtains'],items:3,pickup:'4–6 PM',delivery:'7–9 AM',date:-2,address:'Al Mushrif, Villa 22',total:225,status:'delivered'},
+  // 4 days ago
+  {id:'ECO-2022',name:'Hessa Al Falasi',phone:'+971 55 222 3344',services:['wash','iron'],items:10,pickup:'9–11 AM',delivery:'2–4 PM',date:-4,address:'Al Baraha, Dubai',total:380,status:'delivered'},
+  {id:'ECO-2021',name:'Saif Al Romaithi',phone:'+971 52 333 4455',services:['sheets','wash'],items:5,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-4,address:'Nad Al Sheba',total:330,status:'delivered'},
+  // 5 days ago
+  {id:'ECO-2020',name:'Noura Al Mazrouei',phone:'+971 56 444 5566',services:['dry','iron'],items:8,pickup:'2–4 PM',delivery:'6–8 PM',date:-5,address:'Al Furjan, Villa 14',total:385,status:'delivered'},
+  {id:'ECO-2019',name:'Abdulla Al Dhaheri',phone:'+971 54 555 6677',services:['wash'],items:12,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-5,address:'Mirdif, Uptown',total:240,status:'delivered'},
+  // 6 days ago
+  {id:'ECO-2018',name:'Maitha Al Hammadi',phone:'+971 50 666 7788',services:['sheets','curtains'],items:7,pickup:'11 AM–1 PM',delivery:'4–6 PM',date:-6,address:'Dubai Hills, Apt 12',total:495,status:'delivered'},
+  {id:'ECO-2017',name:'Rashid Al Suwaidi',phone:'+971 55 777 8899',services:['wash','dry'],items:9,pickup:'9–11 AM',delivery:'2–4 PM',date:-6,address:'Business Bay, Tower A',total:360,status:'delivered'},
+  // This month (older, -7 to -29)
+  {id:'ECO-2016',name:'Amna Al Kaabi',phone:'+971 52 888 9900',services:['iron'],items:6,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-8,address:'Al Quoz, Studio 4',total:132,status:'delivered'},
+  {id:'ECO-2015',name:'Sultan Al Muhairi',phone:'+971 56 999 0011',services:['wash','sheets'],items:10,pickup:'4–6 PM',delivery:'7–9 AM',date:-10,address:'Jumeirah Village Circle',total:450,status:'delivered'},
+  {id:'ECO-2014',name:'Moza Al Ketbi',phone:'+971 54 000 1122',services:['dry','delicate'],items:4,pickup:'2–4 PM',delivery:'6–8 PM',date:-12,address:'Al Barsha South',total:320,status:'delivered'},
+  {id:'ECO-2013',name:'Faisal Al Nuaimi',phone:'+971 50 111 2233',services:['wash'],items:8,pickup:'9–11 AM',delivery:'2–4 PM',date:-14,address:'Discovery Gardens',total:160,status:'delivered'},
+  {id:'ECO-2012',name:'Latifa Al Rashidi',phone:'+971 55 222 3344',services:['sheets','iron'],items:7,pickup:'7–9 AM',delivery:'11 AM–1 PM',date:-18,address:'The Springs, Villa 6',total:397,status:'delivered'},
+  {id:'ECO-2011',name:'Mansour Al Shamsi',phone:'+971 52 333 4455',services:['curtains','wash'],items:5,pickup:'11 AM–1 PM',delivery:'4–6 PM',date:-22,address:'Al Mizhar, Villa 3',total:295,status:'delivered'},
+  {id:'ECO-2010',name:'Hind Al Zaabi',phone:'+971 56 444 5566',services:['wash','dry'],items:12,pickup:'2–4 PM',delivery:'6–8 PM',date:-27,address:'Al Quoz, Block 2',total:480,status:'delivered'},
+];
+
+// ── DATE RANGE STATE ──────────────────────────────────────────────────
+let activeRange='today';
+let customDate=null;
+const today=new Date(); today.setHours(0,0,0,0);
+
+function dateForOffset(n){const d=new Date(today);d.setDate(d.getDate()+n);return d;}
+function offsetForDate(d){const t=new Date(d);t.setHours(0,0,0,0);return Math.round((t-today)/(86400000));}
+
+function getFilteredOrders(){
+  let offsets=[];
+  if(customDate!==null){
+    offsets=[customDate];
+  } else if(activeRange==='today'){
+    offsets=[0];
+  } else if(activeRange==='yesterday'){
+    offsets=[-1];
+  } else if(activeRange==='week'){
+    offsets=[-6,-5,-4,-3,-2,-1,0];
+  } else if(activeRange==='month'){
+    offsets=Array.from({length:30},(_,i)=>-(29-i));
+  }
+  return ALL_ORDERS.filter(o=>offsets.includes(o.date));
+}
+
+function setRange(range,el){
+  activeRange=range;
+  customDate=null;
+  document.getElementById('date-picker').value='';
+  document.querySelectorAll('.day-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  renderAll();
+}
+
+function setCustomDate(val){
+  if(!val)return;
+  const d=new Date(val);d.setHours(0,0,0,0);
+  customDate=offsetForDate(d);
+  activeRange='';
+  document.querySelectorAll('.day-tab').forEach(t=>t.classList.remove('on'));
+  renderAll();
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function renderAll(){
+  const orders=getFilteredOrders();
+  const dateLabel=getDateLabel();
+  document.getElementById('display-date').textContent=dateLabel;
+  document.getElementById('filter-count').innerHTML=`Showing <strong>${orders.length}</strong> order${orders.length!==1?'s':''}`;
+  renderStats(orders);
+  renderTimeBars(orders);
+  renderTimeline(orders);
+  renderAreaChips();
+  renderTable();
+  checkNotifications();
+}
+
+function getDateLabel(){
+  if(customDate!==null){
+    return dateForOffset(customDate).toLocaleDateString('en-AE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  }
+  const labels={today:'Today',yesterday:'Yesterday',week:'This week',month:'This month'};
+  return labels[activeRange]||'';
+}
+
+function renderStats(orders){
+  const total=orders.length;
+  const revenue=orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+o.total,0);
+  const pending=orders.filter(o=>['pending','pickup','washing','ready'].includes(o.status)).length;
+  const delivered=orders.filter(o=>o.status==='delivered').length;
+  const cancelled=orders.filter(o=>o.status==='cancelled').length;
+  document.getElementById('sc-total').textContent=total;
+  document.getElementById('sc-revenue').textContent='AED '+revenue.toLocaleString();
+  document.getElementById('sc-pending').textContent=pending;
+  document.getElementById('sc-delivered').textContent=delivered;
+  document.getElementById('sc-cancelled').textContent=cancelled;
+}
+
+function renderTimeBars(orders){
+  const counts={};
+  TIMESLOTS.forEach(s=>{counts[s]=0;});
+  orders.forEach(o=>{if(counts[o.pickup]!==undefined)counts[o.pickup]++;});
+  const vals=Object.values(counts);
+  const max=Math.max(...vals,1);
+  const barsEl=document.getElementById('time-bars');
+  const labelsEl=document.getElementById('time-bar-labels');
+  barsEl.innerHTML=TIMESLOTS.map((s,i)=>`
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:90px;">
+      <div style="font-size:10px;font-weight:700;color:var(--td);">${counts[s]||''}</div>
+      <div style="width:100%;border-radius:5px 5px 0 0;background:${counts[s]>0?'var(--gm)':'var(--cdark)'};height:${Math.round(counts[s]/max*70)+4}px;min-height:4px;transition:height .4s;" title="${s}: ${counts[s]} orders"></div>
+    </div>
+  `).join('');
+  labelsEl.innerHTML=TIMESLOTS.map(s=>`<div style="font-size:9px;color:var(--tmut);text-align:center;line-height:1.3;">${s.replace(' AM','am').replace(' PM','pm')}</div>`).join('');
+}
+
+function renderTimeline(orders){
+  const labelsEl=document.getElementById('tl-labels');
+  const rowsEl=document.getElementById('tl-rows');
+  labelsEl.innerHTML=TIMESLOTS.map(s=>`<div class="tl-label-cell">${s}</div>`).join('');
+  rowsEl.innerHTML=TIMESLOTS.map(s=>{
+    const slotOrders=orders.filter(o=>o.pickup===s);
+    if(slotOrders.length===0){
+      return `<div class="tl-row"><span class="tl-empty">No orders</span></div>`;
+    }
+    return `<div class="tl-row">${slotOrders.map(o=>`
+      <div class="tl-pill tp-${o.status}" onclick="openModal('${o.id}',null)">
+        <span>${o.id}</span>
+        <span style="opacity:.75;font-size:10px;">${o.name.split(' ')[0]}</span>
+        <span style="opacity:.55;font-size:10px;padding-left:6px;border-left:1px solid currentColor;margin-left:3px;display:inline-flex;align-items:center;gap:2px;"><i class="ti ti-map-pin" style="font-size:9px;"></i>${o.address.split(',')[0]}</span>
+      </div>
+    `).join('')}</div>`;
+  }).join('');
+}
+
+let activeArea='';
+
+function getArea(o){return o.address.split(',')[0].trim();}
+
+function renderAreaChips(){
+  const orders=getFilteredOrders();
+  // count per area
+  const map={};
+  orders.forEach(o=>{const a=getArea(o);map[a]=(map[a]||0)+1;});
+  const areas=Object.keys(map).sort();
+  const wrap=document.getElementById('area-chips');
+  if(areas.length===0){wrap.innerHTML='';return;}
+  wrap.innerHTML=`
+    <span style="font-size:10px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;">Area:</span>
+    <div class="area-chip ${activeArea===''?'on':''}" onclick="setArea('',this)">All <span class="chip-count">${orders.length}</span></div>
+    ${areas.map(a=>`<div class="area-chip ${activeArea===a?'on':''}" onclick="setArea('${a.replace(/'/g,"\\'")}',this)">${a} <span class="chip-count">${map[a]}</span></div>`).join('')}
+  `;
+  // also populate the hidden select for compat
+  const sel=document.getElementById('area-filter');
+  if(sel){
+    const prev=sel.value;
+    sel.innerHTML=`<option value="">All areas</option>`+areas.map(a=>`<option ${a===prev?'selected':''}>${a}</option>`).join('');
+  }
+}
+
+function setArea(a,el){
+  activeArea=a;
+  document.querySelectorAll('.area-chip').forEach(c=>c.classList.remove('on'));
+  if(el)el.classList.add('on');
+  renderTable();
+}
+
+function renderTable(){
+  const orders=getFilteredOrders();
+  const q=document.getElementById('search-input').value.toLowerCase();
+  const stFilter=document.getElementById('status-filter').value;
+  const slotFilter=document.getElementById('slot-filter').value;
+  let filtered=orders.filter(o=>{
+    const ms=!stFilter||o.status===stFilter;
+    const ml=!slotFilter||o.pickup===slotFilter;
+    const ma=!activeArea||getArea(o)===activeArea;
+    const mq=!q||o.id.toLowerCase().includes(q)||o.name.toLowerCase().includes(q)||o.phone.includes(q);
+    return ms&&ml&&ma&&mq;
+  });
+  const tbody=document.getElementById('orders-tbody');
+  const empty=document.getElementById('empty-msg');
+  if(filtered.length===0){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=filtered.map(o=>`
+    <tr style="cursor:pointer;" onclick="openModal('${o.id}',null)">
+      <td><div class="order-id">${o.id}</div></td>
+      <td><div class="cust-name">${o.name}</div><div class="cust-phone">${o.phone}</div></td>
+      <td>${o.services.map(s=>`<span class="svc-tag">${SERVICES_MAP[s]}</span>`).join('')}</td>
+      <td><div class="time-cell"><div class="time-slot-badge">${o.pickup}</div></div></td>
+      <td><div class="time-cell"><div class="time-slot-badge">${o.delivery}</div></div></td>
+      <td style="font-weight:600;">${o.items}</td>
+      <td style="font-weight:700;color:var(--gm);">AED ${o.total}</td>
+      <td><span class="status-badge ${STATUS_CSS[o.status]}">${STATUS_LABELS[o.status]}</span></td>
+      <td onclick="event.stopPropagation()">
+        <button class="action-btn green" title="Edit" onclick="openModal('${o.id}',null)"><i class="ti ti-edit"></i></button>
+        <button class="action-btn" title="Call" onclick="showToast('Calling ${o.name}…')"><i class="ti ti-phone"></i></button>
+        <button class="action-btn red" title="Cancel" onclick="cancelOrder('${o.id}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────
+let pendingStatus=null;
+
+function openModal(id,_ignored){
+  const o=ALL_ORDERS.find(x=>x.id===id);
+  if(!o)return;
+  document.getElementById('modal-title').textContent='Order '+o.id;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="modal-row">
+      <div class="modal-fg"><div class="modal-label">Customer</div><div class="modal-val">${o.name}</div></div>
+      <div class="modal-fg"><div class="modal-label">Phone</div><div class="modal-val">${o.phone}</div></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-fg"><div class="modal-label">Address</div><div class="modal-val">${o.address}</div></div>
+      <div class="modal-fg"><div class="modal-label">Total</div><div class="modal-val" style="color:var(--gm);font-weight:700;">AED ${o.total}</div></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-fg"><div class="modal-label">Pickup slot</div><div class="modal-val">${o.pickup}</div></div>
+      <div class="modal-fg"><div class="modal-label">Delivery slot</div><div class="modal-val">${o.delivery}</div></div>
+    </div>
+    <div class="modal-fg" style="margin-bottom:10px;">
+      <div class="modal-label">Services</div>
+      <div class="modal-val">${o.services.map(s=>`<span class="svc-tag">${SERVICES_MAP[s]}</span>`).join('')}</div>
+    </div>
+    <div class="modal-fg" style="margin-bottom:10px;">
+      <div class="modal-label">Items</div>
+      <div class="modal-val">${o.items} items</div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-fg">
+      <div class="modal-label">Update status</div>
+      <select class="status-select" id="status-select" onchange="pendingStatus={id:'${o.id}',val:this.value}">
+        ${STATUSES.map(s=>`<option value="${s}" ${s===o.status?'selected':''}>${STATUS_LABELS[s]}</option>`).join('')}
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveStatus('${o.id}')">Save changes</button>
+      <button class="btn-ghost" onclick="closeModal()">Close</button>
+    </div>
+  `;
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function saveStatus(id){
+  if(pendingStatus&&pendingStatus.id===id){
+    const o=ALL_ORDERS.find(x=>x.id===id);
+    if(o){o.status=pendingStatus.val;showToast('Status updated to '+STATUS_LABELS[pendingStatus.val]);}
+    pendingStatus=null;
+  }
+  closeModal();
+  renderAll();
+}
+
+function cancelOrder(id){
+  const o=ALL_ORDERS.find(x=>x.id===id);
+  if(o&&o.status!=='cancelled'){o.status='cancelled';renderAll();showToast('Order '+id+' cancelled');}
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modal-bg'))
+    document.getElementById('modal-bg').classList.remove('open');
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────────────────────
+const SLOT_START_HOUR={'7–9 AM':7,'9–11 AM':9,'11 AM–1 PM':11,'2–4 PM':14,'4–6 PM':16,'6–8 PM':18};
+const ACTIVE_STATUSES=['pending','pickup','washing','ready'];
+
+function getUpcomingDeliveries(){
+  const now=new Date();
+  const nowH=now.getHours()+(now.getMinutes()/60);
+  return ALL_ORDERS.filter(o=>{
+    if(!ACTIVE_STATUSES.includes(o.status))return false;
+    if(o.date!==0)return false; // only today
+    const h=SLOT_START_HOUR[o.delivery];
+    if(h===undefined)return false;
+    const diff=h-nowH;
+    return diff>=0&&diff<=2;
+  }).sort((a,b)=>SLOT_START_HOUR[a.delivery]-SLOT_START_HOUR[b.delivery]);
+}
+
+function checkNotifications(){
+  const due=getUpcomingDeliveries();
+  const badge=document.getElementById('notif-badge');
+  badge.textContent=due.length;
+  badge.classList.toggle('show',due.length>0);
+
+  const list=document.getElementById('notif-list');
+  if(due.length===0){
+    list.innerHTML=`<div class="notif-empty"><i class="ti ti-checks"></i><p>No deliveries due in the next 2 hours.</p></div>`;
+    return;
+  }
+  const now=new Date();
+  const nowH=now.getHours()+(now.getMinutes()/60);
+  list.innerHTML=due.map(o=>{
+    const h=SLOT_START_HOUR[o.delivery];
+    const minsLeft=Math.round((h-nowH)*60);
+    const urgent=minsLeft<=30;
+    return `
+    <div class="notif-item" onclick="openModal('${o.id}',null);closeNotifPanel()">
+      <div class="notif-dot ${urgent?'nd-red':'nd-gold'}"><i class="ti ti-${urgent?'alert-triangle':'clock'}"></i></div>
+      <div class="notif-text">
+        <div class="notif-msg">${o.name}</div>
+        <div class="notif-sub">${o.id} · ${o.address.split(',')[0]}</div>
+        <div class="notif-sub" style="margin-top:2px;">Delivery: <strong>${o.delivery}</strong></div>
+        <span class="notif-time-tag ${urgent?'ntt-urgent':'ntt-soon'}">${minsLeft<=0?'Due now':minsLeft<60?minsLeft+'m away':Math.round(minsLeft/60*10)/10+'h away'}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Browser notification on first urgent item
+  if(due.some(o=>{const h=SLOT_START_HOUR[o.delivery];return(h-nowH)*60<=30;})){
+    if(Notification.permission==='granted'){
+      const o=due[0];
+      new Notification('🚚 Eco-Laundry — Delivery due soon',{
+        body:`${o.name} · ${o.delivery} · ${o.address.split(',')[0]}`,
+        icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="%231a3a2a"/></svg>'
+      });
+    } else if(Notification.permission!=='denied'){
+      Notification.requestPermission();
+    }
+  }
+}
+
+function toggleNotifPanel(){
+  const panel=document.getElementById('notif-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open'))checkNotifications();
+}
+function closeNotifPanel(){
+  document.getElementById('notif-panel').classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('notif-wrap');
+  if(wrap&&!wrap.contains(e.target))closeNotifPanel();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────
+document.getElementById('date-picker').max=new Date().toISOString().split('T')[0];
+renderAll();
+setInterval(checkNotifications,60000); // re-check every 60 s
+</script>
+</body>
+</html>

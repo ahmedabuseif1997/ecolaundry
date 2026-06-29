@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Eco-Clean Admin</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f4f2;color:#1a1a1a;}
+.topbar{background:#0a2e23;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;}
+.tb-logo{display:flex;align-items:center;gap:10px;}
+.tb-name{font-size:1.1rem;font-weight:500;color:#fff;}
+.tb-name span{color:#5DCAA5;}
+.tb-sub{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;}
+.tb-links{display:flex;gap:8px;}
+.tb-link{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(255,255,255,.1);color:#fff;text-decoration:none;border:none;cursor:pointer;}
+.tb-link:hover{background:rgba(255,255,255,.2);}
+.tb-link.green{background:#1D9E75;}
+.tb-link.amber{background:#BA7517;}
+.wrap{max-width:1100px;margin:0 auto;padding:1.5rem;}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1.5rem;}
+@media(min-width:600px){.stats{grid-template-columns:repeat(4,1fr);}}
+.stat{background:#fff;border-radius:14px;padding:1rem 1.2rem;border:0.5px solid #e8e8e8;}
+.stat-icon{font-size:20px;margin-bottom:6px;}
+.stat-val{font-size:24px;font-weight:500;color:#0a2e23;line-height:1;}
+.stat-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;}
+.stat-sub{font-size:11px;color:#aaa;margin-top:2px;}
+
+/* Revenue chart */
+.chart-card{background:#fff;border-radius:14px;padding:1.2rem;border:0.5px solid #e8e8e8;margin-bottom:1.5rem;}
+.chart-title{font-size:14px;font-weight:500;color:#0a2e23;margin-bottom:1rem;}
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:100px;}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.bar{width:100%;border-radius:6px 6px 0 0;min-height:4px;transition:height .3s;}
+.bar-label{font-size:10px;color:#888;text-align:center;}
+.bar-val{font-size:10px;color:#0a2e23;font-weight:500;}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:1rem;flex-wrap:wrap;}
+.tab{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:#e8ede9;color:#555;}
+.tab.on{background:#0a2e23;color:#fff;}
+
+/* Table */
+.table-card{background:#fff;border-radius:14px;border:0.5px solid #e8e8e8;overflow:hidden;}
+.table-head{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:0.5px solid #f5f5f5;}
+.table-title{font-size:14px;font-weight:500;color:#0a2e23;}
+.table-tools{display:flex;gap:8px;flex-wrap:wrap;}
+.search{padding:7px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:12px;width:200px;outline:none;}
+.search:focus{border-color:#1D9E75;}
+.icon-btn{padding:7px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:12px;background:#fff;cursor:pointer;color:#555;display:flex;align-items:center;gap:5px;}
+.icon-btn:hover{background:#f5f5f5;}
+table{width:100%;border-collapse:collapse;}
+th{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:#999;padding:10px 14px;text-align:left;border-bottom:0.5px solid #f5f5f5;white-space:nowrap;}
+td{font-size:13px;color:#333;padding:11px 14px;border-bottom:0.5px solid #fafafa;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafff9;}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;}
+.ba{background:#E1F5EE;color:#0F6E56;}
+.bb{background:#d0f0e4;color:#085041;}
+.bc{background:#c5ead9;color:#063d2b;}
+.bd{background:#FAEEDA;color:#BA7517;}
+.bs-p{background:#FFF3CD;color:#856404;}
+.bs-d{background:#D4EDDA;color:#155724;}
+.bs-i{background:#CCE5FF;color:#004085;}
+.empty{text-align:center;padding:3rem;color:#bbb;font-size:14px;}
+
+/* Referral table */
+.ref-card{background:#fff;border-radius:14px;border:0.5px solid #e8e8e8;padding:1.2rem;margin-bottom:1.5rem;}
+.ref-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.ref-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#f9fff9;border-radius:8px;border:0.5px solid #e8ede8;}
+.ref-code{font-size:13px;font-weight:500;color:#0a2e23;letter-spacing:1px;}
+.ref-name{font-size:12px;color:#888;}
+.ref-uses{background:#E1F5EE;color:#0F6E56;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}
+
+/* Invoice modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem;}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:540px;padding:2rem;max-height:90vh;overflow-y:auto;}
+.modal-h{font-size:18px;font-weight:500;color:#0a2e23;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:#888;margin-bottom:1.5rem;}
+.inv-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid #0a2e23;}
+.inv-logo{font-size:20px;font-weight:500;color:#0a2e23;}
+.inv-logo span{color:#1D9E75;}
+.inv-meta{text-align:right;font-size:12px;color:#888;}
+.inv-meta strong{display:block;font-size:14px;color:#0a2e23;margin-bottom:2px;}
+.inv-to{margin-bottom:1rem;font-size:13px;}
+.inv-to strong{display:block;color:#0a2e23;margin-bottom:4px;}
+.inv-table{width:100%;border-collapse:collapse;margin-bottom:1rem;}
+.inv-table th{background:#f5f5f5;padding:8px 12px;font-size:12px;text-align:left;}
+.inv-table td{padding:8px 12px;font-size:13px;border-bottom:1px solid #f0f0f0;}
+.inv-total{text-align:right;font-size:15px;font-weight:500;color:#0a2e23;padding:8px 12px;background:#E1F5EE;border-radius:8px;}
+.modal-actions{display:flex;gap:8px;margin-top:1rem;}
+.modal-close{padding:10px 20px;border:1px solid #ddd;border-radius:9px;background:#fff;cursor:pointer;font-size:13px;}
+.modal-print{padding:10px 20px;background:#0a2e23;color:#fff;border:none;border-radius:9px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;}
+@media print{.topbar,.tabs,.table-tools,.modal-actions,.tb-links,.stats,.chart-card,.ref-card{display:none!important;}.modal-bg{position:static;background:none;display:block!important;}.modal{box-shadow:none;max-height:none;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-logo">
+    <svg width="32" height="32" viewBox="0 0 52 52" fill="none">
+      <rect width="52" height="52" rx="14" fill="#1D9E75" opacity=".2"/>
+      <path d="M14 28c0-2 1.5-4 4-5l2-5h12l2 5c2.5 1 4 3 4 5v3H14v-3z" fill="#5DCAA5"/>
+      <circle cx="20" cy="34" r="2.5" fill="#0F6E56" stroke="#5DCAA5" stroke-width="1"/>
+      <circle cx="32" cy="34" r="2.5" fill="#0F6E56" stroke="#5DCAA5" stroke-width="1"/>
+    </svg>
+    <div><div class="tb-name">Eco<span>-Clean</span></div><div class="tb-sub">Admin Dashboard</div></div>
+  </div>
+  <div class="tb-links">
+    <a class="tb-link" href="/" target="_blank"><i class="ti ti-external-link"></i> App</a>
+    <a class="tb-link" href="/team" target="_blank"><i class="ti ti-users"></i> Team</a>
+    <a class="tb-link green" href="/data/bookings.csv" download><i class="ti ti-download"></i> Bookings CSV</a>
+    <a class="tb-link amber" href="/data/fleet.csv" download><i class="ti ti-download"></i> Fleet CSV</a>
+    <button class="tb-link" onclick="loadAll()"><i class="ti ti-refresh"></i> Refresh</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats" id="statsGrid">
+    <div class="stat"><div class="stat-icon">🚗</div><div class="stat-val" id="sTotalB">—</div><div class="stat-label">Total bookings</div></div>
+    <div class="stat"><div class="stat-icon">🏢</div><div class="stat-val" id="sTotalF">—</div><div class="stat-label">Fleet inquiries</div></div>
+    <div class="stat"><div class="stat-icon">💰</div><div class="stat-val" id="sRev">—</div><div class="stat-label">Revenue (AED)</div></div>
+    <div class="stat"><div class="stat-icon">👥</div><div class="stat-val" id="sCust">—</div><div class="stat-label">Loyal customers</div></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Revenue by service plan</div>
+    <div class="bar-chart" id="revenueChart"></div>
+  </div>
+
+  <div class="ref-card">
+    <div class="chart-title" style="margin-bottom:0">Top referrers</div>
+    <div class="ref-list" id="refList"><div style="font-size:13px;color:#aaa;padding-top:8px;">Loading...</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="showTab('bookings',this)">Individual bookings</button>
+    <button class="tab" onclick="showTab('fleet',this)">Fleet quotations</button>
+  </div>
+
+  <div class="table-card">
+    <div class="table-head">
+      <div class="table-title" id="tableTitle">Individual bookings</div>
+      <div class="table-tools">
+        <input class="search" id="searchBox" placeholder="Search..." oninput="renderTable()"/>
+        <button class="icon-btn" onclick="loadAll()"><i class="ti ti-refresh"></i> Refresh</button>
+      </div>
+    </div>
+    <div id="tableContainer"></div>
+  </div>
+
+</div>
+
+<!-- Invoice modal -->
+<div class="modal-bg" id="invoiceModal">
+  <div class="modal">
+    <div class="modal-h">Corporate invoice</div>
+    <div class="modal-sub">Print or save as PDF from your browser</div>
+    <div id="invoiceContent"></div>
+    <div class="modal-actions">
+      <button class="modal-close" onclick="closeInvoice()">Close</button>
+      <button class="modal-print" onclick="window.print()"><i class="ti ti-printer"></i> Print / Save PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let allB=[], allF=[], currentTab='bookings';
+
+function parseCSV(text){
+  const lines=text.trim().split('\n');
+  if(lines.length<2)return[];
+  const headers=lines[0].split(',').map(h=>h.replace(/"/g,'').trim());
+  return lines.slice(1).map(line=>{
+    const vals=[];let cur='',inQ=false;
+    for(let i=0;i<line.length;i++){
+      if(line[i]==='"')inQ=!inQ;
+      else if(line[i]===','&&!inQ){vals.push(cur);cur='';}
+      else cur+=line[i];
+    }
+    vals.push(cur);
+    const o={};headers.forEach((h,i)=>o[h]=(vals[i]||'').trim());
+    return o;
+  });
+}
+
+async function loadAll(){
+  try{
+    const [b,f,s]=await Promise.all([
+      fetch('/data/bookings.csv').then(r=>r.text()),
+      fetch('/data/fleet.csv').then(r=>r.text()),
+      fetch('/api/stats').then(r=>r.json())
+    ]);
+    allB=parseCSV(b); allF=parseCSV(f);
+    updateStats(s); drawChart(); renderTable(); renderRefs(s.topReferrers||[]);
+  }catch(e){console.error(e);}
+}
+
+function updateStats(s){
+  document.getElementById('sTotalB').textContent=allB.length;
+  document.getElementById('sTotalF').textContent=allF.length;
+  const rev=allB.reduce((sum,b)=>{const m=(b['Total']||'').match(/(\d+)/);return sum+(m?+m[1]:0);},0);
+  document.getElementById('sRev').textContent=rev.toLocaleString();
+  document.getElementById('sCust').textContent=s.totalCustomers||0;
+}
+
+function drawChart(){
+  const plans={A:0,B:0,C:0,D:0};
+  const prices={A:50,B:100,C:300,D:200};
+  allB.forEach(b=>{
+    const svc=b['Service']||'';
+    const m=svc.match(/Plan ([ABCD])/);
+    const c=m?m[1]:(b['Code']||'');
+    if(plans[c]!==undefined)plans[c]+=prices[c]||0;
+  });
+  const max=Math.max(...Object.values(plans),1);
+  const colors={A:'#1D9E75',B:'#0F6E56',C:'#085041',D:'#BA7517'};
+  document.getElementById('revenueChart').innerHTML=Object.entries(plans).map(([k,v])=>`
+    <div class="bar-wrap">
+      <div class="bar-val">${v} AED</div>
+      <div class="bar" style="height:${Math.max(4,(v/max)*80)}px;background:${colors[k]}"></div>
+      <div class="bar-label">Plan ${k}</div>
+    </div>`).join('');
+}
+
+function renderRefs(refs){
+  const list=document.getElementById('refList');
+  if(!refs||!refs.length){list.innerHTML='<div style="font-size:13px;color:#aaa;padding-top:8px;">No referrals yet</div>';return;}
+  list.innerHTML=refs.map((r,i)=>`
+    <div class="ref-row">
+      <div><div class="ref-code">${r.code}</div><div class="ref-name">${r.name}</div></div>
+      <div class="ref-uses">${r.uses} referral${r.uses!==1?'s':''}</div>
+    </div>`).join('');
+}
+
+function showTab(tab,btn){
+  currentTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tableTitle').textContent=tab==='bookings'?'Individual bookings':'Fleet quotations';
+  document.getElementById('searchBox').value='';
+  renderTable();
+}
+
+function renderTable(){
+  const q=document.getElementById('searchBox').value.toLowerCase();
+  const data=(currentTab==='bookings'?allB:allF).filter(r=>!q||Object.values(r).some(v=>v.toLowerCase().includes(q)));
+  const c=document.getElementById('tableContainer');
+  if(!data.length){c.innerHTML='<div class="empty">No submissions yet</div>';return;}
+  if(currentTab==='bookings'){
+    c.innerHTML=`<div style="overflow-x:auto"><table>
+      <thead><tr><th>#</th><th>Received</th><th>Name</th><th>Phone</th><th>Service</th><th>Date</th><th>Time</th><th>Emirate</th><th>Total</th><th>Status</th><th>Referral</th></tr></thead>
+      <tbody>${data.map((r,i)=>`<tr>
+        <td style="color:#bbb">${i+1}</td>
+        <td style="font-size:11px;color:#aaa;white-space:nowrap">${r['Date Received']||'—'}</td>
+        <td><strong>${r['Name']||'—'}</strong></td>
+        <td><a href="tel:${r['Phone']}" style="color:#1D9E75;text-decoration:none">${r['Phone']||'—'}</a></td>
+        <td><span class="badge b${(r['Code']||'a').toLowerCase()}">${r['Service']||'—'}</span></td>
+        <td style="white-space:nowrap">${r['Booking Date']||'—'}</td>
+        <td>${r['Time']||'—'}</td>
+        <td>${r['Emirate']||'—'}</td>
+        <td><strong style="color:#0F6E56">${r['Total']||'—'}</strong></td>
+        <td><span class="badge ${r['Status']==='Completed'?'bs-d':r['Status']==='In Progress'?'bs-i':'bs-p'}">${r['Status']||'Pending'}</span></td>
+        <td style="font-size:11px;color:#888">${r['Referral Used']||'—'}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+  }else{
+    c.innerHTML=`<div style="overflow-x:auto"><table>
+      <thead><tr><th>#</th><th>Received</th><th>Company</th><th>Contact</th><th>Phone</th><th>Vehicles</th><th>Details</th><th>Status</th><th>Invoice</th></tr></thead>
+      <tbody>${data.map((r,i)=>`<tr>
+        <td style="color:#bbb">${i+1}</td>
+        <td style="font-size:11px;color:#aaa;white-space:nowrap">${r['Date Received']||'—'}</td>
+        <td><strong>${r['Company']||'—'}</strong></td>
+        <td>${r['Contact']||'—'}</td>
+        <td><a href="tel:${r['Phone']}" style="color:#1D9E75;text-decoration:none">${r['Phone']||'—'}</a></td>
+        <td><span class="badge bd">${r['Vehicles']||'—'}</span></td>
+        <td style="font-size:12px;color:#777;max-width:180px">${r['Details']||'—'}</td>
+        <td><span class="badge ${r['Status']==='New'?'bs-p':'bs-d'}">${r['Status']||'New'}</span></td>
+        <td><button class="icon-btn" style="font-size:11px;padding:4px 8px;" onclick='genInvoice(${JSON.stringify(r)})'><i class="ti ti-file-invoice"></i> Invoice</button></td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+  }
+}
+
+function genInvoice(r){
+  const inv=`
+    <div class="inv-header">
+      <div><div class="inv-logo">Eco<span>-Clean</span></div><div style="font-size:11px;color:#888;margin-top:3px;">Mobile Car Wash — UAE</div><div style="font-size:11px;color:#888;">+971 58 285 9762</div></div>
+      <div class="inv-meta"><strong>INVOICE</strong>#ECO-${Date.now().toString().slice(-6)}<br>${new Date().toLocaleDateString('en-AE')}</div>
+    </div>
+    <div class="inv-to"><strong>Billed to:</strong>${r['Company']||'—'}<br><span style="color:#888">${r['Contact']||''} · ${r['Phone']||''}</span></div>
+    <table class="inv-table">
+      <thead><tr><th>Service</th><th>Vehicles</th><th>Frequency</th><th>Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Fleet Car Wash — Outside &amp; Inside</td><td>${r['Vehicles']||'—'}</td><td>Monthly plan</td><td>Customized</td></tr>
+      </tbody>
+    </table>
+    <div class="inv-total">Total: To be confirmed after site visit</div>
+    <div style="margin-top:1rem;font-size:11px;color:#aaa;">Notes: ${r['Details']||'—'}<br><br>Payment terms: 30 days. Thank you for choosing Eco-Clean.</div>`;
+  document.getElementById('invoiceContent').innerHTML=inv;
+  document.getElementById('invoiceModal').style.display='flex';
+}
+
+function closeInvoice(){document.getElementById('invoiceModal').style.display='none';}
+
+loadAll();
+setInterval(loadAll,30000);
+</script>
+</body>
+</html>

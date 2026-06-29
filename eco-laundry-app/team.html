@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — Eco-Laundry Admin</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gd:#1a3a2a;--gr:#2d5a3d;--gm:#3d7a52;--gl:#5a9e6f;
+  --cream:#f5f0e8;--cdark:#ede6d6;--cwarm:#f9f5ee;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --td:#1a2e22;--tm:#3a5245;--tmut:#6b8275;
+  --rad:12px;--rads:8px;
+  --sidebar:240px;
+}
+html,body{height:100%;font-family:sans-serif;background:#f0f2f0;color:var(--td);}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--gd);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:1.5rem 1.25rem 1rem;}
+.sb-logo-icon{width:34px;height:34px;border-radius:9px;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;}
+.sb-logo-icon i{font-size:17px;color:var(--gold);}
+.sb-brand{color:#fff;font-size:16px;font-family:'Georgia',serif;}
+.sb-brand em{color:var(--gold);font-style:italic;}
+.sb-badge{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.5px;text-transform:uppercase;padding:0 1.25rem;margin-bottom:.75rem;}
+.sb-nav{flex:1;padding:0 .75rem;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rads);color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;text-decoration:none;margin-bottom:2px;}
+.sb-link i{font-size:17px;}
+.sb-link:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
+.sb-link.active{background:rgba(201,168,76,.18);color:var(--goldl);}
+.sb-link.active i{color:var(--gold);}
+.sb-divider{height:1px;background:rgba(255,255,255,.08);margin:.75rem 0;}
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);}
+.sb-user{display:flex;align-items:center;gap:10px;}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);}
+.sb-uname{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;}
+.sb-urole{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px;}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+.topbar{background:#fff;border-bottom:1px solid var(--cdark);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;}
+.topbar-title{font-size:16px;font-weight:700;color:var(--td);}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.btn-add{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--gd);color:#fff;border:none;border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;font-family:sans-serif;}
+.btn-add i{font-size:15px;}
+.btn-add:hover{background:var(--gr);}
+.content{padding:1.75rem 2rem;flex:1;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:1.75rem;}
+.stat-card{background:#fff;border-radius:var(--rad);padding:1.25rem;border:1px solid var(--cdark);display:flex;align-items:center;gap:14px;}
+.stat-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.stat-icon i{font-size:22px;}
+.si-green{background:#e8f5ee;} .si-green i{color:var(--gm);}
+.si-gold{background:#fef3d8;} .si-gold i{color:#c9a84c;}
+.si-blue{background:#e8f0fe;} .si-blue i{color:#3a7bd5;}
+.si-red{background:#fde8e8;} .si-red i{color:#e74c3c;}
+.stat-val{font-size:24px;font-weight:700;color:var(--td);letter-spacing:-.5px;}
+.stat-label{font-size:11px;color:var(--tmut);margin-top:2px;}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 340px;gap:14px;}
+
+/* TEAM CARDS */
+.panel{background:#fff;border-radius:var(--rad);border:1px solid var(--cdark);overflow:hidden;}
+.panel-head{padding:1rem 1.25rem;border-bottom:1px solid var(--cdark);display:flex;align-items:center;justify-content:space-between;}
+.panel-title{font-size:14px;font-weight:700;color:var(--td);}
+.panel-sub{font-size:11px;color:var(--tmut);margin-top:2px;}
+.role-tabs{display:flex;gap:4px;}
+.rtab{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--cdark);background:#fff;color:var(--tmut);transition:all .12s;}
+.rtab.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:1.25rem;}
+.member-card{border:1.5px solid var(--cdark);border-radius:var(--rad);padding:1.25rem;cursor:pointer;transition:all .15s;position:relative;}
+.member-card:hover{border-color:var(--gm);background:#fdfffe;box-shadow:0 2px 12px rgba(61,122,82,.08);}
+.mc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.875rem;}
+.mc-avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;}
+.mc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;}
+.ms-available{background:#e8f5ee;color:var(--gm);}
+.ms-onduty{background:#e8f0fe;color:#3a7bd5;}
+.ms-off{background:#f5f5f5;color:#999;}
+.ms-break{background:#fef3d8;color:var(--gold);}
+.mc-name{font-size:14px;font-weight:700;color:var(--td);margin-bottom:2px;}
+.mc-role{font-size:11px;color:var(--tmut);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:.75rem;}
+.mc-details{display:flex;flex-direction:column;gap:5px;}
+.mc-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tmut);}
+.mc-row i{font-size:13px;flex-shrink:0;}
+.mc-orders{position:absolute;bottom:.875rem;right:.875rem;background:var(--cwarm);border:1px solid var(--cdark);border-radius:100px;padding:3px 8px;font-size:10px;color:var(--tmut);font-weight:700;}
+.mc-perf{margin-top:.875rem;border-top:1px solid var(--cdark);padding-top:.75rem;}
+.perf-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.perf-label{font-size:10px;color:var(--tmut);min-width:50px;}
+.perf-bg{flex:1;height:4px;border-radius:2px;background:var(--cdark);overflow:hidden;}
+.perf-fill{height:100%;border-radius:2px;}
+
+/* SCHEDULE PANEL */
+.schedule-list{padding:.75rem 1.25rem;}
+.shift-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--cdark);}
+.shift-item:last-child{border-bottom:none;}
+.shift-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.shift-info{flex:1;}
+.shift-name{font-size:12px;font-weight:700;color:var(--td);}
+.shift-time{font-size:10px;color:var(--tmut);margin-top:1px;}
+.shift-badge{font-size:10px;padding:2px 8px;border-radius:100px;font-weight:600;}
+
+/* ASSIGNMENTS */
+.assign-list{padding:.75rem 1.25rem;}
+.assign-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--cdark);border-radius:var(--rads);margin-bottom:8px;cursor:pointer;transition:all .12s;}
+.assign-item:last-child{margin-bottom:0;}
+.assign-item:hover{border-color:var(--gm);background:#fdfffe;}
+.assign-order{font-size:11px;font-weight:700;color:var(--gm);}
+.assign-cust{font-size:12px;color:var(--td);font-weight:500;margin-top:1px;}
+.assign-loc{font-size:10px;color:var(--tmut);}
+.assign-driver{margin-left:auto;text-align:right;}
+.assign-dname{font-size:11px;font-weight:700;color:var(--td);}
+.assign-dstatus{font-size:10px;color:var(--tmut);}
+.assign-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.assign-icon i{font-size:14px;color:#fff;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:var(--rad);padding:1.5rem;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.modal-title{font-size:16px;font-weight:700;color:var(--td);}
+.modal-close{width:30px;height:30px;border-radius:6px;border:1px solid var(--cdark);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close i{font-size:16px;color:var(--tmut);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.3px;}
+input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;padding:9px 12px;border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;transition:border .15s;}
+input:focus,select:focus,textarea:focus{border-color:var(--gm);}
+textarea{resize:vertical;min-height:70px;}
+.modal-actions{display:flex;gap:8px;margin-top:1.25rem;}
+.btn-primary{flex:1;padding:10px;background:var(--gd);color:#fff;border:none;border-radius:var(--rads);font-size:13px;font-weight:700;cursor:pointer;font-family:sans-serif;}
+.btn-primary:hover{background:var(--gr);}
+.btn-ghost{flex:1;padding:10px;background:#fff;color:var(--td);border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;font-family:sans-serif;}
+.btn-ghost:hover{background:var(--cwarm);}
+.btn-danger{flex:1;padding:10px;background:#fde8e8;color:#e74c3c;border:1.5px solid #f0a0a0;border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;font-family:sans-serif;}
+.btn-danger:hover{background:#fbd0d0;}
+.profile-header{text-align:center;padding:1.25rem 0;border-bottom:1px solid var(--cdark);margin-bottom:1.25rem;}
+.profile-avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;margin:0 auto 10px;}
+.profile-name{font-size:18px;font-weight:700;color:var(--td);}
+.profile-role{font-size:12px;color:var(--tmut);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-top:3px;}
+.detail-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--cdark);font-size:13px;}
+.detail-row:last-child{border-bottom:none;}
+.detail-key{color:var(--tmut);font-weight:600;}
+.detail-val{color:var(--td);font-weight:500;}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gd);color:#fff;padding:12px 18px;border-radius:var(--rad);font-size:13px;font-family:sans-serif;display:flex;align-items:center;gap:8px;z-index:200;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{font-size:16px;color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="ti ti-wind"></i></div>
+    <div class="sb-brand">Eco-<em>Laundry</em></div>
+  </div>
+  <div class="sb-badge">Admin Panel</div>
+  <nav class="sb-nav">
+    <a class="sb-link" href="admin.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="sb-link" href="orders.html"><i class="ti ti-shopping-bag"></i> Orders</a>
+    <a class="sb-link active" href="team.html"><i class="ti ti-users"></i> Team</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="index.html" target="_blank"><i class="ti ti-external-link"></i> Customer App</a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">A</div>
+      <div><div class="sb-uname">Admin</div><div class="sb-urole">Super Admin</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">Team Management</div>
+    <div class="topbar-right">
+      <button class="btn-add" onclick="openAddModal()"><i class="ti ti-plus"></i> Add Member</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon si-green"><i class="ti ti-users"></i></div>
+        <div><div class="stat-val" id="stat-total">8</div><div class="stat-label">Total team</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si-blue"><i class="ti ti-circle-check"></i></div>
+        <div><div class="stat-val" id="stat-avail">3</div><div class="stat-label">Available now</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si-gold"><i class="ti ti-truck"></i></div>
+        <div><div class="stat-val" id="stat-onduty">4</div><div class="stat-label">On duty</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si-red"><i class="ti ti-moon"></i></div>
+        <div><div class="stat-val" id="stat-off">1</div><div class="stat-label">Off today</div></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- TEAM CARDS -->
+      <div>
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Team members</div>
+              <div class="panel-sub">Click a card to view profile or edit</div>
+            </div>
+            <div class="role-tabs">
+              <div class="rtab on" onclick="filterRole('all',this)">All</div>
+              <div class="rtab" onclick="filterRole('driver',this)">Drivers</div>
+              <div class="rtab" onclick="filterRole('staff',this)">Staff</div>
+            </div>
+          </div>
+          <div class="team-grid" id="team-grid"></div>
+        </div>
+      </div>
+
+      <!-- SIDE PANELS -->
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- TODAY'S SCHEDULE -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Today's schedule</div>
+          </div>
+          <div class="schedule-list" id="schedule-list"></div>
+        </div>
+
+        <!-- DRIVER ASSIGNMENTS -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Driver assignments</div>
+            <div class="panel-sub">Active pickups & deliveries</div>
+          </div>
+          <div class="assign-list" id="assign-list"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MEMBER DETAIL MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">Team Member</div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg">Saved!</span></div>
+
+<script>
+const COLORS=['#1a6b3c','#2d5a3d','#3a7bd5','#8b4513','#6a3fa0','#c9a84c','#e74c3c','#0088cc','#2a7a6a','#8b6914'];
+const ROLES={driver:'Driver',staff:'Laundry Staff',supervisor:'Supervisor',ironer:'Ironing Specialist',reception:'Reception'};
+const STATUSES_M={available:'Available',onduty:'On Duty',break:'On Break',off:'Off Today'};
+const STAT_CSS={available:'ms-available',onduty:'ms-onduty',break:'ms-break',off:'ms-off'};
+
+let team=[
+  {id:1,name:'Omar Al Marzouqi',role:'driver',phone:'+971 55 111 2222',email:'omar@ecolaundry.ae',area:'Al Barsha & Jumeirah',shift:'7 AM – 3 PM',orders:6,status:'onduty',rating:97,speed:92,color:COLORS[0],note:'Senior driver, knows all routes'},
+  {id:2,name:'Khalid Al Nuaimi',role:'driver',phone:'+971 54 222 3333',email:'khalid@ecolaundry.ae',area:'Downtown & Marina',shift:'7 AM – 3 PM',orders:5,status:'onduty',rating:94,speed:88,color:COLORS[2],note:''},
+  {id:3,name:'Saeed Al Blooshi',role:'driver',phone:'+971 50 333 4444',email:'saeed@ecolaundry.ae',area:'Deira & Karama',shift:'3 PM – 11 PM',orders:3,status:'available',rating:91,speed:85,color:COLORS[7],note:''},
+  {id:4,name:'Fatima Al Rashid',role:'staff',phone:'+971 56 444 5555',email:'fatima@ecolaundry.ae',area:'Laundry floor',shift:'7 AM – 3 PM',orders:18,status:'onduty',rating:99,speed:95,color:COLORS[5],note:'Expert in delicates & dry cleaning'},
+  {id:5,name:'Aisha Al Zaabi',role:'ironer',phone:'+971 52 555 6666',email:'aisha@ecolaundry.ae',area:'Ironing & pressing',shift:'7 AM – 3 PM',orders:14,status:'onduty',rating:98,speed:93,color:COLORS[4],note:''},
+  {id:6,name:'Mohammed Al Hamdan',role:'staff',phone:'+971 55 666 7777',email:'mohammed@ecolaundry.ae',area:'Laundry floor',shift:'3 PM – 11 PM',orders:11,status:'available',rating:90,speed:87,color:COLORS[3],note:''},
+  {id:7,name:'Layla Al Suwaidi',role:'reception',phone:'+971 54 777 8888',email:'layla@ecolaundry.ae',area:'Front desk & customer calls',shift:'9 AM – 5 PM',orders:0,status:'available',rating:96,speed:0,color:COLORS[9],note:'Handles all Arabic customer calls'},
+  {id:8,name:'Tariq Al Falasi',role:'supervisor',phone:'+971 50 888 9999',email:'tariq@ecolaundry.ae',area:'All operations',shift:'7 AM – 3 PM',orders:0,status:'off',rating:100,speed:0,color:COLORS[1],note:'Day off today'},
+];
+
+let currentRole='all';
+
+function initials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('');}
+
+// ── TEAM GRID ─────────────────────────────────────────────────────────
+function renderTeam(){
+  const filtered=team.filter(m=>currentRole==='all'||m.role===currentRole);
+  document.getElementById('team-grid').innerHTML=filtered.map(m=>`
+    <div class="member-card" onclick="openProfile(${m.id})">
+      <div class="mc-top">
+        <div class="mc-avatar" style="background:${m.color};">${initials(m.name)}</div>
+        <span class="mc-status ${STAT_CSS[m.status]}">${STATUSES_M[m.status]}</span>
+      </div>
+      <div class="mc-name">${m.name}</div>
+      <div class="mc-role">${ROLES[m.role]}</div>
+      <div class="mc-details">
+        <div class="mc-row"><i class="ti ti-clock"></i>${m.shift}</div>
+        <div class="mc-row"><i class="ti ti-map-pin"></i>${m.area}</div>
+        <div class="mc-row"><i class="ti ti-phone"></i>${m.phone}</div>
+      </div>
+      ${m.orders>0?`<div class="mc-orders">${m.orders} orders</div>`:''}
+      <div class="mc-perf">
+        <div class="perf-row"><span class="perf-label">Rating</span><div class="perf-bg"><div class="perf-fill" style="width:${m.rating}%;background:var(--gold);"></div></div><span style="font-size:10px;color:var(--tmut);min-width:28px;text-align:right;">${m.rating}%</span></div>
+        ${m.speed>0?`<div class="perf-row"><span class="perf-label">Speed</span><div class="perf-bg"><div class="perf-fill" style="width:${m.speed}%;background:var(--gm);"></div></div><span style="font-size:10px;color:var(--tmut);min-width:28px;text-align:right;">${m.speed}%</span></div>`:''}
+      </div>
+    </div>
+  `).join('');
+  updateStats();
+}
+
+function filterRole(r,el){
+  currentRole=r;
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  renderTeam();
+}
+
+function updateStats(){
+  document.getElementById('stat-total').textContent=team.length;
+  document.getElementById('stat-avail').textContent=team.filter(m=>m.status==='available').length;
+  document.getElementById('stat-onduty').textContent=team.filter(m=>m.status==='onduty').length;
+  document.getElementById('stat-off').textContent=team.filter(m=>m.status==='off'||m.status==='break').length;
+}
+
+// ── SCHEDULE ──────────────────────────────────────────────────────────
+function renderSchedule(){
+  const shifts=['7 AM – 3 PM','9 AM – 5 PM','3 PM – 11 PM'];
+  const byShift={};
+  team.forEach(m=>{
+    if(!byShift[m.shift])byShift[m.shift]=[];
+    byShift[m.shift].push(m);
+  });
+  document.getElementById('schedule-list').innerHTML=shifts.filter(s=>byShift[s]).map(s=>`
+    <div style="font-size:10px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.4px;padding:6px 0 4px;">— ${s}</div>
+    ${byShift[s].map(m=>`
+      <div class="shift-item">
+        <div class="shift-avatar" style="background:${m.color};">${initials(m.name)}</div>
+        <div class="shift-info">
+          <div class="shift-name">${m.name}</div>
+          <div class="shift-time">${ROLES[m.role]}</div>
+        </div>
+        <span class="shift-badge ${STAT_CSS[m.status]}">${STATUSES_M[m.status]}</span>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+// ── ASSIGNMENTS ───────────────────────────────────────────────────────
+const assignments=[
+  {order:'ECO-2040',cust:'Sara Al Hamdan',loc:'Downtown Dubai',driver:2,type:'Pickup'},
+  {order:'ECO-2042',cust:'Fatima Al Zaabi',loc:'Jumeirah, Apt 3B',driver:1,type:'Delivery'},
+  {order:'ECO-2043',cust:'Ahmed Al Mansouri',loc:'Al Barsha, Villa 12',driver:3,type:'Pickup'},
+];
+function renderAssignments(){
+  document.getElementById('assign-list').innerHTML=assignments.map(a=>{
+    const d=team.find(m=>m.id===a.driver);
+    return `
+    <div class="assign-item">
+      <div class="assign-icon" style="background:${d?d.color:'#999'};"><i class="ti ti-${a.type==='Pickup'?'package':'truck-delivery'}"></i></div>
+      <div style="flex:1;min-width:0;">
+        <div class="assign-order">${a.order} · ${a.type}</div>
+        <div class="assign-cust">${a.cust}</div>
+        <div class="assign-loc"><i class="ti ti-map-pin" style="font-size:10px;"></i> ${a.loc}</div>
+      </div>
+      <div class="assign-driver">
+        <div class="assign-dname">${d?d.name.split(' ')[0]:'Unassigned'}</div>
+        <div class="assign-dstatus">${d?STATUSES_M[d.status]:''}</div>
+      </div>
+    </div>
+  `}).join('');
+}
+
+// ── PROFILE MODAL ─────────────────────────────────────────────────────
+function openProfile(id){
+  const m=team.find(x=>x.id===id);
+  if(!m)return;
+  document.getElementById('modal-title').textContent='Team Profile';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="profile-header">
+      <div class="profile-avatar" style="background:${m.color};">${initials(m.name)}</div>
+      <div class="profile-name">${m.name}</div>
+      <div class="profile-role">${ROLES[m.role]}</div>
+    </div>
+    <div>
+      <div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">${m.phone}</span></div>
+      <div class="detail-row"><span class="detail-key">Email</span><span class="detail-val">${m.email}</span></div>
+      <div class="detail-row"><span class="detail-key">Shift</span><span class="detail-val">${m.shift}</span></div>
+      <div class="detail-row"><span class="detail-key">Area</span><span class="detail-val">${m.area}</span></div>
+      <div class="detail-row"><span class="detail-key">Status</span><span class="detail-val"><select class="status-select" id="profile-status" style="padding:4px 8px;font-size:12px;width:auto;">
+        ${Object.entries(STATUSES_M).map(([v,l])=>`<option value="${v}" ${v===m.status?'selected':''}>${l}</option>`).join('')}
+      </select></span></div>
+      ${m.orders>0?`<div class="detail-row"><span class="detail-key">Orders today</span><span class="detail-val" style="font-weight:700;color:var(--gm);">${m.orders}</span></div>`:''}
+      <div class="detail-row"><span class="detail-key">Rating</span><span class="detail-val">⭐ ${m.rating}%</span></div>
+      ${m.note?`<div class="detail-row"><span class="detail-key">Note</span><span class="detail-val" style="color:var(--tmut);">${m.note}</span></div>`:''}
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveProfile(${m.id})">Save status</button>
+      <button class="btn-ghost" onclick="openEditModal(${m.id})">Edit</button>
+      <button class="btn-danger" onclick="removeMember(${m.id})">Remove</button>
+    </div>
+  `;
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function saveProfile(id){
+  const m=team.find(x=>x.id===id);
+  const sel=document.getElementById('profile-status');
+  if(m&&sel){m.status=sel.value;renderTeam();renderSchedule();showToast('Status updated');}
+  closeModal();
+}
+
+function removeMember(id){
+  if(!confirm('Remove this team member?'))return;
+  team=team.filter(x=>x.id!==id);
+  renderTeam();renderSchedule();
+  showToast('Member removed');
+  closeModal();
+}
+
+// ── ADD / EDIT MODAL ──────────────────────────────────────────────────
+let editingId=null;
+function openAddModal(){editingId=null;showMemberForm(null);}
+function openEditModal(id){editingId=id;showMemberForm(team.find(m=>m.id===id));}
+
+function showMemberForm(m){
+  document.getElementById('modal-title').textContent=m?'Edit Member':'Add Team Member';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="form-row">
+      <div class="form-group full"><label>Full name</label><input type="text" id="f-name" value="${m?m.name:''}" placeholder="e.g. Ahmed Al Sayed"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Role</label>
+        <select id="f-role">
+          ${Object.entries(ROLES).map(([v,l])=>`<option value="${v}" ${m&&m.role===v?'selected':''}>${l}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="f-status">
+          ${Object.entries(STATUSES_M).map(([v,l])=>`<option value="${v}" ${m&&m.status===v?'selected':''}>${l}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Phone</label><input type="tel" id="f-phone" value="${m?m.phone:''}" placeholder="+971 50 000 0000"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="f-email" value="${m?m.email:''}" placeholder="name@ecolaundry.ae"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Shift</label>
+        <select id="f-shift">
+          ${['7 AM – 3 PM','9 AM – 5 PM','3 PM – 11 PM'].map(s=>`<option ${m&&m.shift===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label>Area / Zone</label><input type="text" id="f-area" value="${m?m.area:''}" placeholder="e.g. Al Barsha, Jumeirah"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full"><label>Notes (optional)</label><textarea id="f-note" placeholder="Any notes about this team member…">${m?m.note:''}</textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveMember()">Save member</button>
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+    </div>
+  `;
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function saveMember(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  const data={
+    name,
+    role:document.getElementById('f-role').value,
+    status:document.getElementById('f-status').value,
+    phone:document.getElementById('f-phone').value.trim(),
+    email:document.getElementById('f-email').value.trim(),
+    shift:document.getElementById('f-shift').value,
+    area:document.getElementById('f-area').value.trim(),
+    note:document.getElementById('f-note').value.trim(),
+  };
+  if(editingId){
+    const m=team.find(x=>x.id===editingId);
+    if(m)Object.assign(m,data);
+    showToast('Member updated');
+  }else{
+    team.push({id:Date.now(),orders:0,rating:95,speed:90,color:COLORS[team.length%COLORS.length],...data});
+    showToast('New member added');
+  }
+  renderTeam();renderSchedule();
+  closeModal();
+}
+
+function closeModal(e){if(!e||e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').classList.remove('open');}
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+renderTeam();
+renderSchedule();
+renderAssignments();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Eco-Clean — Mobile Car Wash</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;padding:20px;}
+.wrap{max-width:680px;margin:0 auto;}
+.hero{position:relative;overflow:hidden;border-radius:20px;margin-bottom:20px;padding:2.5rem 1.5rem 3rem;background:#0a2e23;}
+.hero-bg-circle{position:absolute;border-radius:50%;opacity:.07;background:#5DCAA5;}
+.c1{width:300px;height:300px;top:-80px;right:-60px;}
+.c2{width:200px;height:200px;bottom:-60px;left:-40px;}
+.c3{width:120px;height:120px;top:40px;left:30px;}
+.logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;position:relative;z-index:2;}
+.logo-icon{width:52px;height:52px;flex-shrink:0;}
+.logo-name{font-size:1.6rem;font-weight:500;color:#fff;letter-spacing:-0.5px;line-height:1;}
+.logo-name span{color:#5DCAA5;}
+.logo-sub{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.hero-headline{font-size:1.5rem;font-weight:500;color:#fff;line-height:1.3;margin-bottom:.5rem;position:relative;z-index:2;}
+.hero-headline em{color:#5DCAA5;font-style:normal;}
+.hero-tagline{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:1.5rem;position:relative;z-index:2;}
+.contact-pills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:2;}
+.pill{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:50px;font-size:13px;font-weight:500;border:none;cursor:pointer;text-decoration:none;}
+.pill-call{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.pill-wa{background:#25D366;color:#fff;}
+.car-scene{position:relative;z-index:2;margin-top:1.8rem;display:flex;justify-content:center;}
+.section{margin-bottom:20px;}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px;}
+.sec-title{font-size:18px;font-weight:500;color:#111;margin-bottom:16px;}
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.svc{border-radius:16px;padding:1.1rem;cursor:pointer;border:1.5px solid #e0e0d8;background:#fff;position:relative;overflow:hidden;transition:border-color .2s,transform .15s;}
+.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;background:var(--svc-color,#1D9E75);}
+.svc:hover{border-color:var(--svc-color,#1D9E75);transform:translateY(-2px);}
+.svc.sel{border:2px solid var(--svc-color,#1D9E75);background:var(--svc-bg,#E1F5EE);}
+.svc-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;font-size:14px;font-weight:500;margin-bottom:10px;background:var(--svc-bg,#E1F5EE);color:var(--svc-color,#0F6E56);}
+.svc-name{font-size:13px;font-weight:500;color:#111;margin-bottom:3px;}
+.svc-desc{font-size:11px;color:#888;line-height:1.4;margin-bottom:8px;}
+.svc-price{font-size:16px;font-weight:500;color:var(--svc-color,#0F6E56);}
+.svc-check{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--svc-color,#1D9E75);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;}
+.svc.sel .svc-check{display:flex;}
+.fleet-banner{border-radius:20px;overflow:hidden;margin-bottom:20px;border:1.5px solid #e0e0d8;}
+.fleet-top{background:#0a2e23;padding:1.5rem;position:relative;overflow:hidden;}
+.fleet-top-bg{position:absolute;width:200px;height:200px;border-radius:50%;background:#5DCAA5;opacity:.05;top:-60px;right:-40px;}
+.fleet-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(93,202,165,.15);border:1px solid rgba(93,202,165,.3);border-radius:50px;padding:4px 12px;font-size:11px;font-weight:500;color:#5DCAA5;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.fleet-title{font-size:17px;font-weight:500;color:#fff;margin-bottom:6px;}
+.fleet-sub{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:1.2rem;}
+.fleet-clients{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.2rem;}
+.fleet-client{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 10px;font-size:11px;color:rgba(255,255,255,.7);}
+.fleet-perks{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.fleet-perk{display:flex;align-items:flex-start;gap:8px;background:rgba(255,255,255,.05);border-radius:10px;padding:10px;}
+.fleet-perk-ico{color:#5DCAA5;font-size:18px;flex-shrink:0;margin-top:1px;}
+.fleet-perk-title{font-size:12px;font-weight:500;color:#fff;margin-bottom:2px;}
+.fleet-perk-sub{font-size:10px;color:rgba(255,255,255,.45);line-height:1.3;}
+.fleet-bottom{background:#fff;padding:1.2rem;}
+.fleet-form-title{font-size:13px;font-weight:500;color:#111;margin-bottom:10px;}
+.fleet-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:11px;font-weight:500;letter-spacing:.5px;color:#888;text-transform:uppercase;}
+input,select,textarea{width:100%;padding:10px 12px;font-size:13px;border:1px solid #ddd;border-radius:10px;background:#f9f9f7;color:#111;font-family:inherit;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,.12);}
+textarea{resize:none;height:56px;}
+.btn-quote{width:100%;padding:13px;background:linear-gradient(135deg,#0F6E56,#1D9E75);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+.btn-wa-fleet{width:100%;padding:11px;background:#25D366;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.book-card{background:#fff;border-radius:20px;padding:1.5rem;border:0.5px solid #e0e0d8;margin-bottom:20px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.slots-label{font-size:11px;font-weight:500;letter-spacing:.5px;color:#888;text-transform:uppercase;margin-bottom:8px;}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px;}
+.slot{padding:9px 4px;border:1px solid #ddd;border-radius:10px;font-size:12px;text-align:center;cursor:pointer;color:#888;background:#f9f9f7;}
+.slot:hover{border-color:#1D9E75;color:#0F6E56;background:#E1F5EE;}
+.slot.on{background:#1D9E75;color:#fff;border-color:#1D9E75;font-weight:500;}
+.btn-book{width:100%;padding:14px;background:linear-gradient(135deg,#0F6E56,#1D9E75);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.btn-wa{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.feat{background:#fff;border-radius:14px;padding:1rem .8rem;text-align:center;border:0.5px solid #e0e0d8;}
+.feat-ico{font-size:22px;color:#1D9E75;margin-bottom:6px;}
+.feat-name{font-size:11px;font-weight:500;color:#888;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-bg-circle c3"></div>
+  <div class="logo-wrap">
+    <svg class="logo-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="52" height="52" rx="14" fill="#1D9E75" opacity=".15"/>
+      <circle cx="26" cy="26" r="20" fill="none" stroke="#5DCAA5" stroke-width="1.5" opacity=".4"/>
+      <path d="M14 28c0-2 1.5-4 4-5l2-5h12l2 5c2.5 1 4 3 4 5v3H14v-3z" fill="#5DCAA5" opacity=".9"/>
+      <circle cx="20" cy="34" r="2.5" fill="#0F6E56" stroke="#5DCAA5" stroke-width="1"/>
+      <circle cx="32" cy="34" r="2.5" fill="#0F6E56" stroke="#5DCAA5" stroke-width="1"/>
+      <path d="M22 19l-1.5 5h15l-1.5-5H22z" fill="#9FE1CB" opacity=".7"/>
+      <path d="M23 15c1 2 6 2 6 0" stroke="#5DCAA5" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+      <path d="M25 13v2" stroke="#5DCAA5" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+    </svg>
+    <div>
+      <div class="logo-name">Eco<span>-Clean</span></div>
+      <div class="logo-sub">Mobile Car Wash</div>
+    </div>
+  </div>
+  <div class="hero-headline">We come to <em>your door.</em><br>You stay spotless.</div>
+  <div class="hero-tagline">Professional mobile car wash for individuals, companies &amp; hotels across the UAE.</div>
+  <div class="contact-pills">
+    <a class="pill pill-call" href="tel:+971582859762">
+      <i class="ti ti-phone"></i> +971 58 285 9762
+    </a>
+    <a class="pill pill-wa" href="#">
+      <i class="ti ti-brand-whatsapp"></i> WhatsApp booking
+    </a>
+  </div>
+  <div class="car-scene">
+    <svg viewBox="0 0 560 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a4a35"/><stop offset="100%" stop-color="#0a2e23"/></linearGradient>
+        <linearGradient id="cB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity=".95"/><stop offset="100%" stop-color="#d0d0d0" stop-opacity=".9"/></linearGradient>
+        <linearGradient id="vB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1D9E75"/><stop offset="100%" stop-color="#0F6E56"/></linearGradient>
+        <linearGradient id="wG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5DCAA5" stop-opacity=".9"/><stop offset="100%" stop-color="#9FE1CB" stop-opacity=".6"/></linearGradient>
+        <clipPath id="sC"><rect width="560" height="180"/></clipPath>
+      </defs>
+      <g clip-path="url(#sC)">
+        <rect width="560" height="180" fill="url(#rG)" rx="12"/>
+        <rect y="152" width="560" height="8" fill="#1a4a35"/>
+        <rect y="155" width="560" height="25" fill="#0a2e23"/>
+        <rect x="60" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <rect x="200" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <rect x="340" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <rect x="460" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <g transform="translate(30,70)">
+          <rect x="0" y="28" width="160" height="52" rx="8" fill="url(#vB)"/>
+          <rect x="8" y="12" width="100" height="40" rx="6" fill="#1D9E75"/>
+          <rect x="10" y="14" width="95" height="35" rx="5" fill="#085041"/>
+          <rect x="12" y="16" width="40" height="30" rx="3" fill="#9FE1CB" opacity=".5"/>
+          <rect x="55" y="16" width="47" height="30" rx="3" fill="#9FE1CB" opacity=".35"/>
+          <rect x="110" y="22" width="45" height="26" rx="4" fill="#0F6E56"/>
+          <text x="82" y="60" text-anchor="middle" font-size="7" fill="#5DCAA5" font-weight="500" font-family="sans-serif" opacity=".9">ECO-CLEAN</text>
+          <circle cx="28" cy="84" r="14" fill="#0a2e23"/><circle cx="28" cy="84" r="10" fill="#1a4a35"/><circle cx="28" cy="84" r="6" fill="#5DCAA5" opacity=".5"/><circle cx="28" cy="84" r="3" fill="#9FE1CB"/>
+          <circle cx="130" cy="84" r="14" fill="#0a2e23"/><circle cx="130" cy="84" r="10" fill="#1a4a35"/><circle cx="130" cy="84" r="6" fill="#5DCAA5" opacity=".5"/><circle cx="130" cy="84" r="3" fill="#9FE1CB"/>
+          <rect x="0" y="52" width="8" height="10" rx="2" fill="#ffd700" opacity=".5"/>
+        </g>
+        <path d="M 245 100 Q 248 95 252 92" stroke="url(#wG)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9"/>
+        <path d="M 245 108 Q 249 103 255 101" stroke="url(#wG)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+        <circle cx="253" cy="91" r="2" fill="#9FE1CB" opacity=".8"/>
+        <circle cx="256" cy="100" r="1.5" fill="#9FE1CB" opacity=".6"/>
+        <g transform="translate(260,82)">
+          <path d="M 20 60 L 20 30 Q 20 10 50 8 L 130 8 Q 160 8 165 30 L 165 60 Z" fill="url(#cB)"/>
+          <path d="M 40 30 Q 42 12 70 10 L 120 10 Q 145 10 148 30 Z" fill="#C8E6FA" opacity=".75"/>
+          <rect x="25" y="28" width="135" height="3" fill="#c0c0c0" opacity=".5"/>
+          <rect x="18" y="50" width="149" height="6" fill="#b0b0b0" opacity=".6"/>
+          <circle cx="45" cy="68" r="14" fill="#222"/><circle cx="45" cy="68" r="10" fill="#333"/><circle cx="45" cy="68" r="5" fill="#888" opacity=".5"/>
+          <circle cx="140" cy="68" r="14" fill="#222"/><circle cx="140" cy="68" r="10" fill="#333"/><circle cx="140" cy="68" r="5" fill="#888" opacity=".5"/>
+        </g>
+        <g transform="translate(420,78)">
+          <path d="M 10 68 L 10 40 L 25 18 L 60 14 L 90 14 L 110 40 L 110 68 Z" fill="#e8e8e8" opacity=".9"/>
+          <path d="M 28 40 L 30 18 L 60 15 L 85 15 L 88 40 Z" fill="#b8d4e8" opacity=".7"/>
+          <circle cx="28" cy="74" r="10" fill="#222"/><circle cx="28" cy="74" r="7" fill="#333"/>
+          <circle cx="92" cy="74" r="10" fill="#222"/><circle cx="92" cy="74" r="7" fill="#333"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-label">Individual plans</div>
+  <div class="sec-title">Choose your wash package</div>
+  <div class="services-grid">
+    <div class="svc" style="--svc-color:#1D9E75;--svc-bg:#E1F5EE;">
+      <div class="svc-check"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge"><i class="ti ti-droplet" style="font-size:16px"></i></div>
+      <div class="svc-name">Outside wash</div>
+      <div class="svc-desc">Full exterior rinse &amp; hand wash.</div>
+      <div class="svc-price">50 AED</div>
+    </div>
+    <div class="svc sel" style="--svc-color:#0F6E56;--svc-bg:#E1F5EE;">
+      <div class="svc-check" style="display:flex;"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge"><i class="ti ti-wash" style="font-size:16px"></i></div>
+      <div class="svc-name">Inside &amp; outside</div>
+      <div class="svc-desc">Full exterior + interior vacuum &amp; wipe.</div>
+      <div class="svc-price">100 AED</div>
+    </div>
+    <div class="svc" style="--svc-color:#085041;--svc-bg:#d0f0e4;">
+      <div class="svc-check"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge"><i class="ti ti-flask" style="font-size:16px"></i></div>
+      <div class="svc-name">Deep chemical</div>
+      <div class="svc-desc">Seats, carpet &amp; floor chemical treatment.</div>
+      <div class="svc-price">300 AED</div>
+    </div>
+    <div class="svc" style="--svc-color:#BA7517;--svc-bg:#FAEEDA;">
+      <div class="svc-check"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-star" style="font-size:16px"></i></div>
+      <div class="svc-name">Monthly plan</div>
+      <div class="svc-desc">6× outside wash per month — best value.</div>
+      <div class="svc-price">200 AED/mo</div>
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="feat"><div class="feat-ico"><i class="ti ti-map-pin"></i></div><div class="feat-name">We come to you</div></div>
+  <div class="feat"><div class="feat-ico"><i class="ti ti-clock"></i></div><div class="feat-name">Same-day slots</div></div>
+  <div class="feat"><div class="feat-ico"><i class="ti ti-leaf"></i></div><div class="feat-name">Eco products</div></div>
+</div>
+
+<div class="fleet-banner">
+  <div class="fleet-top">
+    <div class="fleet-top-bg"></div>
+    <div class="fleet-badge"><i class="ti ti-truck" style="font-size:12px"></i> B2B — Fleet &amp; Corporate</div>
+    <div class="fleet-title">Customized fleet washing plan</div>
+    <div class="fleet-sub">We serve companies, hotels, car rental agencies &amp; logistics firms across the UAE.</div>
+    <div class="fleet-clients">
+      <div class="fleet-client"><i class="ti ti-building" style="font-size:13px"></i> Hotels</div>
+      <div class="fleet-client"><i class="ti ti-briefcase" style="font-size:13px"></i> Corporates</div>
+      <div class="fleet-client"><i class="ti ti-car" style="font-size:13px"></i> Car rentals</div>
+      <div class="fleet-client"><i class="ti ti-truck" style="font-size:13px"></i> Logistics</div>
+    </div>
+    <div class="fleet-perks">
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-discount-2"></i></div><div><div class="fleet-perk-title">Volume pricing</div><div class="fleet-perk-sub">The more cars, the better your rate</div></div></div>
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-calendar-repeat"></i></div><div><div class="fleet-perk-title">Flexible schedule</div><div class="fleet-perk-sub">Daily, weekly or on-demand visits</div></div></div>
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-users"></i></div><div><div class="fleet-perk-title">Dedicated team</div><div class="fleet-perk-sub">Assigned crew just for your account</div></div></div>
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-file-invoice"></i></div><div><div class="fleet-perk-title">Monthly invoice</div><div class="fleet-perk-sub">Consolidated billing for finance teams</div></div></div>
+    </div>
+  </div>
+  <div class="fleet-bottom">
+    <div class="fleet-form-title">Request a free quotation</div>
+    <div class="fleet-form-grid">
+      <div class="fg"><label>Company name</label><input type="text" placeholder="Company / hotel name"/></div>
+      <div class="fg"><label>Contact person</label><input type="text" placeholder="Your full name"/></div>
+    </div>
+    <div class="fleet-form-grid">
+      <div class="fg"><label>Phone / WhatsApp</label><input type="tel" placeholder="+971 5X XXX XXXX"/></div>
+      <div class="fg"><label>Number of vehicles</label>
+        <select><option>Select range</option><option>1–5 cars</option><option>6–15 cars</option><option>16–30 cars</option><option>50+ cars</option></select>
+      </div>
+    </div>
+    <div class="fg" style="margin-bottom:10px"><label>Additional details</label><textarea placeholder="Location, schedule, vehicle types..."></textarea></div>
+    <button class="btn-quote"><i class="ti ti-file-text"></i> Get free quotation</button>
+    <button class="btn-wa-fleet"><i class="ti ti-brand-whatsapp"></i> Chat on WhatsApp</button>
+  </div>
+</div>
+
+<div class="book-card">
+  <div class="sec-label">Book a wash</div>
+  <div class="sec-title">Your details</div>
+  <div class="form-grid">
+    <div class="fg"><label>Your name</label><input type="text" placeholder="Full name"/></div>
+    <div class="fg"><label>Phone</label><input type="tel" placeholder="+971 5X XXX XXXX"/></div>
+  </div>
+  <div class="form-grid">
+    <div class="fg"><label>Date</label><input type="date"/></div>
+    <div class="fg"><label>Emirate</label>
+      <select><option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option><option>Ajman</option></select>
+    </div>
+  </div>
+  <div class="fg" style="margin-bottom:14px"><label>Address</label><textarea placeholder="Building, street, area..."></textarea></div>
+  <div class="slots-label">Preferred time</div>
+  <div class="slots">
+    <div class="slot">8:00 AM</div><div class="slot">9:00 AM</div><div class="slot on">10:00 AM</div>
+    <div class="slot">11:00 AM</div><div class="slot">12:00 PM</div><div class="slot">2:00 PM</div>
+    <div class="slot">3:00 PM</div><div class="slot">4:00 PM</div><div class="slot">5:00 PM</div>
+  </div>
+  <button class="btn-book"><i class="ti ti-calendar-check"></i> Confirm booking</button>
+  <button class="btn-wa"><i class="ti ti-brand-whatsapp"></i> Book via WhatsApp</button>
+</div>
+
+</div>
+</body>
+</html>

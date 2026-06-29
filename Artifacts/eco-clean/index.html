@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Eco-Clean — Mobile Car Wash</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#fff;--bg2:#f5f5f3;--bg3:#eeecea;--tx:#1a1a1a;--tx2:#666;--bd:rgba(0,0,0,0.1);--bd2:rgba(0,0,0,0.18);--gr:#1D9E75;--grd:#0F6E56;--grk:#0a2e23;--rm:8px;--rl:12px;}
+@media(prefers-color-scheme:dark){:root{--bg:#1e1e1c;--bg2:#2a2a28;--bg3:#141412;--tx:#f0ede8;--tx2:#9a9891;--bd:rgba(255,255,255,0.1);--bd2:rgba(255,255,255,0.18);}}
+html,body{min-height:100vh;background:var(--bg3);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--tx);}
+[dir=rtl]{font-family:'Segoe UI','Tahoma',sans-serif;}
+.wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+
+/* Lang toggle */
+.lang-bar{display:flex;justify-content:flex-end;margin-bottom:12px;}
+.lang-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;background:var(--bg);border:1px solid var(--bd2);font-size:13px;font-weight:500;color:var(--tx);cursor:pointer;}
+.lang-btn:hover{background:var(--bg2);}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;border-radius:20px;margin-bottom:20px;padding:2.5rem 1.5rem 3rem;background:#0a2e23;}
+.hbc{position:absolute;border-radius:50%;opacity:.07;background:#5DCAA5;}
+.c1{width:300px;height:300px;top:-80px;right:-60px;}.c2{width:200px;height:200px;bottom:-60px;left:-40px;}.c3{width:120px;height:120px;top:40px;left:30px;}
+.logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;position:relative;z-index:2;}
+.logo-icon{width:52px;height:52px;flex-shrink:0;}
+.logo-name{font-size:1.6rem;font-weight:500;color:#fff;letter-spacing:-0.5px;line-height:1;}
+.logo-name span{color:#5DCAA5;}
+.logo-sub{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.hero-h{font-size:1.5rem;font-weight:500;color:#fff;line-height:1.3;margin-bottom:.5rem;position:relative;z-index:2;}
+.hero-h em{color:#5DCAA5;font-style:normal;}
+.hero-tag{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:1.5rem;position:relative;z-index:2;}
+.cpills{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:2;}
+.pill{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:50px;font-size:13px;font-weight:500;border:none;cursor:pointer;text-decoration:none;}
+.pill-c{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.pill-c:hover{background:rgba(255,255,255,.2);}
+.pill-w{background:#25D366;color:#fff;}
+.pill-w:hover{background:#1ebe5b;}
+.car-scene{position:relative;z-index:2;margin-top:1.8rem;display:flex;justify-content:center;}
+
+/* Section */
+.sec-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--tx2);margin-bottom:12px;}
+.sec-title{font-size:18px;font-weight:500;color:var(--tx);margin-bottom:16px;}
+.section{margin-bottom:20px;}
+
+/* Service cards */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.svc{border-radius:16px;padding:1.1rem;cursor:pointer;border:1.5px solid var(--bd);background:var(--bg);position:relative;overflow:hidden;transition:border-color .2s,transform .15s;}
+.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;background:var(--sc,#1D9E75);}
+.svc:hover{border-color:var(--sc);transform:translateY(-2px);}
+.svc.sel{border:2px solid var(--sc);background:var(--sb);}
+.svc-badge{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;font-size:16px;margin-bottom:10px;background:var(--sb);color:var(--sc);}
+.svc-name{font-size:13px;font-weight:500;color:var(--tx);margin-bottom:3px;}
+.svc-desc{font-size:11px;color:var(--tx2);line-height:1.4;margin-bottom:8px;}
+.svc-price{font-size:16px;font-weight:500;color:var(--sc);}
+.svc-chk{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--sc);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;}
+[dir=rtl] .svc-chk{right:auto;left:10px;}
+.svc.sel .svc-chk{display:flex;}
+
+/* Loyalty bar */
+.loyalty-bar{background:var(--bg);border-radius:14px;padding:12px 14px;border:1px solid var(--bd);margin-bottom:16px;display:none;}
+.loy-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.loy-label{font-size:12px;color:var(--tx2);}
+.loy-pts{font-size:14px;font-weight:500;color:#0F6E56;}
+.loy-track{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-bottom:6px;}
+.loy-fill{height:100%;background:linear-gradient(90deg,#1D9E75,#5DCAA5);border-radius:3px;transition:width .4s;}
+.loy-sub{font-size:11px;color:var(--tx2);}
+.loy-free{font-size:11px;font-weight:500;color:#BA7517;background:#FAEEDA;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:4px;}
+
+/* Features */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.feat{background:var(--bg);border-radius:14px;padding:1rem .8rem;text-align:center;border:0.5px solid var(--bd);}
+.feat-ico{font-size:22px;color:#1D9E75;margin-bottom:6px;}
+.feat-name{font-size:11px;font-weight:500;color:var(--tx2);}
+
+/* Fleet banner */
+.fleet-banner{border-radius:20px;overflow:hidden;margin-bottom:20px;border:1.5px solid var(--bd);}
+.fleet-top{background:#0a2e23;padding:1.5rem;position:relative;overflow:hidden;}
+.fleet-top-bg{position:absolute;width:200px;height:200px;border-radius:50%;background:#5DCAA5;opacity:.05;top:-60px;right:-40px;}
+.fleet-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(93,202,165,.15);border:1px solid rgba(93,202,165,.3);border-radius:50px;padding:4px 12px;font-size:11px;font-weight:500;color:#5DCAA5;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.fleet-title{font-size:17px;font-weight:500;color:#fff;margin-bottom:6px;}
+.fleet-sub{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:1.2rem;}
+.fleet-clients{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.2rem;}
+.fleet-client{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 10px;font-size:11px;color:rgba(255,255,255,.7);}
+.fleet-perks{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.fleet-perk{display:flex;align-items:flex-start;gap:8px;background:rgba(255,255,255,.05);border-radius:10px;padding:10px;}
+.fleet-perk-ico{color:#5DCAA5;font-size:18px;flex-shrink:0;margin-top:1px;}
+.fleet-perk-h{font-size:12px;font-weight:500;color:#fff;margin-bottom:2px;}
+.fleet-perk-s{font-size:10px;color:rgba(255,255,255,.45);line-height:1.3;}
+.fleet-bot{background:var(--bg);padding:1.2rem;}
+
+/* Forms */
+.book-card{background:var(--bg);border-radius:20px;padding:1.5rem;border:0.5px solid var(--bd);margin-bottom:20px;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:11px;font-weight:500;letter-spacing:.5px;color:var(--tx2);text-transform:uppercase;}
+input,select,textarea{width:100%;padding:10px 12px;font-size:13px;border:1px solid var(--bd2);border-radius:10px;background:var(--bg2);color:var(--tx);font-family:inherit;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,.12);}
+textarea{resize:none;height:56px;}
+.ref-row{display:flex;gap:8px;margin-bottom:12px;}
+.ref-row input{flex:1;}
+.ref-check-btn{padding:10px 14px;background:var(--bg);border:1px solid var(--bd2);border-radius:10px;font-size:12px;color:var(--tx2);cursor:pointer;white-space:nowrap;}
+.ref-ok{font-size:11px;color:#1D9E75;margin-top:4px;display:none;}
+.ref-bad{font-size:11px;color:#E24B4A;margin-top:4px;display:none;}
+
+/* Map */
+#map{height:200px;border-radius:10px;margin-bottom:12px;border:1px solid var(--bd2);}
+.map-hint{font-size:11px;color:var(--tx2);margin-bottom:8px;}
+
+/* Slots */
+.slots-label{font-size:11px;font-weight:500;letter-spacing:.5px;color:var(--tx2);text-transform:uppercase;margin-bottom:8px;}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px;}
+.slot{padding:9px 4px;border:1px solid var(--bd2);border-radius:10px;font-size:12px;text-align:center;cursor:pointer;color:var(--tx2);background:var(--bg2);transition:.15s;position:relative;}
+.slot:hover:not(.full){border-color:#1D9E75;color:#0F6E56;background:#E1F5EE;}
+.slot.on{background:#1D9E75;color:#fff;border-color:#1D9E75;font-weight:500;}
+.slot.full{opacity:.4;cursor:not-allowed;text-decoration:line-through;}
+.slot .dot{position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;background:#1D9E75;}
+.slot.full .dot{background:#E24B4A;}
+
+/* Summary */
+.summary{border-radius:14px;background:#0a2e23;padding:1rem 1.1rem;margin-bottom:14px;display:none;}
+.sum-row{display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.sum-total{display:flex;justify-content:space-between;font-size:15px;font-weight:500;color:#5DCAA5;border-top:1px solid rgba(255,255,255,.1);padding-top:10px;margin-top:6px;}
+
+/* Buttons */
+.btn-book{width:100%;padding:14px;background:linear-gradient(135deg,#0F6E56,#1D9E75);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.btn-book:hover{opacity:.92;}
+.btn-wa{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.btn-wa:hover{background:#1ebe5b;}
+.btn-quote{width:100%;padding:13px;background:linear-gradient(135deg,#0F6E56,#1D9E75);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+.btn-wa-fleet{width:100%;padding:11px;background:#25D366;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* Success */
+.success{display:none;border-radius:14px;background:#E1F5EE;border:1.5px solid #5DCAA5;padding:1.5rem;text-align:center;margin-bottom:12px;}
+.success-ico{color:#1D9E75;font-size:40px;margin-bottom:8px;}
+.success-h{font-size:16px;font-weight:500;color:#085041;margin-bottom:4px;}
+.success-p{font-size:13px;color:#0F6E56;margin-bottom:10px;}
+.success-ref{background:#fff;border-radius:10px;padding:10px;margin-bottom:10px;border:1px solid #5DCAA5;}
+.success-ref-label{font-size:11px;color:#0F6E56;margin-bottom:4px;}
+.success-ref-code{font-size:18px;font-weight:500;color:#0a2e23;letter-spacing:2px;}
+.success-ref-sub{font-size:11px;color:#1D9E75;}
+.review-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#0a2e23;color:#5DCAA5;border-radius:10px;font-size:13px;font-weight:500;text-decoration:none;}
+
+.fleet-success{display:none;background:#E1F5EE;border:1.5px solid #5DCAA5;border-radius:12px;padding:1.2rem;text-align:center;margin-bottom:10px;}
+.fleet-success-h{font-size:15px;font-weight:500;color:#085041;margin-bottom:3px;}
+.fleet-success-p{font-size:12px;color:#0F6E56;}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+.leaflet-container{font-family:inherit;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="lang-bar">
+  <button class="lang-btn" onclick="toggleLang()" id="langBtn">
+    <i class="ti ti-language"></i> <span id="langLabel">العربية</span>
+  </button>
+</div>
+
+<div class="hero">
+  <div class="hbc c1"></div><div class="hbc c2"></div><div class="hbc c3"></div>
+  <div class="logo-wrap">
+    <svg class="logo-icon" viewBox="0 0 52 52" fill="none">
+      <rect width="52" height="52" rx="14" fill="#1D9E75" opacity=".15"/>
+      <circle cx="26" cy="26" r="20" fill="none" stroke="#5DCAA5" stroke-width="1.5" opacity=".4"/>
+      <path d="M14 28c0-2 1.5-4 4-5l2-5h12l2 5c2.5 1 4 3 4 5v3H14v-3z" fill="#5DCAA5" opacity=".9"/>
+      <rect x="16" y="31" width="4" height="2" rx="1" fill="#0a2e23"/>
+      <rect x="32" y="31" width="4" height="2" rx="1" fill="#0a2e23"/>
+      <circle cx="20" cy="34" r="2.5" fill="#0F6E56" stroke="#5DCAA5" stroke-width="1"/>
+      <circle cx="32" cy="34" r="2.5" fill="#0F6E56" stroke="#5DCAA5" stroke-width="1"/>
+      <path d="M18 24h16" stroke="#0a2e23" stroke-width="1" opacity=".5"/>
+      <path d="M22 19l-1.5 5h15l-1.5-5H22z" fill="#9FE1CB" opacity=".7"/>
+      <path d="M23 15c1 2 6 2 6 0" stroke="#5DCAA5" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+      <path d="M25 13v2M20 14l1 1.5M32 14l-1 1.5" stroke="#5DCAA5" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+    </svg>
+    <div>
+      <div class="logo-name">Eco<span>-Clean</span></div>
+      <div class="logo-sub" data-en="MOBILE CAR WASH" data-ar="غسيل سيارات متنقل">MOBILE CAR WASH</div>
+    </div>
+  </div>
+  <div class="hero-h" data-en="We come to <em>your door.</em><br>You stay spotless." data-ar="نأتي إلى <em>بابك.</em><br>تبقى دائماً نظيفاً.">We come to <em>your door.</em><br>You stay spotless.</div>
+  <div class="hero-tag" data-en="Professional mobile car wash for individuals, companies &amp; hotels across the UAE." data-ar="خدمة غسيل سيارات متنقلة احترافية للأفراد والشركات والفنادق في جميع أنحاء الإمارات.">Professional mobile car wash for individuals, companies &amp; hotels across the UAE.</div>
+  <div class="cpills">
+    <a class="pill pill-c" href="tel:+971582859762"><i class="ti ti-phone"></i> +971 58 285 9762</a>
+    <a class="pill pill-w" href="https://wa.me/971582859762" target="_blank"><i class="ti ti-brand-whatsapp"></i> <span data-en="WhatsApp booking" data-ar="حجز واتساب">WhatsApp booking</span></a>
+  </div>
+  <div class="car-scene">
+    <svg viewBox="0 0 560 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a4a35"/><stop offset="100%" stop-color="#0a2e23"/></linearGradient>
+        <linearGradient id="cB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity=".95"/><stop offset="100%" stop-color="#d0d0d0" stop-opacity=".9"/></linearGradient>
+        <linearGradient id="vB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1D9E75"/><stop offset="100%" stop-color="#0F6E56"/></linearGradient>
+        <linearGradient id="wG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5DCAA5" stop-opacity=".9"/><stop offset="100%" stop-color="#9FE1CB" stop-opacity=".6"/></linearGradient>
+        <clipPath id="sC"><rect width="560" height="180"/></clipPath>
+      </defs>
+      <g clip-path="url(#sC)">
+        <rect width="560" height="180" fill="url(#rG)" rx="12"/>
+        <rect y="152" width="560" height="8" fill="#1a4a35"/>
+        <rect y="155" width="560" height="25" fill="#0a2e23"/>
+        <rect x="60" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <rect x="200" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <rect x="340" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <rect x="460" y="155" width="60" height="4" rx="2" fill="#5DCAA5" opacity=".2"/>
+        <g transform="translate(30,70)">
+          <rect x="0" y="28" width="160" height="52" rx="8" fill="url(#vB)"/>
+          <rect x="8" y="12" width="100" height="40" rx="6" fill="#1D9E75"/>
+          <rect x="10" y="14" width="95" height="35" rx="5" fill="#085041"/>
+          <rect x="12" y="16" width="40" height="30" rx="3" fill="#9FE1CB" opacity=".5"/>
+          <rect x="55" y="16" width="47" height="30" rx="3" fill="#9FE1CB" opacity=".35"/>
+          <rect x="110" y="22" width="45" height="26" rx="4" fill="#0F6E56"/>
+          <rect x="2" y="50" width="156" height="6" fill="#085041" opacity=".3"/>
+          <text x="82" y="60" text-anchor="middle" font-size="7" fill="#5DCAA5" font-weight="500" font-family="sans-serif" opacity=".9">ECO-CLEAN</text>
+          <circle cx="28" cy="84" r="14" fill="#0a2e23"/><circle cx="28" cy="84" r="10" fill="#1a4a35"/><circle cx="28" cy="84" r="6" fill="#5DCAA5" opacity=".5"/><circle cx="28" cy="84" r="3" fill="#9FE1CB"/>
+          <circle cx="130" cy="84" r="14" fill="#0a2e23"/><circle cx="130" cy="84" r="10" fill="#1a4a35"/><circle cx="130" cy="84" r="6" fill="#5DCAA5" opacity=".5"/><circle cx="130" cy="84" r="3" fill="#9FE1CB"/>
+          <rect x="155" y="48" width="10" height="6" rx="2" fill="#9FE1CB" opacity=".6"/>
+          <rect x="0" y="52" width="8" height="10" rx="2" fill="#ffd700" opacity=".5"/>
+        </g>
+        <path d="M 245 100 Q 248 95 252 92" stroke="url(#wG)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9"/>
+        <path d="M 245 108 Q 249 103 255 101" stroke="url(#wG)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+        <path d="M 245 116 Q 250 112 256 110" stroke="url(#wG)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".5"/>
+        <circle cx="253" cy="91" r="2" fill="#9FE1CB" opacity=".8"/>
+        <circle cx="256" cy="100" r="1.5" fill="#9FE1CB" opacity=".6"/>
+        <g transform="translate(260,82)">
+          <path d="M 20 60 L 20 30 Q 20 10 50 8 L 130 8 Q 160 8 165 30 L 165 60 Z" fill="url(#cB)"/>
+          <path d="M 40 30 Q 42 12 70 10 L 120 10 Q 145 10 148 30 Z" fill="#C8E6FA" opacity=".75"/>
+          <rect x="25" y="28" width="135" height="3" fill="#c0c0c0" opacity=".5"/>
+          <rect x="18" y="50" width="149" height="6" fill="#b0b0b0" opacity=".6"/>
+          <rect x="75" y="42" width="35" height="10" rx="2" fill="#ff4040" opacity=".9"/>
+          <rect x="20" y="55" width="15" height="8" rx="2" fill="#ffd700" opacity=".8"/>
+          <rect x="150" y="55" width="15" height="8" rx="2" fill="#ff4040" opacity=".7"/>
+          <circle cx="45" cy="68" r="14" fill="#222"/><circle cx="45" cy="68" r="10" fill="#333"/><circle cx="45" cy="68" r="5" fill="#888" opacity=".5"/>
+          <circle cx="140" cy="68" r="14" fill="#222"/><circle cx="140" cy="68" r="10" fill="#333"/><circle cx="140" cy="68" r="5" fill="#888" opacity=".5"/>
+        </g>
+        <g transform="translate(420,78)">
+          <path d="M 10 68 L 10 40 L 25 18 L 60 14 L 90 14 L 110 40 L 110 68 Z" fill="#e8e8e8" opacity=".9"/>
+          <path d="M 28 40 L 30 18 L 60 15 L 85 15 L 88 40 Z" fill="#b8d4e8" opacity=".7"/>
+          <rect x="8" y="56" width="104" height="5" fill="#c8c8c8" opacity=".7"/>
+          <rect x="50" y="48" width="20" height="8" rx="2" fill="#ff4040" opacity=".8"/>
+          <circle cx="28" cy="74" r="10" fill="#222"/><circle cx="28" cy="74" r="7" fill="#333"/><circle cx="28" cy="74" r="3.5" fill="#888" opacity=".5"/>
+          <circle cx="92" cy="74" r="10" fill="#222"/><circle cx="92" cy="74" r="7" fill="#333"/><circle cx="92" cy="74" r="3.5" fill="#888" opacity=".5"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- Services -->
+<div class="section">
+  <div class="sec-label" data-en="INDIVIDUAL PLANS" data-ar="الباقات الفردية">INDIVIDUAL PLANS</div>
+  <div class="sec-title" data-en="Choose your wash package" data-ar="اختر باقة الغسيل">Choose your wash package</div>
+  <div class="svc-grid">
+    <div class="svc" style="--sc:#1D9E75;--sb:#E1F5EE;" data-price="50" data-code="A" data-en="Outside wash" data-ar="غسيل خارجي" data-desc-en="Full exterior rinse &amp; hand wash" data-desc-ar="شطف خارجي كامل وغسيل يدوي" onclick="pickSvc(this)">
+      <div class="svc-chk"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge"><i class="ti ti-droplet"></i></div>
+      <div class="svc-name">Outside wash</div>
+      <div class="svc-desc">Full exterior rinse &amp; hand wash</div>
+      <div class="svc-price">50 AED</div>
+    </div>
+    <div class="svc" style="--sc:#0F6E56;--sb:#E1F5EE;" data-price="100" data-code="B" data-en="Inside &amp; outside" data-ar="داخلي وخارجي" data-desc-en="Full exterior + interior vacuum &amp; wipe" data-desc-ar="غسيل خارجي كامل + تنظيف داخلي" onclick="pickSvc(this)">
+      <div class="svc-chk"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge"><i class="ti ti-car"></i></div>
+      <div class="svc-name">Inside &amp; outside</div>
+      <div class="svc-desc">Full exterior + interior vacuum &amp; wipe</div>
+      <div class="svc-price">100 AED</div>
+    </div>
+    <div class="svc" style="--sc:#085041;--sb:#d0f0e4;" data-price="300" data-code="C" data-en="Deep chemical" data-ar="تنظيف كيميائي عميق" data-desc-en="Seats, carpet &amp; floor chemical treatment" data-desc-ar="معالجة كيميائية للمقاعد والسجادة والأرضية" onclick="pickSvc(this)">
+      <div class="svc-chk"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge"><i class="ti ti-sparkles"></i></div>
+      <div class="svc-name">Deep chemical</div>
+      <div class="svc-desc">Seats, carpet &amp; floor chemical treatment</div>
+      <div class="svc-price">300 AED</div>
+    </div>
+    <div class="svc" style="--sc:#BA7517;--sb:#FAEEDA;" data-price="200" data-code="D" data-en="Monthly plan" data-ar="الباقة الشهرية" data-desc-en="6× outside wash per month — best value" data-desc-ar="6 غسلات خارجية شهرياً — أفضل قيمة" onclick="pickSvc(this)">
+      <div class="svc-chk"><i class="ti ti-check" style="font-size:11px"></i></div>
+      <div class="svc-badge" style="background:#FAEEDA;color:#BA7517;"><i class="ti ti-star"></i></div>
+      <div class="svc-name">Monthly plan</div>
+      <div class="svc-desc">6× outside wash per month — best value</div>
+      <div class="svc-price">200 AED/mo</div>
+    </div>
+  </div>
+</div>
+
+<!-- Loyalty bar (shown after phone entered) -->
+<div class="loyalty-bar" id="loyaltyBar">
+  <div class="loy-top">
+    <span class="loy-label" data-en="Your loyalty points" data-ar="نقاط الولاء">Your loyalty points</span>
+    <span class="loy-pts" id="loyPts">0 / 10</span>
+  </div>
+  <div class="loy-track"><div class="loy-fill" id="loyFill" style="width:0%"></div></div>
+  <div class="loy-sub" data-en="Earn 10 points → get 1 free wash (Plan A)" data-ar="اجمع 10 نقاط ← احصل على غسلة مجانية">Earn 10 points → get 1 free wash (Plan A)</div>
+  <div class="loy-free" id="loyFree" style="display:none"></div>
+</div>
+
+<div class="features">
+  <div class="feat"><div class="feat-ico"><i class="ti ti-map-pin"></i></div><div class="feat-name" data-en="We come to you" data-ar="نأتي إليك">We come to you</div></div>
+  <div class="feat"><div class="feat-ico"><i class="ti ti-clock"></i></div><div class="feat-name" data-en="Same-day slots" data-ar="مواعيد في نفس اليوم">Same-day slots</div></div>
+  <div class="feat"><div class="feat-ico"><i class="ti ti-leaf"></i></div><div class="feat-name" data-en="Eco products" data-ar="منتجات صديقة للبيئة">Eco products</div></div>
+</div>
+
+<!-- Fleet -->
+<div class="fleet-banner">
+  <div class="fleet-top">
+    <div class="fleet-top-bg"></div>
+    <div class="fleet-badge"><i class="ti ti-building" style="font-size:12px"></i> <span data-en="B2B — Fleet &amp; Corporate" data-ar="B2B — الشركات والأساطيل">B2B — Fleet &amp; Corporate</span></div>
+    <div class="fleet-title" data-en="Customized fleet washing plan" data-ar="خطة غسيل أسطول مخصصة">Customized fleet washing plan</div>
+    <div class="fleet-sub" data-en="We serve companies, hotels, car rental agencies &amp; logistics firms across the UAE." data-ar="نخدم الشركات والفنادق ووكالات تأجير السيارات وشركات الخدمات اللوجستية في جميع أنحاء الإمارات.">We serve companies, hotels, car rental agencies &amp; logistics firms across the UAE.</div>
+    <div class="fleet-clients">
+      <div class="fleet-client"><i class="ti ti-building" style="font-size:13px"></i> <span data-en="Hotels" data-ar="الفنادق">Hotels</span></div>
+      <div class="fleet-client"><i class="ti ti-briefcase" style="font-size:13px"></i> <span data-en="Corporates" data-ar="الشركات">Corporates</span></div>
+      <div class="fleet-client"><i class="ti ti-car" style="font-size:13px"></i> <span data-en="Car rentals" data-ar="تأجير السيارات">Car rentals</span></div>
+      <div class="fleet-client"><i class="ti ti-truck" style="font-size:13px"></i> <span data-en="Logistics" data-ar="اللوجستيات">Logistics</span></div>
+    </div>
+    <div class="fleet-perks">
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-discount-2"></i></div><div><div class="fleet-perk-h" data-en="Volume pricing" data-ar="أسعار الكميات">Volume pricing</div><div class="fleet-perk-s" data-en="The more cars, the better your rate" data-ar="كلما زادت السيارات، كان السعر أفضل">The more cars, the better your rate</div></div></div>
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-calendar-repeat"></i></div><div><div class="fleet-perk-h" data-en="Flexible schedule" data-ar="جدول مرن">Flexible schedule</div><div class="fleet-perk-s" data-en="Daily, weekly or on-demand" data-ar="يومي أو أسبوعي أو عند الطلب">Daily, weekly or on-demand</div></div></div>
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-users"></i></div><div><div class="fleet-perk-h" data-en="Dedicated team" data-ar="فريق مخصص">Dedicated team</div><div class="fleet-perk-s" data-en="Assigned crew for your account" data-ar="طاقم مخصص لحسابك">Assigned crew for your account</div></div></div>
+      <div class="fleet-perk"><div class="fleet-perk-ico"><i class="ti ti-file-invoice"></i></div><div><div class="fleet-perk-h" data-en="Monthly invoice" data-ar="فاتورة شهرية">Monthly invoice</div><div class="fleet-perk-s" data-en="Consolidated billing" data-ar="فوترة موحدة">Consolidated billing</div></div></div>
+    </div>
+  </div>
+  <div class="fleet-bot">
+    <div style="font-size:13px;font-weight:500;color:var(--tx);margin-bottom:10px;" data-en="Request a free quotation" data-ar="اطلب عرض سعر مجاني">Request a free quotation</div>
+    <div class="fgrid">
+      <div class="fg"><label data-en="Company name" data-ar="اسم الشركة">Company name</label><input id="fComp" type="text"/></div>
+      <div class="fg"><label data-en="Contact person" data-ar="الشخص المسؤول">Contact person</label><input id="fName" type="text"/></div>
+    </div>
+    <div class="fgrid">
+      <div class="fg"><label data-en="Phone / WhatsApp" data-ar="الهاتف / واتساب">Phone / WhatsApp</label><input id="fPhone" type="tel"/></div>
+      <div class="fg"><label data-en="Number of vehicles" data-ar="عدد المركبات">Number of vehicles</label>
+        <select id="fVeh"><option value="" data-en="Select range" data-ar="اختر النطاق">Select range</option><option>1 – 5 cars</option><option>6 – 15 cars</option><option>16 – 30 cars</option><option>31 – 50 cars</option><option>50+ cars</option></select>
+      </div>
+    </div>
+    <div class="fg" style="margin-bottom:10px"><label data-en="Additional details" data-ar="تفاصيل إضافية">Additional details</label><textarea id="fNote"></textarea></div>
+    <div class="fleet-success" id="fOk">
+      <div style="font-size:32px;color:#1D9E75;margin-bottom:6px;"><i class="ti ti-circle-check-filled"></i></div>
+      <div class="fleet-success-h" data-en="Quotation request sent!" data-ar="تم إرسال طلب عرض السعر!">Quotation request sent!</div>
+      <div class="fleet-success-p" data-en="Our B2B team will reach out within 24 hours." data-ar="سيتواصل معك فريق B2B خلال 24 ساعة.">Our B2B team will reach out within 24 hours.</div>
+    </div>
+    <button class="btn-quote" onclick="fleetSubmit(event)"><i class="ti ti-file-description"></i> <span data-en="Get free quotation" data-ar="احصل على عرض سعر مجاني">Get free quotation</span></button>
+    <button class="btn-wa-fleet" onclick="fleetWhatsApp()"><i class="ti ti-brand-whatsapp"></i> <span data-en="Chat on WhatsApp" data-ar="تواصل عبر واتساب">Chat on WhatsApp</span></button>
+  </div>
+</div>
+
+<!-- Booking form -->
+<div class="book-card">
+  <div class="sec-label" data-en="BOOK A WASH" data-ar="احجز غسلة">BOOK A WASH</div>
+  <div class="sec-title" data-en="Your details" data-ar="بياناتك">Your details</div>
+  <div class="fgrid">
+    <div class="fg"><label data-en="Your name" data-ar="اسمك">Your name</label><input id="nm" type="text"/></div>
+    <div class="fg"><label data-en="Phone" data-ar="الهاتف">Phone</label><input id="ph" type="tel" onblur="loadLoyalty()"/></div>
+  </div>
+  <div class="fgrid">
+    <div class="fg"><label data-en="Date" data-ar="التاريخ">Date</label><input id="dt" type="date"/></div>
+    <div class="fg"><label data-en="Emirate" data-ar="الإمارة">Emirate</label>
+      <select id="em">
+        <option value="">—</option>
+        <option data-en="Dubai" data-ar="دبي">Dubai</option>
+        <option data-en="Abu Dhabi" data-ar="أبوظبي">Abu Dhabi</option>
+        <option data-en="Sharjah" data-ar="الشارقة">Sharjah</option>
+        <option data-en="Ajman" data-ar="عجمان">Ajman</option>
+        <option data-en="Ras Al Khaimah" data-ar="رأس الخيمة">Ras Al Khaimah</option>
+        <option data-en="Fujairah" data-ar="الفجيرة">Fujairah</option>
+        <option data-en="Umm Al Quwain" data-ar="أم القيوين">Umm Al Quwain</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="fg" style="margin-bottom:8px">
+    <label data-en="Pin your location on map" data-ar="حدد موقعك على الخريطة">Pin your location on map</label>
+  </div>
+  <div class="map-hint" data-en="Click anywhere on the map to drop your pin" data-ar="انقر في أي مكان على الخريطة لتحديد موقعك">Click anywhere on the map to drop your pin</div>
+  <div id="map"></div>
+  <div class="fg" style="margin-bottom:12px"><label data-en="Address / location" data-ar="العنوان / الموقع">Address / location</label><textarea id="addr"></textarea></div>
+
+  <!-- Referral code -->
+  <div class="fg" style="margin-bottom:4px"><label data-en="Referral code (optional)" data-ar="رمز الإحالة (اختياري)">Referral code (optional)</label></div>
+  <div class="ref-row">
+    <input id="refCode" type="text" placeholder="e.g. AHMED-X3K2" style="text-transform:uppercase"/>
+    <button class="ref-check-btn" onclick="checkRef()" data-en="Apply" data-ar="تطبيق">Apply</button>
+  </div>
+  <div class="ref-ok" id="refOk"><i class="ti ti-check"></i> <span data-en="Valid code! Both you and your referrer earn bonus points." data-ar="رمز صحيح! ستحصل أنت ومن أحالك على نقاط مكافأة.">Valid code! Both you and your referrer earn bonus points.</span></div>
+  <div class="ref-bad" id="refBad"><i class="ti ti-x"></i> <span data-en="Invalid referral code." data-ar="رمز إحالة غير صحيح.">Invalid referral code.</span></div>
+
+  <div class="slots-label" data-en="PREFERRED TIME" data-ar="الوقت المفضل" style="margin-top:16px">PREFERRED TIME</div>
+  <div class="slots" id="slotsGrid">
+    <div style="font-size:12px;color:var(--tx2);padding:8px;" data-en="Select a date first" data-ar="اختر التاريخ أولاً">Select a date first</div>
+  </div>
+
+  <div class="summary" id="sumBox">
+    <div class="sum-row"><span id="sName">—</span><span id="sPrice">—</span></div>
+    <div class="sum-row"><span id="sDate">—</span><span id="sTime">—</span></div>
+    <div class="sum-total"><span data-en="Total due" data-ar="الإجمالي المستحق">Total due</span><span id="sTotal">—</span></div>
+  </div>
+
+  <div class="success" id="ok">
+    <div class="success-ico"><i class="ti ti-circle-check-filled"></i></div>
+    <div class="success-h" data-en="Booking confirmed!" data-ar="تم تأكيد الحجز!">Booking confirmed!</div>
+    <div class="success-p" data-en="Our team will call you within 30 minutes." data-ar="سيتصل بك فريقنا خلال 30 دقيقة.">Our team will call you within 30 minutes.</div>
+    <div class="success-ref" id="successRef" style="display:none">
+      <div class="success-ref-label" data-en="Your referral code — share &amp; earn points!" data-ar="رمز الإحالة الخاص بك — شاركه واكسب نقاطاً!">Your referral code — share &amp; earn points!</div>
+      <div class="success-ref-code" id="myCode">—</div>
+      <div class="success-ref-sub" data-en="Each friend who uses your code gives you 2 bonus points" data-ar="كل صديق يستخدم رمزك يمنحك نقطتين إضافيتين">Each friend who uses your code gives you 2 bonus points</div>
+    </div>
+    <a class="review-btn" href="#" id="reviewBtn" target="_blank"><i class="ti ti-star"></i> <span data-en="Leave us a Google review" data-ar="اترك لنا تقييماً على Google">Leave us a Google review</span></a>
+  </div>
+
+  <button class="btn-book" onclick="doConfirm()" id="btnBook"><i class="ti ti-calendar-check"></i> <span data-en="Confirm booking" data-ar="تأكيد الحجز">Confirm booking</span></button>
+  <button class="btn-wa" onclick="doWhatsApp()"><i class="ti ti-brand-whatsapp"></i> <span data-en="Book via WhatsApp" data-ar="احجز عبر واتساب">Book via WhatsApp</span></button>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const NUM = '971582859762';
+let svc = null, slot = null, map = null, marker = null, lang = 'en', loyData = null, refValid = false;
+
+// ── Language toggle ────────────────────────────────────────────────────────────
+function toggleLang() {
+  lang = lang === 'en' ? 'ar' : 'en';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('langLabel').textContent = lang === 'en' ? 'العربية' : 'English';
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const txt = el.getAttribute('data-' + lang);
+    if (txt) el.innerHTML = txt;
+  });
+}
+
+// ── Map ────────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  map = L.map('map', { zoomControl: true }).setView([25.2048, 55.2708], 11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+  map.on('click', async e => {
+    const { lat, lng } = e.latlng;
+    if (marker) map.removeLayer(marker);
+    marker = L.marker([lat, lng]).addTo(map);
+    try {
+      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+      const d = await r.json();
+      document.getElementById('addr').value = d.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    } catch { document.getElementById('addr').value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`; }
+    upd();
+  });
+  document.getElementById('dt').min = new Date().toISOString().split('T')[0];
+  document.getElementById('dt').value = new Date().toISOString().split('T')[0];
+  document.getElementById('dt').addEventListener('change', () => { loadSlots(); upd(); });
+  loadSlots();
+});
+
+// ── Slots ──────────────────────────────────────────────────────────────────────
+async function loadSlots() {
+  const date = document.getElementById('dt').value;
+  if (!date) return;
+  const grid = document.getElementById('slotsGrid');
+  grid.innerHTML = '<div style="font-size:12px;color:var(--tx2);padding:8px;">Loading slots...</div>';
+  try {
+    const slots = await fetch('/api/slots?date=' + date).then(r => r.json());
+    grid.innerHTML = slots.map(s => `
+      <div class="slot ${s.available ? '' : 'full'}" onclick="${s.available ? 'pickSlot(this)' : ''}">
+        ${s.time}
+        <div class="dot"></div>
+      </div>`).join('');
+  } catch {
+    const ALL = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+    grid.innerHTML = ALL.map(s => `<div class="slot" onclick="pickSlot(this)">${s}<div class="dot"></div></div>`).join('');
+  }
+}
+
+function pickSvc(el) {
+  document.querySelectorAll('.svc').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  svc = { code: el.dataset.code, name: el.querySelector('.svc-name').textContent, price: parseInt(el.dataset.price) };
+  upd();
+}
+function pickSlot(el) {
+  if (el.classList.contains('full')) return;
+  document.querySelectorAll('.slot').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  slot = el.textContent.trim().replace(/\s+/g,' ').split('\n')[0].trim();
+  upd();
+}
+function upd() {
+  const box = document.getElementById('sumBox');
+  if (!svc && !slot) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  const d = document.getElementById('dt').value;
+  const dl = d ? new Date(d).toLocaleDateString('en-AE', { weekday:'short', month:'short', day:'numeric' }) : '—';
+  document.getElementById('sName').textContent = svc ? 'Plan ' + svc.code + ' — ' + svc.name : '—';
+  document.getElementById('sPrice').textContent = svc ? svc.price + ' AED' : '—';
+  document.getElementById('sDate').textContent = dl;
+  document.getElementById('sTime').textContent = slot || '—';
+  document.getElementById('sTotal').textContent = svc ? svc.price + ' AED' : '—';
+}
+
+// ── Loyalty ────────────────────────────────────────────────────────────────────
+async function loadLoyalty() {
+  const phone = document.getElementById('ph').value.trim();
+  if (!phone) return;
+  try {
+    loyData = await fetch('/api/loyalty?phone=' + encodeURIComponent(phone)).then(r => r.json());
+    const bar = document.getElementById('loyaltyBar');
+    bar.style.display = 'block';
+    document.getElementById('loyPts').textContent = loyData.points + ' / 10';
+    document.getElementById('loyFill').style.width = Math.min(100, (loyData.points / 10) * 100) + '%';
+    const freeEl = document.getElementById('loyFree');
+    if (loyData.freeWashes > 0) {
+      freeEl.textContent = lang === 'ar' ? `🎁 لديك ${loyData.freeWashes} غسلة مجانية!` : `🎁 You have ${loyData.freeWashes} free wash(es)!`;
+      freeEl.style.display = 'inline-block';
+    }
+  } catch {}
+}
+
+// ── Referral ───────────────────────────────────────────────────────────────────
+async function checkRef() {
+  const code = document.getElementById('refCode').value.trim().toUpperCase();
+  if (!code) return;
+  try {
+    const r = await fetch('/api/validate-referral?code=' + code).then(r => r.json());
+    refValid = r.valid;
+    document.getElementById('refOk').style.display = r.valid ? 'block' : 'none';
+    document.getElementById('refBad').style.display = r.valid ? 'none' : 'block';
+  } catch { refValid = false; }
+}
+
+// ── Validation ─────────────────────────────────────────────────────────────────
+function chk() {
+  if (!svc) { alert(lang === 'ar' ? 'يرجى اختيار باقة الغسيل' : 'Please select a service package.'); return false; }
+  if (!document.getElementById('nm').value.trim()) { alert(lang === 'ar' ? 'يرجى إدخال اسمك' : 'Please enter your name.'); return false; }
+  if (!document.getElementById('ph').value.trim()) { alert(lang === 'ar' ? 'يرجى إدخال رقم هاتفك' : 'Please enter your phone number.'); return false; }
+  if (!document.getElementById('dt').value) { alert(lang === 'ar' ? 'يرجى اختيار التاريخ' : 'Please select a date.'); return false; }
+  if (!document.getElementById('em').value) { alert(lang === 'ar' ? 'يرجى اختيار الإمارة' : 'Please select your emirate.'); return false; }
+  if (!document.getElementById('addr').value.trim()) { alert(lang === 'ar' ? 'يرجى إدخال عنوانك' : 'Please enter your address.'); return false; }
+  if (!slot) { alert(lang === 'ar' ? 'يرجى اختيار الوقت المفضل' : 'Please select a preferred time.'); return false; }
+  return true;
+}
+
+function payload() {
+  const d = document.getElementById('dt').value ? new Date(document.getElementById('dt').value).toLocaleDateString('en-AE', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) : '';
+  return {
+    Name: document.getElementById('nm').value.trim(),
+    Phone: document.getElementById('ph').value.trim(),
+    Service: 'Plan ' + svc.code + ' — ' + svc.name + ' (' + svc.price + ' AED)',
+    Code: svc.code,
+    Date: d,
+    Time: slot,
+    Emirate: document.getElementById('em').value,
+    Address: document.getElementById('addr').value.trim(),
+    Total: svc.price + ' AED',
+    ReferralCode: document.getElementById('refCode').value.trim().toUpperCase()
+  };
+}
+
+async function doConfirm() {
+  if (!chk()) return;
+  const btn = document.getElementById('btnBook');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i>';
+  const p = payload();
+  try {
+    const res = await fetch('/api/booking', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(p) });
+    const data = await res.json();
+    if (data.ok) {
+      const okBox = document.getElementById('ok');
+      okBox.style.display = 'block';
+      okBox.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      if (data.referralCode) {
+        document.getElementById('myCode').textContent = data.referralCode;
+        document.getElementById('successRef').style.display = 'block';
+      }
+      if (data.points !== undefined) {
+        document.getElementById('loyPts').textContent = data.points + ' / 10';
+        document.getElementById('loyFill').style.width = Math.min(100, (data.points / 10) * 100) + '%';
+        document.getElementById('loyaltyBar').style.display = 'block';
+      }
+      setTimeout(() => {
+        const msg = encodeURIComponent(`Hello Eco-Clean! I've just booked a car wash.\n\nName: ${p.Name}\nPhone: ${p.Phone}\nService: ${p.Service}\nDate: ${p.Date}\nTime: ${p.Time}\nLocation: ${p.Emirate}, ${p.Address}`);
+        window.open('https://wa.me/' + NUM + '?text=' + msg, '_blank');
+      }, 1000);
+    } else if (data.reason === 'slot_full') {
+      alert(lang === 'ar' ? 'هذا الموعد محجوز بالكامل. يرجى اختيار وقت آخر.' : 'This time slot is fully booked. Please choose another time.');
+      loadSlots();
+    }
+  } catch {
+    const msg = encodeURIComponent(`Hello Eco-Clean! I'd like to book.\n\nName: ${p.Name}\nPhone: ${p.Phone}\nService: ${p.Service}\nDate: ${p.Date}\nTime: ${p.Time}\nLocation: ${p.Emirate}, ${p.Address}`);
+    window.open('https://wa.me/' + NUM + '?text=' + msg, '_blank');
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-calendar-check"></i> <span>' + (lang === 'ar' ? 'تأكيد الحجز' : 'Confirm booking') + '</span>';
+}
+
+function doWhatsApp() {
+  if (!chk()) return;
+  const p = payload();
+  const msg = encodeURIComponent(`Hello Eco-Clean! I'd like to book a car wash.\n\nName: ${p.Name}\nPhone: ${p.Phone}\nService: ${p.Service}\nDate: ${p.Date}\nTime: ${p.Time}\nLocation: ${p.Emirate}, ${p.Address}`);
+  window.open('https://wa.me/' + NUM + '?text=' + msg, '_blank');
+}
+
+function fleetChk() {
+  if (!document.getElementById('fComp').value.trim()) { alert('Please enter company name.'); return false; }
+  if (!document.getElementById('fName').value.trim()) { alert('Please enter contact name.'); return false; }
+  if (!document.getElementById('fPhone').value.trim()) { alert('Please enter phone number.'); return false; }
+  if (!document.getElementById('fVeh').value) { alert('Please select vehicle range.'); return false; }
+  return true;
+}
+
+async function fleetSubmit(e) {
+  if (!fleetChk()) return;
+  const btn = e.target;
+  btn.disabled = true;
+  const p = { Company: document.getElementById('fComp').value.trim(), Contact: document.getElementById('fName').value.trim(), Phone: document.getElementById('fPhone').value.trim(), Vehicles: document.getElementById('fVeh').value, Details: document.getElementById('fNote').value.trim() || '—' };
+  try {
+    await fetch('/api/fleet', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(p) });
+  } catch {}
+  document.getElementById('fOk').style.display = 'block';
+  document.getElementById('fOk').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  setTimeout(() => {
+    const msg = encodeURIComponent(`Hello Eco-Clean! Fleet quotation request.\n\nCompany: ${p.Company}\nContact: ${p.Contact}\nPhone: ${p.Phone}\nVehicles: ${p.Vehicles}\nDetails: ${p.Details}`);
+    window.open('https://wa.me/' + NUM + '?text=' + msg, '_blank');
+  }, 800);
+  btn.disabled = false;
+}
+
+function fleetWhatsApp() {
+  if (!fleetChk()) return;
+  const msg = encodeURIComponent(`Hello Eco-Clean! Fleet quotation request.\n\nCompany: ${document.getElementById('fComp').value.trim()}\nContact: ${document.getElementById('fName').value.trim()}\nPhone: ${document.getElementById('fPhone').value.trim()}\nVehicles: ${document.getElementById('fVeh').value}\nDetails: ${document.getElementById('fNote').value.trim() || '—'}`);
+  window.open('https://wa.me/' + NUM + '?text=' + msg, '_blank');
+}
+</script>
+</body>
+</html>

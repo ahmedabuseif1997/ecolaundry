@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco-Clean Car Wash — Premium Mobile Car Wash</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bd:#0d1f35;
+  --bm:#1a3452;
+  --bl:#1e4d8c;
+  --cyan:#00b4d8;
+  --cyanl:#48cae4;
+  --silver:#e8edf2;
+  --sdark:#c8d4de;
+  --swarm:#f0f4f8;
+  --gold:#f0a500;
+  --goldl:#ffc233;
+  --td:#0d1f35;
+  --tm:#2a4a6b;
+  --tmut:#5a7a9b;
+  --rad:14px;
+  --rads:8px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Georgia',serif;background:var(--swarm);color:var(--td);min-height:100vh;}
+html[lang="ar"] body{font-family:'Noto Serif Arabic','Georgia',serif;}
+
+/* NAV */
+.nav{background:var(--bd);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.3);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-icon{width:36px;height:36px;border-radius:10px;background:rgba(0,180,216,.15);border:1px solid rgba(0,180,216,.35);display:flex;align-items:center;justify-content:center;}
+.nav-icon i{font-size:18px;color:var(--cyan);}
+.nav-brand{color:#fff;font-size:19px;letter-spacing:.3px;}
+.nav-brand em{color:var(--cyanl);font-style:italic;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-pill{background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.25);border-radius:100px;padding:6px 14px;font-size:12px;color:var(--cyanl);font-family:sans-serif;letter-spacing:.5px;}
+.lang-btn{display:flex;align-items:center;gap:4px;background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.25);border-radius:100px;padding:5px 12px;font-size:12px;color:var(--cyanl);font-family:sans-serif;cursor:pointer;transition:background .15s;}
+.lang-btn:hover{background:rgba(0,180,216,.2);}
+.lang-btn i{font-size:14px;}
+
+/* HERO */
+.hero{position:relative;height:460px;overflow:hidden;background:var(--bd);}
+.hero-art{position:absolute;inset:0;overflow:hidden;}
+/* animated water drops */
+.drop{position:absolute;border-radius:50%;background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.15);}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:2.5rem 2.5rem;background:linear-gradient(to top,rgba(13,31,53,.98) 0%,rgba(13,31,53,.65) 65%,transparent 100%);}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(0,180,216,.18);border:1px solid rgba(0,180,216,.4);border-radius:100px;padding:6px 14px;font-size:11px;color:var(--cyanl);font-family:sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;}
+.hero-tag i{font-size:12px;}
+.hero-h1{font-size:40px;color:#fff;line-height:1.15;letter-spacing:-.5px;margin-bottom:.75rem;}
+html[lang="ar"] .hero-h1{font-size:34px;letter-spacing:0;}
+.hero-h1 em{color:var(--cyanl);}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.7);font-family:sans-serif;line-height:1.65;max-width:500px;margin-bottom:1.5rem;}
+.hero-stats{display:flex;gap:2.5rem;}
+.hero-stat .n{font-size:22px;color:var(--cyanl);font-weight:700;font-family:sans-serif;}
+.hero-stat .l{font-size:10px;color:rgba(255,255,255,.5);font-family:sans-serif;text-transform:uppercase;letter-spacing:.8px;margin-top:3px;}
+
+/* CONTAINER */
+.container{max-width:900px;margin:0 auto;padding:0 2rem;}
+
+/* SECTIONS */
+.process-section{padding:2.5rem 0 1.5rem;}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.22);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--cyan);font-family:sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem;}
+.sec-title{font-size:28px;color:var(--bd);margin-bottom:.4rem;}
+.sec-sub{font-size:14px;color:var(--tmut);font-family:sans-serif;line-height:1.65;margin-bottom:1.5rem;}
+
+/* ILLUSTRATED STRIP */
+.strip{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;height:230px;margin-bottom:2rem;}
+.strip-panel{border-radius:var(--rad);overflow:hidden;position:relative;display:flex;align-items:flex-end;}
+.strip-label{position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(to top,rgba(13,31,53,.9),transparent);color:#fff;font-size:12px;font-family:sans-serif;letter-spacing:.5px;font-weight:600;}
+.sp1{background:linear-gradient(135deg,#0d1f35 0%,#1a3452 45%,#1e4d8c 100%);}
+.sp2{background:linear-gradient(160deg,#0d2535 0%,#0e4d6e 55%,#0096b4 100%);}
+.sp3{background:linear-gradient(135deg,#0d2535 0%,#1a4560 55%,#2a6a8a 100%);}
+.sp4{background:linear-gradient(135deg,#1a1a35 0%,#2a2a6a 55%,#3a3a9a 100%);}
+.sp5{background:linear-gradient(160deg,#0d2a1a 0%,#1a5a3a 55%,#2a8a5a 100%);}
+.sp-col{display:grid;grid-template-rows:1fr 1fr;gap:12px;}
+
+/* TRUST */
+.trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:2.5rem;}
+.trust-item{background:#fff;border-radius:var(--rad);padding:16px 12px;text-align:center;border:1px solid var(--sdark);transition:box-shadow .2s;}
+.trust-item:hover{box-shadow:0 4px 16px rgba(0,100,180,.1);}
+.trust-item i{font-size:22px;color:var(--bl);display:block;margin-bottom:7px;}
+.trust-name{font-size:12px;font-family:sans-serif;font-weight:700;color:var(--td);}
+.trust-desc{font-size:11px;color:var(--tmut);font-family:sans-serif;margin-top:3px;}
+
+/* BOOKING */
+.booking-section{padding:0 0 3rem;}
+.row-label{font-size:11px;font-family:sans-serif;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:.9rem;}
+
+/* PROGRESS */
+.prog{display:flex;gap:8px;margin-bottom:2rem;}
+.seg{height:4px;flex:1;border-radius:2px;background:var(--sdark);transition:background .3s;}
+.seg.on{background:var(--cyan);}
+
+/* SERVICE CARDS */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;}
+.svc-card{background:#fff;border-radius:var(--rad);overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .18s,transform .15s,box-shadow .15s;position:relative;}
+.svc-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,100,180,.12);}
+.svc-card.sel{border-color:var(--cyan);box-shadow:0 4px 16px rgba(0,180,216,.2);}
+.svc-thumb{height:110px;position:relative;display:flex;align-items:center;justify-content:center;}
+.t-ext{background:linear-gradient(135deg,#0d1f35,#1e4d8c);}
+.t-int{background:linear-gradient(135deg,#0d2535,#0096b4);}
+.t-full{background:linear-gradient(135deg,#1a1a35,#3a3a9a);}
+.t-pol{background:linear-gradient(135deg,#1a0d35,#6a2a8a);}
+.t-eng{background:linear-gradient(135deg,#1a2a0d,#4a6a1a);}
+.t-cer{background:linear-gradient(135deg,#2a1a0d,#8a5a1a);}
+.svc-thumb-icon{font-size:40px;color:rgba(255,255,255,.2);}
+.svc-thumb-fade{position:absolute;bottom:0;left:0;right:0;height:45px;background:linear-gradient(to top,rgba(0,0,0,.45),transparent);}
+.svc-check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--cyan);display:none;align-items:center;justify-content:center;}
+html[dir="rtl"] .svc-check{right:auto;left:10px;}
+.svc-card.sel .svc-check{display:flex;}
+.svc-check i{font-size:12px;color:#fff;}
+.svc-body{padding:10px 13px 13px;}
+.svc-name{font-size:14px;font-weight:700;color:var(--bd);font-family:sans-serif;margin-bottom:3px;}
+.svc-price{font-size:11px;color:var(--tmut);font-family:sans-serif;}
+
+/* CATEGORY LABEL */
+.qty-cat-label{display:flex;align-items:center;gap:8px;font-family:sans-serif;font-size:12px;font-weight:700;color:var(--bd);text-transform:uppercase;letter-spacing:.8px;margin:1.25rem 0 .5rem;padding:0 2px;}
+.qty-cat-label i{font-size:16px;color:var(--cyan);}
+
+/* QTY */
+.qty-card{background:#fff;border-radius:var(--rad);overflow:hidden;margin-bottom:.5rem;}
+.qty-head{background:var(--bd);padding:14px 18px;display:flex;align-items:center;gap:10px;}
+.qty-head i{font-size:18px;color:var(--cyan);}
+.qty-head span{color:#fff;font-size:14px;font-family:sans-serif;font-weight:500;}
+.qty-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--sdark);}
+.qty-row:last-child{border-bottom:none;}
+.qty-nm{font-size:14px;font-family:sans-serif;font-weight:600;color:var(--td);}
+.qty-sb{font-size:11px;color:var(--tmut);font-family:sans-serif;margin-top:2px;}
+.qty-ctrl{display:flex;align-items:center;gap:14px;}
+.qbtn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bl);background:transparent;color:var(--bm);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:sans-serif;transition:background .1s;}
+.qbtn:hover{background:var(--sdark);}
+.qbtn.p{background:var(--bd);border-color:var(--bd);color:#fff;}
+.qbtn.p:hover{background:var(--bm);}
+.qval{font-size:16px;font-weight:700;color:var(--bd);font-family:sans-serif;min-width:22px;text-align:center;}
+
+/* FORM BLOCKS */
+.fb{background:#fff;border-radius:var(--rad);overflow:hidden;margin-bottom:1.25rem;}
+.fb-head{padding:14px 18px;background:var(--bd);display:flex;align-items:center;gap:10px;}
+.fb-head i{font-size:18px;color:var(--cyan);}
+.fb-head-t{color:#fff;font-size:14px;font-family:sans-serif;font-weight:500;}
+.fb-head-s{font-size:11px;color:rgba(255,255,255,.5);font-family:sans-serif;margin-top:2px;}
+.fb-body{padding:18px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.fg:last-child{margin-bottom:0;}
+.fl{font-size:11px;font-family:sans-serif;font-weight:700;color:var(--tm);letter-spacing:.3px;text-transform:uppercase;}
+input[type=text],input[type=date],select,textarea{width:100%;padding:10px 14px;border:1.5px solid var(--sdark);border-radius:var(--rads);font-size:14px;font-family:sans-serif;color:var(--td);background:var(--swarm);outline:none;transition:border-color .15s;}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);background:#fff;}
+textarea{resize:vertical;min-height:72px;}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* TIME SLOTS */
+.slots{display:flex;flex-wrap:wrap;gap:8px;}
+.slot{padding:8px 14px;border:1.5px solid var(--sdark);border-radius:100px;font-size:12px;font-family:sans-serif;color:var(--tmut);cursor:pointer;background:var(--swarm);transition:all .12s;display:flex;align-items:center;gap:5px;}
+.slot:hover{border-color:var(--cyanl);color:var(--td);}
+.slot.on{background:var(--bd);border-color:var(--bd);color:#fff;}
+.slot i{font-size:12px;}
+
+/* SAME ADDR */
+.same-chk{display:flex;align-items:center;gap:8px;font-size:13px;font-family:sans-serif;color:var(--tm);margin-bottom:12px;cursor:pointer;}
+.same-chk input{width:16px;height:16px;accent-color:var(--bl);}
+
+/* SUMMARY */
+.sum-box{background:var(--bd);border-radius:var(--rad);padding:1.5rem;margin-bottom:1.25rem;}
+.sum-row{display:flex;justify-content:space-between;font-family:sans-serif;font-size:13px;color:rgba(255,255,255,.55);padding:6px 0;}
+.sum-val{color:rgba(255,255,255,.88);}
+.sum-div{height:1px;background:rgba(255,255,255,.1);margin:10px 0;}
+.sum-total{display:flex;justify-content:space-between;align-items:center;}
+.sum-tl{color:rgba(255,255,255,.6);font-size:13px;font-family:sans-serif;}
+.sum-tv{font-size:26px;color:var(--cyanl);font-weight:700;font-family:sans-serif;letter-spacing:-.5px;}
+
+/* CTA */
+.cta{width:100%;padding:16px;background:var(--cyan);color:#fff;border:none;border-radius:var(--rad);font-size:16px;font-weight:700;font-family:sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s,transform .1s;letter-spacing:.3px;}
+.cta:hover{background:var(--cyanl);transform:translateY(-1px);}
+.cta i{font-size:18px;}
+.cta-note{text-align:center;font-size:12px;color:var(--tmut);font-family:sans-serif;margin-top:10px;}
+
+/* SUCCESS */
+.succ{display:none;padding:3rem 0;}
+.succ-hero{background:var(--bd);border-radius:var(--rad);padding:2.5rem 2rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.succ-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(0,180,216,.07);}
+.succ-circ{width:72px;height:72px;border-radius:50%;background:rgba(0,180,216,.15);border:2px solid rgba(0,180,216,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;}
+.succ-circ i{font-size:32px;color:var(--cyanl);}
+.succ-h{font-size:28px;color:#fff;margin-bottom:.5rem;}
+.succ-p{font-size:14px;color:rgba(255,255,255,.6);font-family:sans-serif;line-height:1.65;}
+.ord-badge{display:inline-block;margin-top:1rem;background:rgba(0,180,216,.15);border:1px solid rgba(0,180,216,.35);border-radius:100px;padding:6px 18px;font-size:13px;color:var(--cyanl);font-family:sans-serif;letter-spacing:.5px;}
+.tl-wrap{background:#fff;border-radius:var(--rad);overflow:hidden;margin-bottom:1.5rem;}
+.tl-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid var(--sdark);}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot{width:38px;height:38px;border-radius:50%;background:var(--bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tl-dot i{font-size:17px;color:var(--cyan);}
+.tl-m{font-size:14px;font-family:sans-serif;font-weight:600;color:var(--td);}
+.tl-s{font-size:12px;color:var(--tmut);font-family:sans-serif;margin-top:2px;}
+
+/* FOOTER */
+footer{background:var(--bd);padding:2rem;text-align:center;}
+footer p{color:rgba(255,255,255,.35);font-size:12px;font-family:sans-serif;}
+footer em{color:var(--cyan);font-style:normal;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-icon"><i class="ti ti-car"></i></div>
+    <div class="nav-brand">Eco-<em>Clean</em></div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-pill" id="nav-pill-text">✦ Mobile car wash</div>
+    <button class="lang-btn" onclick="toggleLang()" aria-label="Switch language">
+      <i class="ti ti-language"></i>
+      <span id="lang-label">العربية</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-art">
+    <div class="drop" style="width:300px;height:300px;top:-80px;right:-60px;"></div>
+    <div class="drop" style="width:180px;height:180px;top:60px;right:160px;opacity:.5;"></div>
+    <div class="drop" style="width:500px;height:500px;bottom:-200px;left:-100px;opacity:.4;"></div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.1;" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg">
+      <!-- car silhouette -->
+      <rect x="100" y="260" width="320" height="80" rx="12" fill="none" stroke="#00b4d8" stroke-width="2"/>
+      <path d="M150 260 Q190 200 240 195 L380 195 Q420 200 440 260Z" fill="none" stroke="#00b4d8" stroke-width="2"/>
+      <circle cx="175" cy="345" r="28" fill="none" stroke="#48cae4" stroke-width="2"/>
+      <circle cx="345" cy="345" r="28" fill="none" stroke="#48cae4" stroke-width="2"/>
+      <circle cx="175" cy="345" r="14" fill="none" stroke="#48cae4" stroke-width="1.5"/>
+      <circle cx="345" cy="345" r="14" fill="none" stroke="#48cae4" stroke-width="1.5"/>
+      <!-- water drops -->
+      <path d="M600 100 Q605 85 610 100 Q610 112 605 115 Q600 112 600 100Z" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+      <path d="M640 140 Q645 125 650 140 Q650 152 645 155 Q640 152 640 140Z" fill="none" stroke="#48cae4" stroke-width="1.5"/>
+      <path d="M680 90 Q685 75 690 90 Q690 102 685 105 Q680 102 680 90Z" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+      <path d="M720 130 Q725 115 730 130 Q730 142 725 145 Q720 142 720 130Z" fill="none" stroke="#48cae4" stroke-width="1.5"/>
+      <path d="M760 80 Q765 65 770 80 Q770 92 765 95 Q760 92 760 80Z" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+      <!-- sparkle lines -->
+      <line x1="580" y1="200" x2="600" y2="200" stroke="rgba(72,202,228,.4)" stroke-width="1"/>
+      <line x1="590" y1="190" x2="590" y2="210" stroke="rgba(72,202,228,.4)" stroke-width="1"/>
+      <line x1="700" y1="220" x2="720" y2="220" stroke="rgba(72,202,228,.3)" stroke-width="1"/>
+      <line x1="710" y1="210" x2="710" y2="230" stroke="rgba(72,202,228,.3)" stroke-width="1"/>
+      <!-- second car smaller -->
+      <rect x="540" y="280" width="200" height="55" rx="8" fill="none" stroke="#1e4d8c" stroke-width="1.5"/>
+      <path d="M565 280 Q590 248 620 244 L690 244 Q715 248 728 280Z" fill="none" stroke="#1e4d8c" stroke-width="1.5"/>
+      <circle cx="580" cy="338" r="18" fill="none" stroke="#1e4d8c" stroke-width="1.5"/>
+      <circle cx="718" cy="338" r="18" fill="none" stroke="#1e4d8c" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag"><i class="ti ti-leaf"></i> <span data-en="Premium · Eco-friendly" data-ar="فاخر · صديق للبيئة">Premium · Eco-friendly</span></div>
+    <h1 class="hero-h1"><span data-en="Showroom shine at<br>your <em>doorstep</em>" data-ar="لمعة المعرض عند<br><em>باب منزلك</em>">Showroom shine at<br>your <em>doorstep</em></span></h1>
+    <p class="hero-sub" data-en="We come to you — professional car wash, detailing & polish using eco-certified products. Book your slot today." data-ar="نأتي إليك — غسيل سيارات احترافي وتلميع باستخدام منتجات معتمدة صديقة للبيئة. احجز موعدك اليوم.">We come to you — professional car wash, detailing & polish using eco-certified products. Book your slot today.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="n">4.9★</div><div class="l" data-en="Avg rating" data-ar="متوسط التقييم">Avg rating</div></div>
+      <div class="hero-stat"><div class="n">8K+</div><div class="l" data-en="Cars washed" data-ar="سيارة تم غسلها">Cars washed</div></div>
+      <div class="hero-stat"><div class="n">60min</div><div class="l" data-en="Avg service" data-ar="متوسط الخدمة">Avg service</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="process-section">
+    <div class="sec-tag"><i class="ti ti-sparkles"></i> <span data-en="Our process" data-ar="طريقة عملنا">Our process</span></div>
+    <div class="sec-title" data-en="Premium care for every vehicle" data-ar="رعاية فاخرة لكل مركبة">Premium care for every vehicle</div>
+    <p class="sec-sub" data-en="From compact hatchbacks to luxury SUVs — every car leaves spotless." data-ar="من السيارات الصغيرة إلى SUV الفاخرة — كل سيارة تخرج لامعة.">From compact hatchbacks to luxury SUVs — every car leaves spotless.</p>
+
+    <div class="strip">
+      <div class="strip-panel sp1">
+        <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.18;" viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="140" width="220" height="60" rx="10" fill="none" stroke="#48cae4" stroke-width="2.5"/>
+          <path d="M65 140 Q100 100 135 96 L215 96 Q245 100 260 140Z" fill="none" stroke="#48cae4" stroke-width="2.5"/>
+          <circle cx="95" cy="202" r="20" fill="none" stroke="#00b4d8" stroke-width="2"/>
+          <circle cx="210" cy="202" r="20" fill="none" stroke="#00b4d8" stroke-width="2"/>
+          <path d="M160 50 Q163 40 166 50 Q166 57 163 59 Q160 57 160 50Z" fill="none" stroke="#48cae4" stroke-width="1.5"/>
+          <path d="M200 35 Q203 25 206 35 Q206 42 203 44 Q200 42 200 35Z" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+          <path d="M230 55 Q233 45 236 55 Q236 62 233 64 Q230 62 230 55Z" fill="none" stroke="#48cae4" stroke-width="1.5"/>
+        </svg>
+        <div class="strip-label" data-en="Exterior wash" data-ar="غسيل خارجي">Exterior wash</div>
+      </div>
+      <div class="sp-col">
+        <div class="strip-panel sp2">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="30" width="150" height="50" rx="6" fill="none" stroke="#48cae4" stroke-width="2"/>
+            <line x1="45" y1="45" x2="155" y2="45" stroke="rgba(72,202,228,.5)" stroke-width="1.5"/>
+            <line x1="45" y1="58" x2="155" y2="58" stroke="rgba(72,202,228,.4)" stroke-width="1.5"/>
+            <circle cx="50" cy="90" r="12" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+            <circle cx="150" cy="90" r="12" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+          </svg>
+          <div class="strip-label" data-en="Interior clean" data-ar="تنظيف داخلي">Interior clean</div>
+        </div>
+        <div class="strip-panel sp3">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="55" r="42" fill="none" stroke="#48cae4" stroke-width="2"/>
+            <circle cx="100" cy="55" r="26" fill="none" stroke="#00b4d8" stroke-width="1.5"/>
+            <path d="M86 40 Q100 28 114 40 Q114 70 100 82 Q86 70 86 40Z" fill="rgba(72,202,228,.12)"/>
+          </svg>
+          <div class="strip-label" data-en="Polish & wax" data-ar="تلميع وشمع">Polish & wax</div>
+        </div>
+      </div>
+      <div class="sp-col">
+        <div class="strip-panel sp4">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="30" width="140" height="50" rx="6" fill="none" stroke="#48cae4" stroke-width="2"/>
+            <line x1="50" y1="30" x2="50" y2="80" stroke="rgba(72,202,228,.4)" stroke-width="1.5"/>
+            <line x1="80" y1="30" x2="80" y2="80" stroke="rgba(72,202,228,.3)" stroke-width="1.5"/>
+            <line x1="110" y1="30" x2="110" y2="80" stroke="rgba(72,202,228,.25)" stroke-width="1.5"/>
+            <line x1="140" y1="30" x2="140" y2="80" stroke="rgba(72,202,228,.2)" stroke-width="1.5"/>
+          </svg>
+          <div class="strip-label" data-en="Engine cleaning" data-ar="تنظيف المحرك">Engine cleaning</div>
+        </div>
+        <div class="strip-panel sp5">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2;" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 80 Q100 20 160 80" fill="none" stroke="#48cae4" stroke-width="2"/>
+            <path d="M55 80 Q100 35 145 80" fill="none" stroke="rgba(72,202,228,.6)" stroke-width="1.5"/>
+            <path d="M70 80 Q100 48 130 80" fill="none" stroke="rgba(72,202,228,.4)" stroke-width="1.5"/>
+          </svg>
+          <div class="strip-label" data-en="Ceramic coat" data-ar="طلاء سيراميك">Ceramic coat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUST -->
+    <div class="trust-row">
+      <div class="trust-item"><i class="ti ti-shield-check"></i><div class="trust-name" data-en="Insured" data-ar="مؤمَّن">Insured</div><div class="trust-desc" data-en="All vehicles covered" data-ar="جميع المركبات مشمولة">All vehicles covered</div></div>
+      <div class="trust-item"><i class="ti ti-leaf"></i><div class="trust-name" data-en="Eco-certified" data-ar="معتمد بيئياً">Eco-certified</div><div class="trust-desc" data-en="Biodegradable products" data-ar="منتجات قابلة للتحلل">Biodegradable products</div></div>
+      <div class="trust-item"><i class="ti ti-clock"></i><div class="trust-name" data-en="On-time" data-ar="في الموعد">On-time</div><div class="trust-desc" data-en="Punctual every time" data-ar="دقيق في كل مرة">Punctual every time</div></div>
+      <div class="trust-item"><i class="ti ti-star"></i><div class="trust-name">4.9 / 5</div><div class="trust-desc" data-en="8,000+ reviews" data-ar="+8,000 تقييم">8,000+ reviews</div></div>
+    </div>
+  </div>
+
+  <!-- BOOKING -->
+  <div class="booking-section" id="main-form">
+    <div class="sec-tag"><i class="ti ti-calendar"></i> <span data-en="Book now" data-ar="احجز الآن">Book now</span></div>
+    <div class="sec-title" data-en="Schedule your car wash" data-ar="حدد موعد غسيل سيارتك">Schedule your car wash</div>
+    <p class="sec-sub" data-en="Choose your services, select your vehicle, and pick a time that works for you." data-ar="اختر الخدمات، حدد مركبتك، واختر الوقت المناسب.">Choose your services, select your vehicle, and pick a time that works for you.</p>
+
+    <div class="prog">
+      <div class="seg on" id="seg1"></div>
+      <div class="seg" id="seg2"></div>
+      <div class="seg" id="seg3"></div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="row-label" data-en="Select services" data-ar="اختر الخدمات">Select services</div>
+    <div class="svc-grid">
+      <div class="svc-card sel" data-svc="ext">
+        <div class="svc-check"><i class="ti ti-check"></i></div>
+        <div class="svc-thumb t-ext"><i class="ti ti-droplet svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div>
+        <div class="svc-body"><div class="svc-name" data-en="Exterior Wash" data-ar="غسيل خارجي">Exterior Wash</div><div class="svc-price" data-en="from AED 40" data-ar="من 40 درهم">from AED 40</div></div>
+      </div>
+      <div class="svc-card" data-svc="int">
+        <div class="svc-check"><i class="ti ti-check"></i></div>
+        <div class="svc-thumb t-int"><i class="ti ti-sofa svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div>
+        <div class="svc-body"><div class="svc-name" data-en="Interior Clean" data-ar="تنظيف داخلي">Interior Clean</div><div class="svc-price" data-en="from AED 60" data-ar="من 60 درهم">from AED 60</div></div>
+      </div>
+      <div class="svc-card" data-svc="full">
+        <div class="svc-check"><i class="ti ti-check"></i></div>
+        <div class="svc-thumb t-full"><i class="ti ti-star svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div>
+        <div class="svc-body"><div class="svc-name" data-en="Full Detail" data-ar="تفصيل كامل">Full Detail</div><div class="svc-price" data-en="from AED 120" data-ar="من 120 درهم">from AED 120</div></div>
+      </div>
+      <div class="svc-card" data-svc="pol">
+        <div class="svc-check"><i class="ti ti-check"></i></div>
+        <div class="svc-thumb t-pol"><i class="ti ti-sparkles svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div>
+        <div class="svc-body"><div class="svc-name" data-en="Polish & Wax" data-ar="تلميع وشمع">Polish & Wax</div><div class="svc-price" data-en="from AED 150" data-ar="من 150 درهم">from AED 150</div></div>
+      </div>
+      <div class="svc-card" data-svc="eng">
+        <div class="svc-check"><i class="ti ti-check"></i></div>
+        <div class="svc-thumb t-eng"><i class="ti ti-engine svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div>
+        <div class="svc-body"><div class="svc-name" data-en="Engine Cleaning" data-ar="تنظيف المحرك">Engine Cleaning</div><div class="svc-price" data-en="from AED 80" data-ar="من 80 درهم">from AED 80</div></div>
+      </div>
+      <div class="svc-card" data-svc="cer">
+        <div class="svc-check"><i class="ti ti-check"></i></div>
+        <div class="svc-thumb t-cer"><i class="ti ti-shield svc-thumb-icon"></i><div class="svc-thumb-fade"></div></div>
+        <div class="svc-body"><div class="svc-name" data-en="Ceramic Coating" data-ar="طلاء سيراميك">Ceramic Coating</div><div class="svc-price" data-en="from AED 500" data-ar="من 500 درهم">from AED 500</div></div>
+      </div>
+    </div>
+
+    <!-- VEHICLES -->
+    <div class="qty-cat-label"><i class="ti ti-car" aria-hidden="true"></i><span data-en="Cars & SUVs" data-ar="سيارات وSUV">Cars & SUVs</span></div>
+    <div class="qty-card">
+      <div class="qty-row"><div><div class="qty-nm" data-en="Sedan" data-ar="سيدان">Sedan</div><div class="qty-sb" data-en="Per vehicle · AED 40" data-ar="للمركبة · 40 درهم">Per vehicle · AED 40</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('sedan',-1)">−</button><span class="qval" id="q-sedan">0</span><button class="qbtn p" onclick="chg('sedan',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Hatchback / Compact" data-ar="هاتشباك / مدمجة">Hatchback / Compact</div><div class="qty-sb" data-en="Per vehicle · AED 35" data-ar="للمركبة · 35 درهم">Per vehicle · AED 35</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('hatch',-1)">−</button><span class="qval" id="q-hatch">0</span><button class="qbtn p" onclick="chg('hatch',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="SUV / Crossover" data-ar="SUV / كروس أوفر">SUV / Crossover</div><div class="qty-sb" data-en="Per vehicle · AED 60" data-ar="للمركبة · 60 درهم">Per vehicle · AED 60</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('suv',-1)">−</button><span class="qval" id="q-suv">0</span><button class="qbtn p" onclick="chg('suv',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Luxury / Sports Car" data-ar="سيارة فاخرة / رياضية">Luxury / Sports Car</div><div class="qty-sb" data-en="Per vehicle · AED 90" data-ar="للمركبة · 90 درهم">Per vehicle · AED 90</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('luxury',-1)">−</button><span class="qval" id="q-luxury">0</span><button class="qbtn p" onclick="chg('luxury',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Coupe / Convertible" data-ar="كوبيه / مكشوفة">Coupe / Convertible</div><div class="qty-sb" data-en="Per vehicle · AED 75" data-ar="للمركبة · 75 درهم">Per vehicle · AED 75</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('coupe',-1)">−</button><span class="qval" id="q-coupe">0</span><button class="qbtn p" onclick="chg('coupe',1)">+</button></div></div>
+    </div>
+
+    <div class="qty-cat-label"><i class="ti ti-truck" aria-hidden="true"></i><span data-en="Trucks & Vans" data-ar="شاحنات وفانات">Trucks & Vans</span></div>
+    <div class="qty-card">
+      <div class="qty-row"><div><div class="qty-nm" data-en="Pickup Truck" data-ar="شاحنة بيك أب">Pickup Truck</div><div class="qty-sb" data-en="Per vehicle · AED 70" data-ar="للمركبة · 70 درهم">Per vehicle · AED 70</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('pickup',-1)">−</button><span class="qval" id="q-pickup">0</span><button class="qbtn p" onclick="chg('pickup',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Minivan / MPV" data-ar="ميني فان / MPV">Minivan / MPV</div><div class="qty-sb" data-en="Per vehicle · AED 65" data-ar="للمركبة · 65 درهم">Per vehicle · AED 65</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('van',-1)">−</button><span class="qval" id="q-van">0</span><button class="qbtn p" onclick="chg('van',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Large Van / Commercial" data-ar="فان كبير / تجاري">Large Van / Commercial</div><div class="qty-sb" data-en="Per vehicle · AED 100" data-ar="للمركبة · 100 درهم">Per vehicle · AED 100</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('lgvan',-1)">−</button><span class="qval" id="q-lgvan">0</span><button class="qbtn p" onclick="chg('lgvan',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="4x4 / Off-road" data-ar="4x4 / طرق وعرة">4x4 / Off-road</div><div class="qty-sb" data-en="Per vehicle · AED 85" data-ar="للمركبة · 85 درهم">Per vehicle · AED 85</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('offroad',-1)">−</button><span class="qval" id="q-offroad">0</span><button class="qbtn p" onclick="chg('offroad',1)">+</button></div></div>
+    </div>
+
+    <div class="qty-cat-label"><i class="ti ti-motorbike" aria-hidden="true"></i><span data-en="Other Vehicles" data-ar="مركبات أخرى">Other Vehicles</span></div>
+    <div class="qty-card">
+      <div class="qty-row"><div><div class="qty-nm" data-en="Motorcycle / Scooter" data-ar="دراجة نارية / سكوتر">Motorcycle / Scooter</div><div class="qty-sb" data-en="Per vehicle · AED 30" data-ar="للمركبة · 30 درهم">Per vehicle · AED 30</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('moto',-1)">−</button><span class="qval" id="q-moto">0</span><button class="qbtn p" onclick="chg('moto',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="Boat / Jet Ski" data-ar="قارب / جت سكي">Boat / Jet Ski</div><div class="qty-sb" data-en="Per vehicle · AED 200" data-ar="للمركبة · 200 درهم">Per vehicle · AED 200</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('boat',-1)">−</button><span class="qval" id="q-boat">0</span><button class="qbtn p" onclick="chg('boat',1)">+</button></div></div>
+      <div class="qty-row"><div><div class="qty-nm" data-en="ATV / Quad Bike" data-ar="ATV / دراجة رباعية">ATV / Quad Bike</div><div class="qty-sb" data-en="Per vehicle · AED 60" data-ar="للمركبة · 60 درهم">Per vehicle · AED 60</div></div><div class="qty-ctrl"><button class="qbtn" onclick="chg('atv',-1)">−</button><span class="qval" id="q-atv">0</span><button class="qbtn p" onclick="chg('atv',1)">+</button></div></div>
+    </div>
+
+    <!-- LOCATION -->
+    <div class="row-label" style="margin-top:2rem;" data-en="Car location" data-ar="موقع السيارة">Car location</div>
+    <div class="fb">
+      <div class="fb-head"><i class="ti ti-map-pin"></i><div><div class="fb-head-t" data-en="Where is your car?" data-ar="أين سيارتك؟">Where is your car?</div><div class="fb-head-s" data-en="Our team comes to your location" data-ar="فريقنا يأتي إلى موقعك">Our team comes to your location</div></div></div>
+      <div class="fb-body">
+        <div class="fg"><label class="fl" data-en="Full address" data-ar="العنوان الكامل">Full address</label><input type="text" id="pu-addr" data-en-placeholder="Villa 12, Al Barsha, Dubai" data-ar-placeholder="فيلا 12، البرشاء، دبي" placeholder="Villa 12, Al Barsha, Dubai" /></div>
+        <div class="fr2">
+          <div class="fg"><label class="fl" data-en="Date" data-ar="التاريخ">Date</label><input type="date" id="pu-date" /></div>
+          <div class="fg"><label class="fl" data-en="City / Area" data-ar="المدينة / المنطقة">City / Area</label><input type="text" id="pu-city" data-en-placeholder="Dubai Marina" data-ar-placeholder="مرسى دبي" placeholder="Dubai Marina" /></div>
+        </div>
+        <div class="fg">
+          <label class="fl" data-en="Preferred time slot" data-ar="الوقت المفضل">Preferred time slot</label>
+          <div class="slots">
+            <div class="slot on" data-g="pu" data-v="7–9 AM"><i class="ti ti-sun"></i><span data-en="7–9 AM" data-ar="7–9 ص">7–9 AM</span></div>
+            <div class="slot" data-g="pu" data-v="9–11 AM"><i class="ti ti-sun"></i><span data-en="9–11 AM" data-ar="9–11 ص">9–11 AM</span></div>
+            <div class="slot" data-g="pu" data-v="11 AM–1 PM"><i class="ti ti-sun-high"></i><span data-en="11 AM–1 PM" data-ar="11 ص–1 م">11 AM–1 PM</span></div>
+            <div class="slot" data-g="pu" data-v="2–4 PM"><i class="ti ti-sun-low"></i><span data-en="2–4 PM" data-ar="2–4 م">2–4 PM</span></div>
+            <div class="slot" data-g="pu" data-v="4–6 PM"><i class="ti ti-moon"></i><span data-en="4–6 PM" data-ar="4–6 م">4–6 PM</span></div>
+            <div class="slot" data-g="pu" data-v="6–8 PM"><i class="ti ti-moon"></i><span data-en="6–8 PM" data-ar="6–8 م">6–8 PM</span></div>
+          </div>
+        </div>
+        <div class="fg" style="margin-top:6px;margin-bottom:0;"><label class="fl" data-en="Parking / access notes" data-ar="ملاحظات الوصول">Parking / access notes</label><textarea id="pu-notes" data-en-placeholder="Building B2, parking slot 14, gate code 1234…" data-ar-placeholder="مبنى B2، موقف 14، رمز البوابة 1234…" placeholder="Building B2, parking slot 14, gate code 1234…"></textarea></div>
+      </div>
+    </div>
+
+    <!-- RETURN -->
+    <div class="row-label" data-en="Return / delivery" data-ar="الإعادة والتسليم">Return / delivery</div>
+    <div class="fb">
+      <div class="fb-head"><i class="ti ti-car-garage"></i><div><div class="fb-head-t" data-en="Return location & time" data-ar="موقع ووقت الإعادة">Return location & time</div><div class="fb-head-s" data-en="We return your car spotless" data-ar="نعيد سيارتك لامعة">We return your car spotless</div></div></div>
+      <div class="fb-body">
+        <label class="same-chk"><input type="checkbox" id="same-addr" checked onchange="toggleSame()" /><span data-en="Return to same location" data-ar="الإعادة إلى نفس الموقع">Return to same location</span></label>
+        <div id="del-extra" style="display:none;">
+          <div class="fg"><label class="fl" data-en="Return address" data-ar="عنوان الإعادة">Return address</label><input type="text" id="del-addr" data-en-placeholder="Office: Sheikh Zayed Rd, Tower 3" data-ar-placeholder="مكتب: شارع الشيخ زايد، برج 3" placeholder="Office: Sheikh Zayed Rd, Tower 3" /></div>
+          <div class="fg"><label class="fl" data-en="City / Area" data-ar="المدينة / المنطقة">City / Area</label><input type="text" id="del-city" data-en-placeholder="Downtown Dubai" data-ar-placeholder="وسط مدينة دبي" placeholder="Downtown Dubai" /></div>
+        </div>
+        <div class="fr2"><div class="fg"><label class="fl" data-en="Return date" data-ar="تاريخ الإعادة">Return date</label><input type="date" id="del-date" /></div></div>
+        <div class="fg">
+          <label class="fl" data-en="Return time slot" data-ar="وقت الإعادة">Return time slot</label>
+          <div class="slots">
+            <div class="slot" data-g="del" data-v="7–9 AM"><i class="ti ti-sun"></i><span data-en="7–9 AM" data-ar="7–9 ص">7–9 AM</span></div>
+            <div class="slot" data-g="del" data-v="9–11 AM"><i class="ti ti-sun"></i><span data-en="9–11 AM" data-ar="9–11 ص">9–11 AM</span></div>
+            <div class="slot on" data-g="del" data-v="11 AM–1 PM"><i class="ti ti-sun-high"></i><span data-en="11 AM–1 PM" data-ar="11 ص–1 م">11 AM–1 PM</span></div>
+            <div class="slot" data-g="del" data-v="2–4 PM"><i class="ti ti-sun-low"></i><span data-en="2–4 PM" data-ar="2–4 م">2–4 PM</span></div>
+            <div class="slot" data-g="del" data-v="4–6 PM"><i class="ti ti-moon"></i><span data-en="4–6 PM" data-ar="4–6 م">4–6 PM</span></div>
+            <div class="slot" data-g="del" data-v="6–8 PM"><i class="ti ti-moon"></i><span data-en="6–8 PM" data-ar="6–8 م">6–8 PM</span></div>
+          </div>
+        </div>
+        <div class="fg" style="margin-top:6px;margin-bottom:0;"><label class="fl" data-en="Additional notes" data-ar="ملاحظات إضافية">Additional notes</label><textarea id="del-notes" data-en-placeholder="Keys with reception, call on arrival…" data-ar-placeholder="المفاتيح مع الاستقبال، اتصل عند الوصول…" placeholder="Keys with reception, call on arrival…"></textarea></div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="row-label" data-en="Your details" data-ar="بياناتك">Your details</div>
+    <div class="fb">
+      <div class="fb-head"><i class="ti ti-user"></i><div><div class="fb-head-t" data-en="Contact information" data-ar="معلومات التواصل">Contact information</div><div class="fb-head-s" data-en="For booking updates & team contact" data-ar="لتحديثات الحجز والتواصل مع الفريق">For booking updates & team contact</div></div></div>
+      <div class="fb-body">
+        <div class="fr2">
+          <div class="fg"><label class="fl" data-en="Full name" data-ar="الاسم الكامل">Full name</label><input type="text" id="c-name" data-en-placeholder="Ahmed Al Mansouri" data-ar-placeholder="أحمد المنصوري" placeholder="Ahmed Al Mansouri" /></div>
+          <div class="fg"><label class="fl" data-en="Phone" data-ar="رقم الهاتف">Phone</label><input type="text" id="c-phone" placeholder="+971 50 000 0000" /></div>
+        </div>
+        <div class="fg" style="margin-bottom:0;"><label class="fl" data-en="Email" data-ar="البريد الإلكتروني">Email</label><input type="text" id="c-email" placeholder="ahmed@email.com" /></div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="row-label" data-en="Order summary" data-ar="ملخص الطلب">Order summary</div>
+    <div class="sum-box">
+      <div class="sum-row"><span data-en="Services" data-ar="الخدمات">Services</span><span class="sum-val" id="s-svcs">Exterior Wash</span></div>
+      <div class="sum-row"><span data-en="Vehicles" data-ar="المركبات">Vehicles</span><span class="sum-val" id="s-items">0 vehicles</span></div>
+      <div class="sum-row"><span data-en="Service time" data-ar="وقت الخدمة">Service time</span><span class="sum-val" id="s-pu">7–9 AM</span></div>
+      <div class="sum-row"><span data-en="Return time" data-ar="وقت الإعادة">Return time</span><span class="sum-val" id="s-del">11 AM–1 PM</span></div>
+      <div class="sum-row"><span data-en="Eco processing" data-ar="المعالجة البيئية">Eco processing</span><span class="sum-val" data-en="Included" data-ar="مشمول">Included</span></div>
+      <div class="sum-div"></div>
+      <div class="sum-total"><span class="sum-tl" data-en="Estimated total" data-ar="الإجمالي التقديري">Estimated total</span><span class="sum-tv" id="s-total">AED 0</span></div>
+    </div>
+    <button class="cta" onclick="placeOrder()"><i class="ti ti-car"></i> <span data-en="Confirm my booking" data-ar="تأكيد الحجز">Confirm my booking</span></button>
+    <p class="cta-note" data-en="Secure · Free cancellation up to 2h before service · Eco-certified" data-ar="آمن · إلغاء مجاني حتى ساعتين قبل الخدمة · معتمد بيئياً">Secure · Free cancellation up to 2h before service · Eco-certified</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="succ" id="succ">
+    <div class="succ-hero">
+      <div class="succ-circ"><i class="ti ti-check"></i></div>
+      <h2 class="succ-h" data-en="Booking confirmed!" data-ar="تم تأكيد الحجز!">Booking confirmed!</h2>
+      <p class="succ-p" data-en="Your car is in expert hands. Our team will arrive at your location on time." data-ar="سيارتك في أيدٍ أمينة. فريقنا سيصل إلى موقعك في الموعد المحدد.">Your car is in expert hands. Our team will arrive at your location on time.</p>
+      <div class="ord-badge" id="ord-badge">Order #ECO-0000</div>
+    </div>
+    <div class="row-label" data-en="Your booking timeline" data-ar="مراحل حجزك">Your booking timeline</div>
+    <div class="tl-wrap">
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-map-pin"></i></div><div><div class="tl-m" data-en="Team arrives at your location" data-ar="الفريق يصل إلى موقعك">Team arrives at your location</div><div class="tl-s" id="tl-pu">Today · 7–9 AM</div></div></div>
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-droplet"></i></div><div><div class="tl-m" data-en="Exterior & interior cleaning" data-ar="تنظيف خارجي وداخلي">Exterior & interior cleaning</div><div class="tl-s" data-en="Eco-certified products · Professional finish" data-ar="منتجات معتمدة · تشطيب احترافي">Eco-certified products · Professional finish</div></div></div>
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-sparkles"></i></div><div><div class="tl-m" data-en="Polish & finishing" data-ar="تلميع وتشطيب">Polish & finishing</div><div class="tl-s" data-en="Showroom-level results" data-ar="نتائج بمستوى المعرض">Showroom-level results</div></div></div>
+      <div class="tl-item"><div class="tl-dot"><i class="ti ti-car-garage"></i></div><div><div class="tl-m" data-en="Car returned spotless" data-ar="السيارة تُعاد لامعة">Car returned spotless</div><div class="tl-s" id="tl-del">Today · 11 AM–1 PM</div></div></div>
+    </div>
+    <button class="cta" onclick="resetApp()" style="margin-top:1.5rem;"><i class="ti ti-plus"></i> <span data-en="Book another wash" data-ar="حجز غسيل آخر">Book another wash</span></button>
+  </div>
+</div>
+
+<footer>
+  <p><em>Eco-Clean Car Wash</em> &nbsp;·&nbsp; <span data-en="Premium Mobile Detailing" data-ar="تفصيل متنقل فاخر">Premium Mobile Detailing</span> &nbsp;·&nbsp; © 2026</p>
+</footer>
+
+<script>
+const qty={sedan:0,hatch:0,suv:0,luxury:0,coupe:0,pickup:0,van:0,lgvan:0,offroad:0,moto:0,boat:0,atv:0};
+const uP={sedan:40,hatch:35,suv:60,luxury:90,coupe:75,pickup:70,van:65,lgvan:100,offroad:85,moto:30,boat:200,atv:60};
+const svcBase={ext:40,int:60,full:120,pol:150,eng:80,cer:500};
+const selSvcs=new Set(['ext']);
+let puSlot='7–9 AM', delSlot='11 AM–1 PM';
+let currentLang='en';
+
+const now=new Date(), tom=new Date(now);
+tom.setDate(now.getDate()+1);
+const fmt=d=>d.toISOString().split('T')[0];
+document.getElementById('pu-date').value=fmt(now);
+document.getElementById('pu-date').min=fmt(now);
+document.getElementById('del-date').value=fmt(now);
+document.getElementById('del-date').min=fmt(now);
+
+function toggleLang(){
+  currentLang=currentLang==='en'?'ar':'en';
+  const html=document.documentElement;
+  html.lang=currentLang;
+  html.dir=currentLang==='ar'?'rtl':'ltr';
+  document.getElementById('lang-label').textContent=currentLang==='en'?'العربية':'English';
+  document.getElementById('nav-pill-text').textContent=currentLang==='en'?'✦ Mobile car wash':'✦ غسيل سيارات متنقل';
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const v=el.getAttribute('data-'+currentLang);
+    if(v) el.innerHTML=v;
+  });
+  document.querySelectorAll('[data-en-placeholder]').forEach(el=>{
+    el.placeholder=el.getAttribute('data-'+currentLang+'-placeholder')||el.getAttribute('data-en-placeholder');
+  });
+  upd();
+}
+
+document.querySelectorAll('.svc-card').forEach(c=>{
+  c.addEventListener('click',()=>{
+    const s=c.dataset.svc;
+    if(selSvcs.has(s)){if(selSvcs.size>1){selSvcs.delete(s);c.classList.remove('sel');}}
+    else{selSvcs.add(s);c.classList.add('sel');}
+    upd();
+  });
+});
+
+document.querySelectorAll('.slot').forEach(s=>{
+  s.addEventListener('click',()=>{
+    const g=s.dataset.g;
+    document.querySelectorAll(`.slot[data-g="${g}"]`).forEach(x=>x.classList.remove('on'));
+    s.classList.add('on');
+    if(g==='pu') puSlot=s.dataset.v; else delSlot=s.dataset.v;
+    upd();
+  });
+});
+
+function chg(item,d){
+  qty[item]=Math.max(0,qty[item]+d);
+  document.getElementById('q-'+item).textContent=qty[item];
+  const tv=Object.values(qty).reduce((a,b)=>a+b,0);
+  document.getElementById('seg2').classList.toggle('on',tv>0);
+  upd();
+}
+
+function toggleSame(){
+  document.getElementById('del-extra').style.display=document.getElementById('same-addr').checked?'none':'block';
+}
+
+function upd(){
+  const mpEn={ext:'Exterior Wash',int:'Interior Clean',full:'Full Detail',pol:'Polish & Wax',eng:'Engine Cleaning',cer:'Ceramic Coating'};
+  const mpAr={ext:'غسيل خارجي',int:'تنظيف داخلي',full:'تفصيل كامل',pol:'تلميع وشمع',eng:'تنظيف المحرك',cer:'طلاء سيراميك'};
+  const mp=currentLang==='ar'?mpAr:mpEn;
+  const totalVeh=Object.values(qty).reduce((a,b)=>a+b,0);
+  let base=0;
+  Object.entries(qty).forEach(([k,v])=>{base+=v*uP[k];});
+  const svcMult=[...selSvcs].reduce((a,s)=>{
+    const prices={ext:1,int:1.5,full:3,pol:3.75,eng:2,cer:12.5};
+    return a+(prices[s]||1);
+  },0);
+  const total=Math.round(base*svcMult);
+  document.getElementById('s-svcs').textContent=[...selSvcs].map(s=>mp[s]).join(', ');
+  document.getElementById('s-items').textContent=currentLang==='ar'?totalVeh+' مركبة':totalVeh+' vehicle'+(totalVeh!==1?'s':'');
+  document.getElementById('s-pu').textContent=puSlot;
+  document.getElementById('s-del').textContent=delSlot;
+  document.getElementById('s-total').textContent='AED '+total.toLocaleString();
+  document.getElementById('seg3').classList.toggle('on',!!document.getElementById('pu-addr').value.trim());
+}
+
+document.getElementById('pu-addr').addEventListener('input',upd);
+
+function placeOrder(){
+  const name=document.getElementById('c-name').value.trim();
+  const addr=document.getElementById('pu-addr').value.trim();
+  const tv=Object.values(qty).reduce((a,b)=>a+b,0);
+  const msg=currentLang==='ar'?'يرجى إدخال اسمك وعنوان الموقع وإضافة مركبة واحدة على الأقل.':'Please fill in your name, location address, and add at least one vehicle.';
+  if(!name||!addr||tv===0){alert(msg);return;}
+  const id='ECO-'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('ord-badge').textContent=(currentLang==='ar'?'طلب رقم #':'Order #')+id;
+  const pd=document.getElementById('pu-date').value;
+  const dd=document.getElementById('del-date').value;
+  const todayL=currentLang==='ar'?'اليوم':'Today';
+  const tomL=currentLang==='ar'?'غداً':'Tomorrow';
+  document.getElementById('tl-pu').textContent=(pd===fmt(now)?todayL:pd)+' · '+puSlot;
+  document.getElementById('tl-del').textContent=(dd===fmt(now)?todayL:(dd===fmt(tom)?tomL:dd))+' · '+delSlot;
+  document.getElementById('main-form').style.display='none';
+  document.getElementById('succ').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetApp(){
+  document.getElementById('main-form').style.display='block';
+  document.getElementById('succ').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "job_call_bot (Flask)",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd /Users/ahmedabuseif/job_call_bot && python3 app.py"],
+      "port": 5000,
+      "autoPort": true
+    },
+    {
+      "name": "driver-jobs-backend (Express)",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd /Users/ahmedabuseif/Desktop/ALL/driver-jobs-backend && node server.js"],
+      "port": 3000
+    },
+    {
+      "name": "eco-clean",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "python3 -m http.server ${PORT:-8080} --directory eco-clean"],
+      "port": 8080,
+      "autoPort": true
+    }
+  ]
+}
