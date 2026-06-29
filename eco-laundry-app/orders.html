@@ -763,15 +763,29 @@ function closeModal(e){
 // ── QR TAG ────────────────────────────────────────────────────────────
 function openQRTag(id){
   const o=ALL_ORDERS.find(x=>x.id===id);
-  if(!o)return;
-  const payload=JSON.stringify({id:o.id,name:o.name,phone:o.phone,address:o.address,items:o.items,total:o.total,services:o.services,pickup:o.pickup,delivery:o.delivery,status:o.status});
-  const target=document.getElementById('qr-tag-canvas');
-  target.innerHTML='';
-  new QRCode(target,{text:payload,width:160,height:160,colorDark:'#1a3a2a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  if(!o){showToast('Order not found.');return;}
+
+  // Always populate the text fields and open the modal first, so the tag
+  // is still useful (ID + details) even if the QR library failed to load.
   document.getElementById('qr-tag-id').textContent=o.id;
   document.getElementById('qr-tag-name').textContent=o.name;
   document.getElementById('qr-tag-meta').textContent=`${o.items} pcs · AED ${o.total} · ${o.address.split(',')[0]}`;
   document.getElementById('qr-tag-status').innerHTML=`<span class="status-badge ${STATUS_CSS[o.status]}">${STATUS_LABELS[o.status]}</span>`;
+
+  const target=document.getElementById('qr-tag-canvas');
+  target.innerHTML='';
+  if(typeof QRCode==='undefined'){
+    target.innerHTML=`<div style="width:160px;height:160px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;color:var(--tmut);border:1.5px dashed var(--cdark);border-radius:8px;padding:.5rem;">QR library failed to load — check your internet connection and reload the page.</div>`;
+    showToast('QR library failed to load. Check your connection and reload.');
+  }else{
+    try{
+      const payload=JSON.stringify({id:o.id,name:o.name,phone:o.phone,address:o.address,items:o.items,total:o.total,services:o.services,pickup:o.pickup,delivery:o.delivery,status:o.status});
+      new QRCode(target,{text:payload,width:160,height:160,colorDark:'#1a3a2a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+    }catch(err){
+      target.innerHTML=`<div style="width:160px;height:160px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;color:#e74c3c;">Could not generate QR code.</div>`;
+      showToast('QR generation failed: '+err.message);
+    }
+  }
   document.getElementById('qr-modal-bg').classList.add('open');
 }
 
