@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Codes — Eco-Laundry Admin</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/lib/browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -431,34 +431,43 @@ function generateFromNew(){
   generateQR(o);
 }
 
+let currentQRId=null;
 function generateQR(o){
   const payload=JSON.stringify({
     id:o.id,name:o.name,phone:o.phone,address:o.address,items:o.items,
     total:o.total,services:o.services,payment:o.payment,status:o.status
   });
   const out=document.getElementById('qr-out');
-  out.innerHTML=`<canvas id="qr-canvas"></canvas>`;
-  const canvas=document.getElementById('qr-canvas');
-  QRCode.toCanvas(canvas,payload,{width:200,margin:1,color:{dark:'#1a3a2a',light:'#ffffff'}},function(err){
-    if(err){out.innerHTML=`<div class="qr-out-empty"><i class="ti ti-alert-triangle"></i><p>Could not generate QR code.</p></div>`;return;}
-    const extra=document.createElement('div');
-    extra.innerHTML=`
-      <div class="qr-out-id">${o.id}</div>
-      <div class="qr-out-actions">
-        <button class="btn-ghost" onclick="downloadQR('${o.id}')"><i class="ti ti-download"></i> Download</button>
-        <button class="btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
-      </div>
-    `;
-    out.appendChild(extra);
-  });
+  out.innerHTML=`<div id="qr-target"></div>`;
+  try{
+    new QRCode(document.getElementById('qr-target'),{
+      text:payload,width:200,height:200,
+      colorDark:'#1a3a2a',colorLight:'#ffffff',
+      correctLevel:QRCode.CorrectLevel.M
+    });
+  }catch(err){
+    out.innerHTML=`<div class="qr-out-empty"><i class="ti ti-alert-triangle"></i><p>Could not generate QR code.</p></div>`;
+    showToast('QR generation failed: '+err.message);
+    return;
+  }
+  currentQRId=o.id;
+  const extra=document.createElement('div');
+  extra.innerHTML=`
+    <div class="qr-out-id">${o.id}</div>
+    <div class="qr-out-actions">
+      <button class="btn-ghost" onclick="downloadQR('${o.id}')"><i class="ti ti-download"></i> Download</button>
+      <button class="btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
+    </div>
+  `;
+  out.appendChild(extra);
   showToast('QR code generated for '+o.id);
 }
 
 function downloadQR(id){
-  const canvas=document.getElementById('qr-canvas');
-  if(!canvas)return;
+  const canvas=document.querySelector('#qr-target canvas');
+  if(!canvas){showToast('No QR code to download yet.');return;}
   const link=document.createElement('a');
-  link.download=id+'-qrcode.png';
+  link.download=(id||currentQRId||'order')+'-qrcode.png';
   link.href=canvas.toDataURL('image/png');
   link.click();
 }
