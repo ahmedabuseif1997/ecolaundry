@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Codes — Eco-Laundry Admin</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gd:#1a3a2a;--gr:#2d5a3d;--gm:#3d7a52;--gl:#5a9e6f;
+  --cream:#f5f0e8;--cdark:#ede6d6;--cwarm:#f9f5ee;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --td:#1a2e22;--tm:#3a5245;--tmut:#6b8275;
+  --rad:12px;--rads:8px;
+  --sidebar:240px;
+}
+html,body{height:100%;font-family:sans-serif;background:#f0f2f0;color:var(--td);}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--gd);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:1.5rem 1.25rem 1rem;}
+.sb-logo-icon{width:34px;height:34px;border-radius:9px;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;}
+.sb-logo-icon i{font-size:17px;color:var(--gold);}
+.sb-brand{color:#fff;font-size:16px;font-family:'Georgia',serif;}
+.sb-brand em{color:var(--gold);font-style:italic;}
+.sb-badge{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.5px;text-transform:uppercase;padding:0 1.25rem;margin-bottom:.75rem;}
+.sb-nav{flex:1;padding:0 .75rem;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rads);color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;text-decoration:none;margin-bottom:2px;}
+.sb-link i{font-size:17px;}
+.sb-link:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
+.sb-link.active{background:rgba(201,168,76,.18);color:var(--goldl);}
+.sb-link.active i{color:var(--gold);}
+.sb-divider{height:1px;background:rgba(255,255,255,.08);margin:.75rem 0;}
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);}
+.sb-user{display:flex;align-items:center;gap:10px;}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);}
+.sb-uname{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;}
+.sb-urole{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px;}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+.topbar{background:#fff;border-bottom:1px solid var(--cdark);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;}
+.topbar-title{font-size:16px;font-weight:700;color:var(--td);}
+.content{padding:1.75rem 2rem;flex:1;max-width:1280px;}
+
+.sec-block{margin-bottom:2rem;}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
+.sec-head i{font-size:20px;color:var(--gold);}
+.sec-head-title{font-size:16px;font-weight:700;color:var(--td);}
+.sec-head-sub{font-size:12px;color:var(--tmut);margin-top:1px;}
+
+.panel{background:#fff;border-radius:var(--rad);border:1px solid var(--cdark);overflow:hidden;}
+.panel-body{padding:1.5rem;}
+
+/* GENERATOR LAYOUT */
+.gen-grid{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;}
+.mode-tabs{display:flex;gap:6px;margin-bottom:1.25rem;}
+.mode-tab{padding:7px 16px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--cdark);background:#fff;color:var(--tmut);transition:all .12s;}
+.mode-tab.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.3px;}
+input[type=text],input[type=number],input[type=tel],select{width:100%;padding:9px 12px;border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;transition:border .15s;}
+input:focus,select:focus{border-color:var(--gm);}
+
+.svc-check-row{display:flex;flex-wrap:wrap;gap:8px;}
+.svc-chip{padding:6px 12px;border-radius:100px;font-size:11px;font-weight:600;border:1.5px solid var(--cdark);background:#fff;color:var(--tmut);cursor:pointer;transition:all .12s;}
+.svc-chip.on{background:var(--gd);border-color:var(--gd);color:#fff;}
+
+.order-select-wrap{position:relative;}
+.order-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--cdark);border-radius:var(--rads);max-height:220px;overflow-y:auto;z-index:30;box-shadow:0 6px 20px rgba(0,0,0,.08);display:none;}
+.order-results.show{display:block;}
+.order-result-item{padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--cdark);font-size:12px;}
+.order-result-item:last-child{border-bottom:none;}
+.order-result-item:hover{background:var(--cwarm);}
+.ori-id{font-weight:700;color:var(--gm);}
+.ori-name{color:var(--td);margin-left:6px;}
+.ori-sub{font-size:10px;color:var(--tmut);margin-top:1px;}
+
+.btn-primary{padding:11px 18px;background:var(--gd);color:#fff;border:none;border-radius:var(--rads);font-size:13px;font-weight:700;cursor:pointer;font-family:sans-serif;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary:hover{background:var(--gr);}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+.btn-ghost{padding:11px 18px;background:#fff;color:var(--td);border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;font-family:sans-serif;display:inline-flex;align-items:center;gap:7px;}
+.btn-ghost:hover{background:var(--cwarm);}
+
+/* QR OUTPUT CARD */
+.qr-out{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:1.5px dashed var(--cdark);border-radius:var(--rad);padding:1.5rem 1rem;height:100%;min-height:320px;}
+.qr-out canvas{border-radius:8px;}
+.qr-out-empty{text-align:center;color:var(--tmut);}
+.qr-out-empty i{font-size:38px;display:block;margin-bottom:.6rem;opacity:.3;}
+.qr-out-empty p{font-size:12px;}
+.qr-out-id{font-size:13px;font-weight:700;color:var(--gd);}
+.qr-out-actions{display:flex;gap:8px;}
+.qr-out-actions .btn-ghost,.qr-out-actions .btn-primary{padding:7px 13px;font-size:11px;}
+
+/* SCAN TABS */
+.scan-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.cam-box{border:1.5px dashed var(--cdark);border-radius:var(--rad);overflow:hidden;background:var(--cwarm);min-height:280px;display:flex;align-items:center;justify-content:center;position:relative;}
+#qr-reader{width:100%;}
+.cam-placeholder{text-align:center;color:var(--tmut);padding:2rem;}
+.cam-placeholder i{font-size:40px;display:block;margin-bottom:.75rem;opacity:.35;}
+.cam-placeholder p{font-size:12px;margin-bottom:1rem;}
+.manual-box{display:flex;flex-direction:column;gap:10px;}
+.manual-box textarea{width:100%;padding:10px 12px;border:1.5px solid var(--cdark);border-radius:var(--rads);font-size:13px;font-family:sans-serif;color:var(--td);background:var(--cwarm);outline:none;min-height:90px;resize:vertical;}
+.manual-box textarea:focus{border-color:var(--gm);}
+
+/* ORDER DETAIL RESULT */
+.detail-card{background:#fff;border:1.5px solid var(--gm);border-radius:var(--rad);overflow:hidden;display:none;margin-top:1.5rem;}
+.detail-card.show{display:block;}
+.detail-head{background:var(--gd);padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;}
+.detail-head-id{color:#fff;font-size:15px;font-weight:700;font-family:sans-serif;}
+.detail-head-sub{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px;}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;}
+.st-pending{background:#fff8e6;color:#c9a84c;border:1px solid #f0d080;}
+.st-pickup{background:#e8f0fe;color:#3a7bd5;border:1px solid #b0c8f0;}
+.st-washing{background:#e8f5ee;color:var(--gm);border:1px solid #a0d8b0;}
+.st-ready{background:#e0f7fa;color:#00838f;border:1px solid #80d8e8;}
+.st-delivered{background:#f0faf0;color:#2a7a3a;border:1px solid #90d090;}
+.st-cancelled{background:#fde8e8;color:#e74c3c;border:1px solid #f0a0a0;}
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.detail-cell{padding:1rem 1.25rem;border-right:1px solid var(--cdark);border-bottom:1px solid var(--cdark);}
+.detail-cell:nth-child(3n){border-right:none;}
+.detail-label{font-size:10px;font-weight:700;color:var(--tmut);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;}
+.detail-val{font-size:14px;font-weight:600;color:var(--td);}
+.detail-val.money{color:var(--gm);font-size:16px;font-weight:700;}
+.pay-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;background:var(--cwarm);border:1px solid var(--cdark);}
+.pay-badge i{font-size:14px;color:var(--gold);}
+.detail-svcs{padding:1rem 1.25rem;border-bottom:1px solid var(--cdark);}
+.svc-tag{display:inline-block;background:var(--cwarm);border:1px solid var(--cdark);border-radius:100px;padding:3px 10px;font-size:11px;color:var(--tm);font-weight:600;margin:2px;}
+.detail-foot{padding:.875rem 1.25rem;display:flex;justify-content:flex-end;gap:8px;}
+.lookup-error{display:none;background:#fde8e8;border:1.5px solid #f0a0a0;border-radius:var(--rads);padding:.875rem 1rem;color:#e74c3c;font-size:12px;font-weight:600;margin-top:1rem;align-items:center;gap:8px;}
+.lookup-error.show{display:flex;}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--gd);color:#fff;padding:12px 18px;border-radius:var(--rad);font-size:13px;font-family:sans-serif;display:flex;align-items:center;gap:8px;z-index:200;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{font-size:16px;color:var(--gold);}
+
+@media print{
+  .sidebar,.topbar,.sec-block:not(.print-target),.scan-grid,.gen-grid > div:last-child ~ *{display:none!important;}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="ti ti-wind"></i></div>
+    <div class="sb-brand">Eco-<em>Laundry</em></div>
+  </div>
+  <div class="sb-badge">Admin Panel</div>
+  <nav class="sb-nav">
+    <a class="sb-link" href="admin.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="sb-link" href="orders.html"><i class="ti ti-shopping-bag"></i> Orders</a>
+    <a class="sb-link" href="team.html"><i class="ti ti-users"></i> Team</a>
+    <a class="sb-link active" href="qrcode.html"><i class="ti ti-qrcode"></i> QR Codes</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="index.html" target="_blank"><i class="ti ti-external-link"></i> Customer App</a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">A</div>
+      <div><div class="sb-uname">Admin</div><div class="sb-urole">Super Admin</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">QR Codes</div>
+  </header>
+
+  <div class="content">
+
+    <!-- GENERATE -->
+    <div class="sec-block print-target">
+      <div class="sec-head">
+        <i class="ti ti-qrcode"></i>
+        <div>
+          <div class="sec-head-title">Generate order QR code</div>
+          <div class="sec-head-sub">Pick an existing order or create a new one, then print or stick the QR on the bag</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-body">
+          <div class="mode-tabs">
+            <div class="mode-tab on" id="tab-existing" onclick="setGenMode('existing')">Existing order</div>
+            <div class="mode-tab" id="tab-new" onclick="setGenMode('new')">New order</div>
+          </div>
+
+          <div class="gen-grid">
+            <div>
+              <!-- EXISTING ORDER LOOKUP -->
+              <div id="existing-panel">
+                <div class="form-group full order-select-wrap">
+                  <label>Search order by ID, name or phone</label>
+                  <input type="text" id="order-search" placeholder="e.g. ECO-2043 or Ahmed" oninput="searchOrders(this.value)" onfocus="searchOrders(this.value)">
+                  <div class="order-results" id="order-results"></div>
+                </div>
+                <div id="existing-summary" style="margin-top:1rem;"></div>
+              </div>
+
+              <!-- NEW ORDER FORM -->
+              <div id="new-panel" style="display:none;">
+                <div class="form-row">
+                  <div class="form-group"><label>Customer name</label><input type="text" id="n-name" placeholder="Ahmed Al Mansouri"></div>
+                  <div class="form-group"><label>Phone</label><input type="tel" id="n-phone" placeholder="+971 50 000 0000"></div>
+                </div>
+                <div class="form-group full" style="margin-bottom:12px;"><label>Location / Address</label><input type="text" id="n-addr" placeholder="Al Barsha, Villa 12"></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Pieces / items</label><input type="number" id="n-items" min="1" value="1"></div>
+                  <div class="form-group"><label>Total cost (AED)</label><input type="number" id="n-total" min="0" value="0"></div>
+                </div>
+                <div class="form-group full" style="margin-bottom:12px;">
+                  <label>Services</label>
+                  <div class="svc-check-row" id="n-svc-row">
+                    <div class="svc-chip" data-svc="wash">Wash & Fold</div>
+                    <div class="svc-chip" data-svc="iron">Iron & Press</div>
+                    <div class="svc-chip" data-svc="dry">Dry Cleaning</div>
+                    <div class="svc-chip" data-svc="sheets">Sheets & Linen</div>
+                    <div class="svc-chip" data-svc="delicate">Delicates</div>
+                    <div class="svc-chip" data-svc="curtains">Curtains</div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Payment method</label>
+                    <select id="n-payment">
+                      <option>Cash</option>
+                      <option>Card</option>
+                      <option>Online Payment</option>
+                      <option>Wallet</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Status</label>
+                    <select id="n-status">
+                      <option value="pending">Pending</option>
+                      <option value="pickup">In Pickup</option>
+                      <option value="washing">Washing</option>
+                      <option value="ready">Ready</option>
+                      <option value="delivered">Delivered</option>
+                    </select>
+                  </div>
+                </div>
+                <button class="btn-primary" onclick="generateFromNew()"><i class="ti ti-qrcode"></i> Generate QR code</button>
+              </div>
+            </div>
+
+            <!-- QR OUTPUT -->
+            <div class="qr-out" id="qr-out">
+              <div class="qr-out-empty" id="qr-out-empty">
+                <i class="ti ti-qrcode"></i>
+                <p>Select or create an order<br>to generate its QR code</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCAN / LOOKUP -->
+    <div class="sec-block">
+      <div class="sec-head">
+        <i class="ti ti-scan"></i>
+        <div>
+          <div class="sec-head-title">Scan or look up an order</div>
+          <div class="sec-head-sub">Scan the bag's QR with your camera, or type the order code manually</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-body">
+          <div class="scan-grid">
+            <div>
+              <div class="mode-tabs">
+                <div class="mode-tab on" id="tab-camera" onclick="setScanMode('camera')">Camera scan</div>
+                <div class="mode-tab" id="tab-manual" onclick="setScanMode('manual')">Type code</div>
+              </div>
+              <div id="camera-panel">
+                <div class="cam-box">
+                  <div id="qr-reader"></div>
+                  <div class="cam-placeholder" id="cam-placeholder">
+                    <i class="ti ti-camera"></i>
+                    <p>Camera is off. Start scanning to detect a bag's QR code.</p>
+                    <button class="btn-primary" onclick="startScan()"><i class="ti ti-video"></i> Start camera scan</button>
+                  </div>
+                </div>
+                <div style="margin-top:.75rem;display:none;" id="stop-scan-wrap">
+                  <button class="btn-ghost" onclick="stopScan()"><i class="ti ti-player-stop"></i> Stop camera</button>
+                </div>
+              </div>
+              <div id="manual-panel" style="display:none;">
+                <div class="manual-box">
+                  <label>Order ID or pasted QR text</label>
+                  <textarea id="manual-code" placeholder="e.g. ECO-2043"></textarea>
+                  <button class="btn-primary" onclick="lookupManual()" style="align-self:flex-start;"><i class="ti ti-search"></i> Look up order</button>
+                </div>
+              </div>
+              <div class="lookup-error" id="lookup-error"><i class="ti ti-alert-circle"></i> <span id="lookup-error-msg">Order not found. Check the code and try again.</span></div>
+            </div>
+            <div></div>
+          </div>
+
+          <!-- RESULT -->
+          <div class="detail-card" id="detail-card">
+            <div class="detail-head">
+              <div>
+                <div class="detail-head-id" id="dc-id">ECO-0000</div>
+                <div class="detail-head-sub">Scanned order details</div>
+              </div>
+              <span class="status-badge" id="dc-status">Pending</span>
+            </div>
+            <div class="detail-svcs">
+              <div class="detail-label" style="margin-bottom:6px;">Services</div>
+              <div id="dc-services"></div>
+            </div>
+            <div class="detail-grid">
+              <div class="detail-cell"><div class="detail-label">Customer</div><div class="detail-val" id="dc-name">—</div></div>
+              <div class="detail-cell"><div class="detail-label">Phone</div><div class="detail-val" id="dc-phone">—</div></div>
+              <div class="detail-cell"><div class="detail-label">Location</div><div class="detail-val" id="dc-addr">—</div></div>
+              <div class="detail-cell"><div class="detail-label">Pieces / Items</div><div class="detail-val" id="dc-items">—</div></div>
+              <div class="detail-cell"><div class="detail-label">Total cost</div><div class="detail-val money" id="dc-total">AED 0</div></div>
+              <div class="detail-cell"><div class="detail-label">Payment method</div><div class="detail-val"><span class="pay-badge" id="dc-payment"><i class="ti ti-cash"></i> —</span></div></div>
+            </div>
+            <div class="detail-foot">
+              <button class="btn-ghost" onclick="closeDetail()"><i class="ti ti-x"></i> Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg">Done!</span></div>
+
+<script>
+const SERVICES_MAP={wash:'Wash & Fold',iron:'Iron & Press',dry:'Dry Cleaning',sheets:'Sheets & Linen',delicate:'Delicates',curtains:'Curtains'};
+const STATUS_LABELS={pending:'Pending',pickup:'In Pickup',washing:'Washing',ready:'Ready',delivered:'Delivered',cancelled:'Cancelled'};
+const STATUS_CSS={pending:'st-pending',pickup:'st-pickup',washing:'st-washing',ready:'st-ready',delivered:'st-delivered',cancelled:'st-cancelled'};
+const PAY_ICON={Cash:'ti-cash',Card:'ti-credit-card',"Online Payment":'ti-world',Wallet:'ti-wallet'};
+
+// Sample order database (mirrors orders.html, with payment method added)
+const QR_ORDERS=[
+  {id:'ECO-2043',name:'Ahmed Al Mansouri',phone:'+971 50 123 4567',services:['wash','iron'],items:8,address:'Al Barsha, Villa 12',total:320,status:'pending',payment:'Cash'},
+  {id:'ECO-2042',name:'Fatima Al Zaabi',phone:'+971 55 234 5678',services:['dry','sheets'],items:5,address:'Jumeirah, Apt 3B',total:480,status:'washing',payment:'Card'},
+  {id:'ECO-2041',name:'Mohammed Al Rashid',phone:'+971 52 345 6789',services:['wash'],items:12,address:'Marina Walk, Tower 2',total:240,status:'delivered',payment:'Online Payment'},
+  {id:'ECO-2040',name:'Sara Al Hamdan',phone:'+971 56 456 7890',services:['iron','delicate'],items:4,address:'Downtown Dubai, Burj Views',total:380,status:'pickup',payment:'Cash'},
+  {id:'ECO-2039',name:'Khalid Al Nuaimi',phone:'+971 54 567 8901',services:['wash','dry','curtains'],items:10,address:'Mirdif, Villa 7',total:620,status:'pending',payment:'Wallet'},
+  {id:'ECO-2038',name:'Aisha Al Blooshi',phone:'+971 50 678 9012',services:['sheets','wash'],items:6,address:'Yas Island, Apt 201',total:390,status:'ready',payment:'Card'},
+  {id:'ECO-2037',name:'Omar Al Marzouqi',phone:'+971 55 789 0123',services:['wash','iron'],items:15,address:'Deira, Gold Souq St',total:450,status:'delivered',payment:'Cash'},
+  {id:'ECO-2036',name:'Layla Al Suwaidi',phone:'+971 52 890 1234',services:['delicate'],items:3,address:'Karama, Block 3',total:195,status:'pending',payment:'Online Payment'},
+];
+let newOrderCounter=2044;
+
+// ── GENERATOR MODE ────────────────────────────────────────────────────
+function setGenMode(mode){
+  document.getElementById('tab-existing').classList.toggle('on',mode==='existing');
+  document.getElementById('tab-new').classList.toggle('on',mode==='new');
+  document.getElementById('existing-panel').style.display=mode==='existing'?'block':'none';
+  document.getElementById('new-panel').style.display=mode==='new'?'block':'none';
+}
+
+document.querySelectorAll('.svc-chip').forEach(c=>{
+  c.addEventListener('click',()=>c.classList.toggle('on'));
+});
+
+function searchOrders(q){
+  const wrap=document.getElementById('order-results');
+  q=q.trim().toLowerCase();
+  if(!q){wrap.classList.remove('show');wrap.innerHTML='';return;}
+  const matches=QR_ORDERS.filter(o=>o.id.toLowerCase().includes(q)||o.name.toLowerCase().includes(q)||o.phone.includes(q));
+  if(matches.length===0){
+    wrap.innerHTML=`<div class="order-result-item" style="color:var(--tmut);">No matching orders</div>`;
+  }else{
+    wrap.innerHTML=matches.map(o=>`
+      <div class="order-result-item" onclick="selectExisting('${o.id}')">
+        <span class="ori-id">${o.id}</span><span class="ori-name">${o.name}</span>
+        <div class="ori-sub">${o.address} · AED ${o.total} · ${STATUS_LABELS[o.status]}</div>
+      </div>
+    `).join('');
+  }
+  wrap.classList.add('show');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.order-select-wrap'))document.getElementById('order-results').classList.remove('show');
+});
+
+function selectExisting(id){
+  const o=QR_ORDERS.find(x=>x.id===id);
+  if(!o)return;
+  document.getElementById('order-search').value=o.id+' — '+o.name;
+  document.getElementById('order-results').classList.remove('show');
+  document.getElementById('existing-summary').innerHTML=`
+    <div style="background:var(--cwarm);border:1px solid var(--cdark);border-radius:var(--rads);padding:.875rem 1rem;font-size:12px;color:var(--tm);line-height:1.6;">
+      <strong>${o.name}</strong> · ${o.phone}<br>
+      ${o.address}<br>
+      ${o.items} pieces · AED ${o.total} · ${o.payment} · ${STATUS_LABELS[o.status]}
+    </div>
+    <button class="btn-primary" style="margin-top:.875rem;" onclick="generateQR(${JSON.stringify(o).replace(/"/g,'&quot;')})"><i class="ti ti-qrcode"></i> Generate QR code</button>
+  `;
+}
+
+function generateFromNew(){
+  const name=document.getElementById('n-name').value.trim();
+  const phone=document.getElementById('n-phone').value.trim();
+  const address=document.getElementById('n-addr').value.trim();
+  if(!name||!phone||!address){showToast('Please fill in customer name, phone and location.');return;}
+  const services=[...document.querySelectorAll('.svc-chip.on')].map(c=>c.dataset.svc);
+  const o={
+    id:'ECO-'+(newOrderCounter++),
+    name,phone,address,
+    items:parseInt(document.getElementById('n-items').value)||1,
+    total:parseInt(document.getElementById('n-total').value)||0,
+    services:services.length?services:['wash'],
+    payment:document.getElementById('n-payment').value,
+    status:document.getElementById('n-status').value,
+  };
+  QR_ORDERS.push(o);
+  generateQR(o);
+}
+
+function generateQR(o){
+  const payload=JSON.stringify({
+    id:o.id,name:o.name,phone:o.phone,address:o.address,items:o.items,
+    total:o.total,services:o.services,payment:o.payment,status:o.status
+  });
+  const out=document.getElementById('qr-out');
+  out.innerHTML=`<canvas id="qr-canvas"></canvas>`;
+  const canvas=document.getElementById('qr-canvas');
+  QRCode.toCanvas(canvas,payload,{width:200,margin:1,color:{dark:'#1a3a2a',light:'#ffffff'}},function(err){
+    if(err){out.innerHTML=`<div class="qr-out-empty"><i class="ti ti-alert-triangle"></i><p>Could not generate QR code.</p></div>`;return;}
+    const extra=document.createElement('div');
+    extra.innerHTML=`
+      <div class="qr-out-id">${o.id}</div>
+      <div class="qr-out-actions">
+        <button class="btn-ghost" onclick="downloadQR('${o.id}')"><i class="ti ti-download"></i> Download</button>
+        <button class="btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
+      </div>
+    `;
+    out.appendChild(extra);
+  });
+  showToast('QR code generated for '+o.id);
+}
+
+function downloadQR(id){
+  const canvas=document.getElementById('qr-canvas');
+  if(!canvas)return;
+  const link=document.createElement('a');
+  link.download=id+'-qrcode.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ── SCAN MODE ─────────────────────────────────────────────────────────
+function setScanMode(mode){
+  document.getElementById('tab-camera').classList.toggle('on',mode==='camera');
+  document.getElementById('tab-manual').classList.toggle('on',mode==='manual');
+  document.getElementById('camera-panel').style.display=mode==='camera'?'block':'none';
+  document.getElementById('manual-panel').style.display=mode==='manual'?'block':'none';
+  if(mode==='manual')stopScan();
+}
+
+let html5QrCode=null;
+function startScan(){
+  document.getElementById('cam-placeholder').style.display='none';
+  document.getElementById('stop-scan-wrap').style.display='block';
+  html5QrCode=new Html5Qrcode('qr-reader');
+  html5QrCode.start(
+    {facingMode:'environment'},
+    {fps:10,qrbox:220},
+    decodedText=>{ lookupCode(decodedText); stopScan(); },
+    ()=>{}
+  ).catch(err=>{
+    showToast('Camera unavailable: '+err);
+    stopScan();
+  });
+}
+function stopScan(){
+  if(html5QrCode){
+    html5QrCode.stop().then(()=>{html5QrCode.clear();}).catch(()=>{});
+    html5QrCode=null;
+  }
+  document.getElementById('cam-placeholder').style.display='block';
+  document.getElementById('stop-scan-wrap').style.display='none';
+}
+
+function lookupManual(){
+  const val=document.getElementById('manual-code').value.trim();
+  if(!val){showToast('Enter an order ID or QR text first.');return;}
+  lookupCode(val);
+}
+
+function lookupCode(text){
+  let order=null;
+  try{
+    const data=JSON.parse(text);
+    if(data&&data.id)order=QR_ORDERS.find(o=>o.id===data.id)||data;
+  }catch(e){
+    const idMatch=text.trim().toUpperCase();
+    order=QR_ORDERS.find(o=>o.id.toUpperCase()===idMatch||o.id.toUpperCase().includes(idMatch));
+  }
+  if(!order){
+    document.getElementById('lookup-error').classList.add('show');
+    document.getElementById('detail-card').classList.remove('show');
+    return;
+  }
+  document.getElementById('lookup-error').classList.remove('show');
+  showDetail(order);
+}
+
+function showDetail(o){
+  document.getElementById('dc-id').textContent=o.id;
+  const statusBadge=document.getElementById('dc-status');
+  statusBadge.textContent=STATUS_LABELS[o.status]||o.status;
+  statusBadge.className='status-badge '+(STATUS_CSS[o.status]||'st-pending');
+  document.getElementById('dc-services').innerHTML=(o.services||[]).map(s=>`<span class="svc-tag">${SERVICES_MAP[s]||s}</span>`).join('')||'<span class="svc-tag">—</span>';
+  document.getElementById('dc-name').textContent=o.name||'—';
+  document.getElementById('dc-phone').textContent=o.phone||'—';
+  document.getElementById('dc-addr').textContent=o.address||'—';
+  document.getElementById('dc-items').textContent=(o.items||0)+' pieces';
+  document.getElementById('dc-total').textContent='AED '+(o.total||0).toLocaleString();
+  const payEl=document.getElementById('dc-payment');
+  payEl.innerHTML=`<i class="ti ${PAY_ICON[o.payment]||'ti-cash'}"></i> ${o.payment||'—'}`;
+  document.getElementById('detail-card').classList.add('show');
+  document.getElementById('detail-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function closeDetail(){
+  document.getElementById('detail-card').classList.remove('show');
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
